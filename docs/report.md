@@ -2,8 +2,14 @@
 
 ## Core classes (add more description)
 1. Dice
+    - Field:
+        - int d1
+        - int d2 
     - Method
-        - int getValue()
+        - void rollValue()
+        - bool isDouble()
+        - int getD1()
+        - int getD2()
 2. Player
     - Field
         - string name
