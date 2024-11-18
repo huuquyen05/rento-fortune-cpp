@@ -2,23 +2,25 @@
 #define player_h
 
 #include <string>
+#include <vector>
 
 class Player {
 private:
-    string name;
+    std::string name;
     int money;
-    vector <int> properties;
+    std::vector <int> properties;
     bool inJail;
     bool bankruptcy;
     int location;
     int colourOfToken;
 public:
     Player(); // default constructor
-    string getName();
+    std::string getName();
     int getMoney();
     void gainMoney(int amount);
     void payMoney(int amount);
-    int getNumberOf(string kindOfProperty); //
-}
+    int getNumberOf(std::string kindOfProperty); // kindOfProperty is the color of it
+    void addProperty(int )
+};
 
 #endif

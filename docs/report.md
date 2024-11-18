@@ -20,7 +20,7 @@
         - void gainMoney(int amount)
         - void payMoney(int amount)
         - int getNumberOf(string kindOfProperty)
-        - void addProperty(int NumberOfSlot)
+        - void addProperty(int indexOfSlot)
         - bool checkInJail()
         - void putInJail()
         - void outOfJail()
