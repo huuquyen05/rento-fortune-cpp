@@ -20,7 +20,7 @@ public:
     void gainMoney(int amount);
     void payMoney(int amount);
     int getNumberOf(std::string kindOfProperty); // kindOfProperty is the color of it
-    void addProperty(int )
+    void addProperty(int fuckkk);
 };
 
 #endif
