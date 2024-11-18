@@ -20,7 +20,15 @@ public:
     void gainMoney(int amount);
     void payMoney(int amount);
     int getNumberOf(std::string kindOfProperty); // kindOfProperty is the color of it
-    void addProperty(int fuckkk);
+    void addProperty(int indexOfSlot);
+    bool checkInJail();
+    void putInJail();
+    void outOfJail();
+    bool checkBankruptcy();
+    void goBankruptcy();
+    int checkLocation();
+    void changeLocation(int stepToMove);
+    int getColourOfToken();
 };
 
 #endif
