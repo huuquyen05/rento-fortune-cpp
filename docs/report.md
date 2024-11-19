@@ -36,27 +36,36 @@
         - void changeLocation(int stepToMove)
         - int getColourOfToken()
 3. Slot
-    - Field
-        - bool isStartingPoint
-        - bool isJail
-        - bool isSentToJail
-        - bool isProperty
-        - bool isTrainStation
-        - bool isCommunityChest
-        - bool isChance
-        - bool isFreeParking
-        - bool isElectricCompany
-        - bool isIncomeTax
-        - bool isSuperTax
-        - bool isWaterWorks 
     - Method
-        - void init
-        - void visitSlot(int NumberOfSlot)
-        - int getNumOfToken()
-        - 
+        - void init()
+        - void visitSlot(int NumberOfSlot)()
+        - void visitStartingPoint()
+        - void visitSentToJail()
+        - void visitProperty()
+        - void visitTrainStation()
+        - void visitCommunityChest()
+        - void visitChance()
+        - void visitFreeParking()
+        - void visitElectricCompany()
+        - void visitIncomeTax()
+        - void visitSuperTax()
+        - void visitWaterWorks()
 4. Property
     - Field
-        -hey
+        - vector\<int> listOfUpgradeCost
+        - vector\<int> listOfRentFee
+        - int landPrice
+        - int Owner
+        - int level
+    - Method
+        - void init()
+        - void upgrade()
+        - void buyLand()
+        - void payRent(string player,int level)
+        - void getRent(string player,int level)
+5. Chance
+    - Method
+        - void trigger()
 
 
 ## Basic game flow
