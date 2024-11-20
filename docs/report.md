@@ -32,7 +32,7 @@
         - void addProperty(int indexOfSlot)
         - vector\<int> getProperty()
         - bool checkInJail()
-        - bool getOutOfJailFree()
+        - int getOutOfJailFree()
         - void putInJail()
         - void outOfJail()
         - bool checkBankruptcy()
@@ -60,16 +60,14 @@
         - string name
         - vector\<int> listOfUpgradeCost
         - vector\<int> listOfRent
-        - int Owner
+        - Player *Owner
         - int level
     - Method
         - void getName()
         - void upgrade()
         - void buyLand(Player *player)
         - void payRent(Player *player)
-        - void getRent(Player *player)
-5. Chance(TBD)
-    - Field
+5. Chance
     - Method
         - void trigger(Player *player)
         - void advanceToGo(Player *player)
@@ -83,11 +81,25 @@
         - void goToJail(Player *player)
         - void repairAllProperties(Player *player)
         - void advanceToKingsCrossStation(Player *player)
-        - payPoorTaxOf15(Player *player)
-        - advanceToMayfair(Player *player)
+        - void payPoorTaxOf15(Player *player)
+        - void advanceToMayfair(Player *player)
         - void payEach50(Player *player)
         - void get150(Player *player)
-6. CommunityChest(TBD)
+6. CommunityChest
+    - Method 
+        - void trigger()
+        - void get200()
+        - void advanceToGo()
+        - void pay50() *3   
+        - void get25()
+        - void get50()
+        - void get100() *2
+        - void get20()
+        - void goToJail(Player *player)
+        - void getFromEach50(Player *player)
+        - void getFromEach10(Player *player)
+        - void streetpairs()
+
 7. Game
     - Method
         - 
