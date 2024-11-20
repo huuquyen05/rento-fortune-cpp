@@ -15,7 +15,7 @@
         - string name
         - int playerIndex
         - int money
-        - vector\<int> properties
+        - vector\<Property*> properties
         - bool inJail
         - int outOfJailFree
         - bool bankruptcy
@@ -30,6 +30,7 @@
         - void payMoney(int amount)
         - int getNumberOf(int kindOfProperty)
         - void addProperty(int indexOfSlot)
+        - void identifyPropertyType(Property* property)
         - vector\<int> getProperty()
         - bool checkInJail()
         - int getOutOfJailFree()
@@ -47,28 +48,49 @@
         - void visitGo()
         - void visitSentToJail()
         - void visitProperty()
-        - void visitRailroad()
         - void visitCommunityChest()
         - void visitChance()
         - void visitFreeParking()
-        - void visitElectricCompany()
         - void visitIncomeTax()
         - void visitSuperTax()
-        - void visitWaterWorks()
 4. Property
-    - Field
-        - string name
-        - vector\<int> listOfUpgradeCost
-        - vector\<int> listOfRent
-        - Player *owner
-        - int level
-        - int type
-    - Method
-        - int getType()
-        - void getName()
-        - void upgrade()
-        - void buyLand(Player *player)
-        - void payRent(Player *player)
+    - Normal Property
+        - Field
+            - string name
+            - vector\<int> listOfUpgradeCost
+            - vector\<int> listOfRent
+            - Player *owner
+            - int level
+            - int type
+        - Method
+            - void upgrade()
+            - int getType()
+            - void getName()
+            - Player* getOwner()
+            - void buyLand(Player *player)
+            - void payRent(Player *player)
+    - Utility
+        - Field
+            - string name
+            - Player *owner
+            - int baseRentMultiplier;
+        - Method
+            - int getType()
+            - void getName()
+            - Player* getOwner()
+            - void buyLand(Player *player)
+            - void payRent(Player *player)
+    - Railroad
+        - Field
+            - string name
+            - Player *owner
+            - int baseRent;
+        - Method
+            - int getType()
+            - void getName()
+            - Player* getOwner()
+            - void buyLand(Player *player)
+            - void payRent(Player *player)
 5. Chance
     - Field
         - string type {change,move,advanceTo,outOfJail,goToJail,changeEach,repair}
