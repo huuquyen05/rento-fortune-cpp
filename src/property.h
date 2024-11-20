@@ -11,11 +11,13 @@ private:
     int listOfRent[5];
     Player *owner;
     int level;
+    int type;
 
 public:
-    Property(std::string name, int costList[], int rentList[]);
+    Property(std::string name, int costList[], int rentList[], int type);
 
     std::string getName();
+    int getType();
     void upgrade();
     void buyLand(Player *player);
     void payRent(Player *player);

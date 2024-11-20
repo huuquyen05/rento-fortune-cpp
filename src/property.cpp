@@ -4,18 +4,23 @@
 #include "player.h"
 using namespace std;
 
-Property::Property(string name, int costList[], int rentList[]) {
+Property::Property(string name, int costList[], int rentList[], int type) {
     name = name;
     for(int i = 0; i < 5; ++i) {
         listOfUpgradeCost[i] = costList[i];
         listOfRent[i] = rentList[i];
     }
     owner = NULL;
+    type = type;
     level = -1;
 }
 
 std::string Property::getName() {
     return name;
+}
+
+int Property::getType() {
+    return type;
 }
 
 void Property::upgrade() {

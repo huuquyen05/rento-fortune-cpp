@@ -15,11 +15,12 @@ private:
     int colourOfToken;
 public:
     Player(); // default constructor
+    Player(string name, int colourOfToken);
     std::string getName();
     int getMoney();
     void gainMoney(int amount);
     void payMoney(int amount);
-    int getNumberOf(std::string kindOfProperty); // kindOfProperty is the color of it
+    int getNumberOf(int kindOfProperty);
     void addProperty(int indexOfSlot);
     bool checkInJail();
     void putInJail();
