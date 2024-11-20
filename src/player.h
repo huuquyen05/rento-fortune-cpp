@@ -8,7 +8,7 @@ class Player {
 private:
     std::string name;
     int money;
-    std::vector <int> properties;
+    std::vector <Property*> properties;
     bool inJail;
     bool bankruptcy;
     int location;

@@ -9,6 +9,7 @@ class Property {
 protected:
     std::string name;
     Player *owner;
+    int price; // only for ultilities (150) and railroads (200)
 
 public:
     Property(std::string name, int type);
@@ -39,24 +40,22 @@ public:
 // Derived class for utilities
 class Utility : public Property {
 private:
-    int baseRentMultiplier; // Multiplier based on dice rolls or owned utilities
+    int baseRentMultiplier = 5; // Multiplier based on dice rolls and number of ultilities owned
 
 public:
-    Utility(std::string name, int baseRentMultiplier, int type);
+    Utility(std::string name);
 
-    void buyLand(Player *player) override;
     void payRent(Player *player) override;
 };
 
 // Derived class for railroads
 class Railroad : public Property {
 private:
-    int baseRent; // Rent depends on the number of railroads owned
+    int baseRent = 25; // Rent depends on the number of railroads owned
 
 public:
-    Railroad(std::string name, int baseRent, int type);
+    Railroad(std::string name);
 
-    void buyLand(Player *player) override;
     void payRent(Player *player) override;
 };
 
