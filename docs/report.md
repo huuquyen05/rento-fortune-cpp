@@ -27,6 +27,7 @@
         - void payMoney(int amount)
         - int getNumberOf(string kindOfProperty)
         - void addProperty(int indexOfSlot)
+        - vector\<int> getProperty()
         - bool checkInJail()
         - void putInJail()
         - void outOfJail()
@@ -52,17 +53,17 @@
         - void visitWaterWorks()
 4. Property
     - Field
+        - string name
         - vector\<int> listOfUpgradeCost
         - vector\<int> listOfRent
-        - int landPrice
         - int Owner
         - int level
     - Method
-        - void init()
+        - void getName()
         - void upgrade()
         - void buyLand()
-        - void payRent(string player,int level)
-        - void getRent(string player,int level)
+        - void payRent(Player *player,int level)
+        - void getRent(Player *player,int level)
 5. Chance(TBD)
     - Field
     - Method
@@ -71,7 +72,8 @@
         - void 
 6. CommunityChest(TBD)
 7. Game
-    - 
+    - Method
+        - 
 
 
 
