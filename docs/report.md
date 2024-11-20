@@ -39,10 +39,10 @@
     - Method
         - void init()
         - void visitSlot(int NumberOfSlot)()
-        - void visitStartingPoint()
+        - void visitGo()
         - void visitSentToJail()
         - void visitProperty()
-        - void visitTrainStation()
+        - void visitRailroad()
         - void visitCommunityChest()
         - void visitChance()
         - void visitFreeParking()
@@ -53,7 +53,7 @@
 4. Property
     - Field
         - vector\<int> listOfUpgradeCost
-        - vector\<int> listOfRentFee
+        - vector\<int> listOfRent
         - int landPrice
         - int Owner
         - int level
@@ -63,11 +63,19 @@
         - void buyLand()
         - void payRent(string player,int level)
         - void getRent(string player,int level)
-5. Chance
+5. Chance(TBD)
+    - Field
     - Method
         - void trigger()
+        - void advanceToGo()
+        - void 
+6. CommunityChest(TBD)
+7. Game
+    - 
+
 
 
 ## Basic game flow
 
 ## Detailed Implementation
+- The index is from 1 to 40, start from the starting point
