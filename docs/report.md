@@ -13,15 +13,18 @@
 2. Player
     - Field
         - string name
+        - int playerIndex
         - int money
         - vector\<int> properties
         - bool inJail
+        - int outOfJailFree
         - bool bankruptcy
         - int location
         - int colourOfToken
     - Method
         - void init()
         - string getName()
+        - int getPlayerIndex()
         - int getMoney()
         - void gainMoney(int amount)
         - void payMoney(int amount)
@@ -29,6 +32,7 @@
         - void addProperty(int indexOfSlot)
         - vector\<int> getProperty()
         - bool checkInJail()
+        - bool getOutOfJailFree()
         - void putInJail()
         - void outOfJail()
         - bool checkBankruptcy()
@@ -61,15 +65,28 @@
     - Method
         - void getName()
         - void upgrade()
-        - void buyLand()
-        - void payRent(Player *player,int level)
-        - void getRent(Player *player,int level)
+        - void buyLand(Player *player)
+        - void payRent(Player *player)
+        - void getRent(Player *player)
 5. Chance(TBD)
     - Field
     - Method
-        - void trigger()
-        - void advanceToGo()
-        - void 
+        - void trigger(Player *player)
+        - void advanceToGo(Player *player)
+        - void advancetoTrafalgarSquare(Player *player)
+        - void advanceToPallMall(Player *player)
+        - void advaceToNearestUtility(Player *player)
+        - void advanceToNearestRailroad(Player *player)
+        - void get50(Player *player)
+        - void getOutOfJailFree(Player *player)
+        - void goBackThreeSteps(Player *player)
+        - void goToJail(Player *player)
+        - void repairAllProperties(Player *player)
+        - void advanceToKingsCrossStation(Player *player)
+        - payPoorTaxOf15(Player *player)
+        - advanceToMayfair(Player *player)
+        - void payEach50(Player *player)
+        - void get150(Player *player)
 6. CommunityChest(TBD)
 7. Game
     - Method
