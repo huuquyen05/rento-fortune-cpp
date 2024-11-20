@@ -28,7 +28,7 @@
         - int getMoney()
         - void gainMoney(int amount)
         - void payMoney(int amount)
-        - int getNumberOf(string kindOfProperty)
+        - int getNumberOf(int kindOfProperty)
         - void addProperty(int indexOfSlot)
         - vector\<int> getProperty()
         - bool checkInJail()
@@ -62,7 +62,9 @@
         - vector\<int> listOfRent
         - Player *owner
         - int level
+        - int type
     - Method
+        - int getType()
         - void getName()
         - void upgrade()
         - void buyLand(Player *player)
