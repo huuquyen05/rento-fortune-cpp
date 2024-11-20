@@ -10,7 +10,7 @@ Property::Property(string name, int costList[], int rentList[]) {
         listOfUpgradeCost[i] = costList[i];
         listOfRent[i] = rentList[i];
     }
-    owner = new Player();
+    owner = NULL;
     level = -1;
 }
 
@@ -27,8 +27,34 @@ void Property::upgrade() {
         cerr << "Not enought money." << '\n';
         return;
     }
-    ++level;
-    owner -> payMoney(listOfUpgradeCost[level]);
+    cout << "Do you want to upgrade this property for $" << listOfUpgradeCost[level + 1] << "?\n";
+    cout << "The new rent fee will be $" << listOfRent[level + 1] << '\n';
+    cout << "Enter 0 for no, 1 for yes\n";
+    int x; cin >> x;
+    if(x == 1) {
+        ++level;
+        owner -> payMoney(listOfUpgradeCost[level]);
+    }
+}
+
+void Property::buyLand(Player *player) {
+    if(owner != NULL) {
+        cerr << "Already owned\n";
+        return;
+    }
+    if(player -> getMoney() < listOfUpgradeCost[0]) {
+        cerr << "Not enough money\n";
+        return;
+    }
+    cout << "Do you want to buy this property for $" << listOfUpgradeCost[0] << "?\n";
+    cout << "The new rent fee will be $" << listOfRent[0] << '\n';
+    cout << "Enter 0 for no, 1 for yes\n";
+    int x; cin >> x;
+    if(x == 1) {
+        ++level;
+        owner = player;
+        owner -> payMoney(listOfUpgradeCost[0]);
+    }
 }
 
 void Property::payRent(Player *player) {
