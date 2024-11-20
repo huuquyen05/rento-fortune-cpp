@@ -60,7 +60,7 @@
         - string name
         - vector\<int> listOfUpgradeCost
         - vector\<int> listOfRent
-        - Player *Owner
+        - Player *owner
         - int level
     - Method
         - void getName()
@@ -68,38 +68,22 @@
         - void buyLand(Player *player)
         - void payRent(Player *player)
 5. Chance
+    - Field
+        - string type {change,move,advanceTo,outOfJail,goToJail,changeEach,repair}
+        - int amount
+        - string sentence
+        - int location
     - Method
         - void trigger(Player *player)
-        - void advanceToGo(Player *player)
-        - void advancetoTrafalgarSquare(Player *player)
-        - void advanceToPallMall(Player *player)
-        - void advaceToNearestUtility(Player *player)
-        - void advanceToNearestRailroad(Player *player)
-        - void get50(Player *player)
-        - void getOutOfJailFree(Player *player)
-        - void goBackThreeSteps(Player *player)
-        - void goToJail(Player *player)
-        - void repairAllProperties(Player *player)
-        - void advanceToKingsCrossStation(Player *player)
-        - void payPoorTaxOf15(Player *player)
-        - void advanceToMayfair(Player *player)
-        - void payEach50(Player *player)
-        - void get150(Player *player)
 6. CommunityChest
-    - Method 
-        - void trigger()
-        - void get200()
-        - void advanceToGo()
-        - void pay50() *3   
-        - void get25()
-        - void get50()
-        - void get100() *2
-        - void get20()
-        - void goToJail(Player *player)
-        - void getFromEach50(Player *player)
-        - void getFromEach10(Player *player)
-        - void streetpairs()
-
+    - Field
+        - string type {change,advanceTo,changeEach,outOfJail,goToJail,repair}
+        - int amount
+        - string sentence
+        - int steps
+        - int location
+    - Method
+        - void trigger(Player *player)
 7. Game
     - Method
         - 
