@@ -12,7 +12,7 @@ protected:
     int price; // only for ultilities (150) and railroads (200)
 
 public:
-    Property(std::string name, int type);
+    Property(std::string name,int costList[], int rentList[], int type);
 
     std::string getName();
     int getType();

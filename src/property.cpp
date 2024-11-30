@@ -2,16 +2,21 @@
 #include <iostream>
 #include "property.h"
 #include "player.h"
-using namespace std;
 
-Property::Property(string name, int costList[], int rentList[], int type) {
+int type;
+int listOfUpgradeCost[5];
+int listOfRent[5];
+int level;
+Player* owner;
+
+Property::Property(std::string name, int costList[], int rentList[], int Type) {
     name = name;
     for(int i = 0; i < 5; ++i) {
         listOfUpgradeCost[i] = costList[i];
         listOfRent[i] = rentList[i];
     }
     owner = NULL;
-    type = type;
+    type = Type;
     level = -1;
 }
 
@@ -22,39 +27,39 @@ std::string Property::getName() {
 int Property::getType() {
     return type;
 }
-
+/*
 void Property::upgrade() {
     if(level == 4) {
-        cerr << "Maxed, cannot be upgraded." << '\n';
+        std::cerr << "Maxed, cannot be upgraded." << '\n';
         return;
     }
     if(owner -> getMoney() < listOfUpgradeCost[level + 1]) {
-        cerr << "Not enought money." << '\n';
+        std::cerr << "Not enought money." << '\n';
         return;
     }
-    cout << "Do you want to upgrade this property for $" << listOfUpgradeCost[level + 1] << "?\n";
-    cout << "The new rent fee will be $" << listOfRent[level + 1] << '\n';
-    cout << "Enter 0 for no, 1 for yes\n";
-    int x; cin >> x;
+    std::cout << "Do you want to upgrade this property for $" << listOfUpgradeCost[level + 1] << "?\n";
+    std::cout << "The new rent fee will be $" << listOfRent[level + 1] << '\n';
+    std::cout << "Enter 0 for no, 1 for yes\n";
+    int x; std::cin >> x;
     if(x == 1) {
         ++level;
         owner -> payMoney(listOfUpgradeCost[level]);
     }
 }
-
+*/
 void Property::buyLand(Player *player) {
     if(owner != NULL) {
-        cerr << "Already owned\n";
+        std::cerr << "Already owned\n";
         return;
     }
     if(player -> getMoney() < listOfUpgradeCost[0]) {
-        cerr << "Not enough money\n";
+        std::cerr << "Not enough money\n";
         return;
     }
-    cout << "Do you want to buy this property for $" << listOfUpgradeCost[0] << "?\n";
-    cout << "The new rent fee will be $" << listOfRent[0] << '\n';
-    cout << "Enter 0 for no, 1 for yes\n";
-    int x; cin >> x;
+    std::cout << "Do you want to buy this property for $" << listOfUpgradeCost[0] << "?\n";
+    std::cout << "The new rent fee will be $" << listOfRent[0] << '\n';
+    std::cout << "Enter 0 for no, 1 for yes\n";
+    int x; std::cin >> x;
     if(x == 1) {
         ++level;
         owner = player;
