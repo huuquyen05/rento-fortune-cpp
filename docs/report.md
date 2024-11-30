@@ -44,7 +44,7 @@
 3. Slot
     - Method
         - void init()
-        - void visitSlot(int NumberOfSlot)()
+        - void visitSlot(int NumberOfSlot)
         - void visitGo()
         - void visitSentToJail()
         - void visitProperty()
