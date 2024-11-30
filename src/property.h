@@ -1,5 +1,5 @@
-#ifndef PROPERTY_H
-#define PROPERTY_H
+#ifndef property_h
+#define property_h
 
 #include <string>
 #include "player.h"
