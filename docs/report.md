@@ -74,6 +74,7 @@
             - string name
             - Player *owner
             - int baseRentMultiplier;
+            - int price
         - Method
             - int getType()
             - void getName()
@@ -85,6 +86,7 @@
             - string name
             - Player *owner
             - int baseRent;
+            - int price
         - Method
             - int getType()
             - void getName()
@@ -108,13 +110,25 @@
         - int location
     - Method
         - void trigger(Player *player)
-7. Game
+7. game
     - Method
-        - 
-
+        - init()
 
 
 ## Basic game flow
+1. init the players
+2. game recursion
+    - turn start 
+    - check if bankruptcy
+    - check if in jail
+    - throw a dice
+    - move
+    - slot function
+    - check if in jail
+    - check if bankruptcy
+    - mortage
+    - trade
+    - turn over
 
 ## Detailed Implementation
 - The index is from 1 to 40, start from the starting point
