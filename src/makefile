@@ -1,70 +1,40 @@
-# makefile template for CSC3002
-# 
-# Special Symbols used:
-# 	$@ name of the file to be made (target)
-# 	$* prefix of the file to be made (target)
-# 	$? names of the CHANGED dependents.
-#	$^ names of ALL the dependents (dependency).
-# 	$< name of the related file that caused the action (command)
-#
-# Usage:
-#	make all
-#		It compiles everything so that you can do local testing 
-#		before installing applications.
-#
-#	make clean
-#		It cleans applications, gets rid of the executables, 
-#		any temporary files, object files, etc.
-#
-#	make echo
-#		It echo a string to the console.
-#
+# Makefile template for CSC3002
+
 # Custom Macros:
-#
-#	PROGRAM
-#		Name of the executable program used to test your assignment
-#
-#	OBJECTS
-#		Names of all the object files needed to be linked
-#
-# Assumptions:
-#
-#	If header file is used, it must share the SAME filename as
-#	the source file.  Ex: Assignment1.cpp, Assignment1.h
-#
-#
-# Note:
-#	C++17 version is used to compile the source files.
-#
-#	lib.cpp contains the functions extracted from the stanford library.
-#	
-# Revision History:
-#	2022/Sept/04	Initial Creation	Kinley	
+PROGRAM = game
 
-
-PROGRAM = \
-	game
-	
+# Find all .cpp files and convert them to .o files (object files)
 SOURCES = $(wildcard *.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
 
-CFLAGS = -std=c++17
+# SFML include and lib paths
+SFML_INCLUDE = -IC:/SFML-2.6.2/include
+SFML_LIB = -L C:/SFML-2.6.2/lib
+
+# SFML libraries to link against
+SFML_LIBS = -lmingw32 -lsfml-graphics -lsfml-window -lsfml-system -lsfml-main
+
+# Compiler flags
+CFLAGS = -std=c++17 $(SFML_INCLUDE)
+
+# Compiler and linker
 CC = g++
 
+# Main target: Build the executable
 all: $(PROGRAM)
 
+# Linking object files to create the executable
 $(PROGRAM): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(SFML_LIB) $(SFML_LIBS) -mwindows
 
-%.o: %.cpp %.h
-	$(CC) $(CFLAGS) -c $*.cpp -o $@
+# Rule for creating object files from .cpp files
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
 
+# Custom echo rule for printing a string to the console
 echo:
-	@echo I love CSC3002 !!!!!
-	
-# ***************************************************************
-# Standard entries to remove files from the directories
-#    clean -- delete derived files in preparation for rebuild
+	@echo I love CSC3002 !!!!! 
 
+# Clean up all the object and executable files
 clean:
-	rm -f *.o *.a *.exe
+	rm -f $(OBJECTS) $(PROGRAM)
