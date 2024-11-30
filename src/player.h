@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "property.h"
 
 class Player {
 private:
@@ -15,7 +16,7 @@ private:
     int colourOfToken;
 public:
     Player(); // default constructor
-    Player(string name, int colourOfToken);
+    Player(std::string name, int colourOfToken);
     std::string getName();
     int getMoney();
     void gainMoney(int amount);
