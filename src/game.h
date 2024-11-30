@@ -1,9 +1,24 @@
-#ifndef game_h
-#define game_h
+#ifndef GAME_H
+#define GAME_H
+
+#include <vector>
+#include "player.h"
+#include "slot.h"
 
 class Game {
+private:
+    std::vector<Player*> players;  // 所有玩家
+    std::vector<Slot*> board;  // 棋盘上的格子
+    int currentPlayerIndex;  // 当前玩家的索引
+
 public:
-    void init();
+    Game(int numPlayers);
+    void initGame();
+    void startTurn();
+    void rollDice();
+    void processTurn();
+    void checkBankruptcy();
+    void nextPlayer();
 };
 
 #endif
