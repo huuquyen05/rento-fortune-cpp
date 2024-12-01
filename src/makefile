@@ -12,7 +12,7 @@ SFML_INCLUDE = -IC:/SFML-2.6.2/include
 SFML_LIB = -L C:/SFML-2.6.2/lib
 
 # SFML libraries to link against
-SFML_LIBS = -lmingw32 -lsfml-graphics -lsfml-window -lsfml-system -lsfml-main
+SFML_LIBS = -lmingw32 -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-main
 
 # Compiler flags
 CFLAGS = -std=c++17 $(SFML_INCLUDE)
@@ -25,7 +25,7 @@ all: $(PROGRAM)
 
 # Linking object files to create the executable
 $(PROGRAM): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^ $(SFML_LIB) $(SFML_LIBS) -mwindows
+	$(CC) $(CFLAGS) -o $@ $^ $(SFML_LIB) $(SFML_LIBS)
 
 # Rule for creating object files from .cpp files
 %.o: %.cpp
