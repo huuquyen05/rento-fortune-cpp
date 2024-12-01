@@ -19,7 +19,7 @@
         - bool inJail
         - int outOfJailFree
         - bool bankruptcy
-        - int location
+        - int position
         - int colourOfToken
     - Method
         - void init()
@@ -42,17 +42,22 @@
         - void changeLocation(int stepToMove)
         - int getColourOfToken()
 3. Slot
+    - Superclass
+        - Slot
+    - Subclass
+        - PropertySlot
+        - ParkSlot
+        - SuperTaxSlot
+        - LuxuryTaxSlot
+        - ChanceSlot
+        - GoToJailSlot
+        - RailwayStationSlot
+        - CommunityChestSlot
+        - UtilitySlot
     - Method
         - void init()
-        - void visitSlot(int NumberOfSlot)
-        - void visitGo()
-        - void visitSentToJail()
-        - void visitProperty()
-        - void visitCommunityChest()
-        - void visitChance()
-        - void visitFreeParking()
-        - void visitIncomeTax()
-        - void visitSuperTax()
+        - void landOn()
+        - string getName()
 4. Property
     - Normal Property
         - Field
@@ -93,24 +98,9 @@
             - Player* getOwner()
             - void buyLand(Player *player)
             - void payRent(Player *player)
-5. Chance
-    - Field
-        - string type {change,move,advanceTo,outOfJail,goToJail,changeEach,repair}
-        - int amount
-        - string sentence
-        - int location
-    - Method
-        - void trigger(Player *player)
-6. CommunityChest
-    - Field
-        - string type {change,advanceTo,changeEach,outOfJail,goToJail,repair}
-        - int amount
-        - string sentence
-        - int steps
-        - int location
-    - Method
-        - void trigger(Player *player)
-7. game
+
+
+5. game
     - Method
         - init()
 

@@ -1,8 +1,8 @@
 #include "player.h"
 #include <iostream>
 
-Player::Player(std::string name, int initialMoney, int tokenColor)
-    : name(name), money(initialMoney), inJail(false), bankrupt(false), position(0), colourOfToken(tokenColor) {}
+Player::Player(std::string name, int initialMoney, int tokenColor, int pI)
+    : name(name), money(initialMoney), inJail(false), bankrupt(false), position(0), colourOfToken(tokenColor), playerIndex(pI) {}
 
 std::string Player::getName() const {
     return name;
@@ -24,8 +24,11 @@ void Player::updateMoney(int amount) {
     money += amount;
 }
 
+int Player::getPlayerIndex() const{
+    return playerIndex;
+}
 void Player::move(int steps) {
-    position = (position + steps) % 40;  // 40格棋盘，循环走
+    position = (position + steps + 40) % 40;  // 40格棋盘，循环走
 }
 
 void Player::buyProperty(Property* property) {
