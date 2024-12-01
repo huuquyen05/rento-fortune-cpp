@@ -34,7 +34,7 @@ struct buttonWithText {
         backgroundColor = sf::Color(255, 255, 255, 0);
         defaultTextColor = sf::Color::Black;
         hoverTextColor = sf::Color::Red;
-        if(!(textFont.loadFromFile("fonts/Montserrat-Black.ttf"))) {
+        if(!(textFont.loadFromFile("../fonts/Montserrat-Black.ttf"))) {
             std::cerr << "Error loading font!" << std::endl;
         }
         coorX = x;

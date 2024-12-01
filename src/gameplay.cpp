@@ -1,10 +1,10 @@
 #include "gameplay.h"
 
 GamePlay::GamePlay() {
-    if(!(this -> font).loadFromFile("fonts/Montserrat-Black.ttf")) {
+    if(!(this -> font).loadFromFile("../fonts/Montserrat-Black.ttf")) {
         std::cerr << "Error loading font!" << std::endl;
     }
-    if(!(this -> music).openFromFile("assets/bgm.wav")) {
+    if(!(this -> music).openFromFile("../assets/bgm.wav")) {
         std::cerr << "Error loading bgm!" << std::endl;
     }
     this -> mainWindow = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Main Window", sf::Style::Fullscreen);
@@ -21,7 +21,7 @@ void GamePlay::renderTitleScreen() {
     // Create title screen background
     sf::RectangleShape titleScreen(sf::Vector2f(fullscreenMode.width, fullscreenMode.height));
     sf::Texture titleScreenTexture;
-    titleScreenTexture.loadFromFile("assets/title-screen.png");
+    titleScreenTexture.loadFromFile("../assets/title-screen.png");
     titleScreen.setTexture(&titleScreenTexture);
 
     // Define button size and positions
@@ -109,7 +109,7 @@ void GamePlay::renderSelectionScreen() {
     // Create selection screen background
     sf::RectangleShape selectionScreen(sf::Vector2f(fullscreenMode.width, fullscreenMode.height));
     sf::Texture selectionScreenTexture;
-    selectionScreenTexture.loadFromFile("assets/background.png");
+    selectionScreenTexture.loadFromFile("../assets/background.png");
     selectionScreen.setTexture(&selectionScreenTexture);
 
     // Define button size and positions
@@ -198,7 +198,7 @@ void GamePlay::renderSettingScreen() {
     // Create setting screen background
     sf::RectangleShape settingScreen(sf::Vector2f(fullscreenMode.width, fullscreenMode.height));
     sf::Texture settingScreenTexture;
-    settingScreenTexture.loadFromFile("assets/background.png");
+    settingScreenTexture.loadFromFile("../assets/background.png");
     settingScreen.setTexture(&settingScreenTexture);
 
     int buttonWidth = 300, buttonHeight = 100;
