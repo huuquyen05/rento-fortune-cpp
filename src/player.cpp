@@ -2,7 +2,7 @@
 #include <iostream>
 
 Player::Player(std::string name, int initialMoney, int tokenColor, int pI)
-    : name(name), money(initialMoney), inJail(false), bankrupt(false), position(0), colourOfToken(tokenColor), playerIndex(pI) {}
+    : name(name), money(initialMoney), inJail(false), bankrupt(false), position(0), colourOfToken(tokenColor), playerIndex(pI), NumberOfHouses(0), NumberOfHotels(0) {}
 
 std::string Player::getName() const {
     return name;
@@ -27,6 +27,15 @@ void Player::updateMoney(int amount) {
 int Player::getPlayerIndex() const{
     return playerIndex;
 }
+
+int Player::getNumberOfHouses() const{
+    return NumberOfHouses;
+}
+
+int Player::getNumberOfHotels() const{
+    return NumberOfHotels;
+}
+
 void Player::move(int steps) {
     position = (position + steps + 40) % 40;  // 40格棋盘，循环走
 }
@@ -35,10 +44,26 @@ void Player::buyProperty(Property* property) {
     if (money >= property->getPrice()) {
         money -= property->getPrice();
         addProperty(property);
+        ++NumberOfHouses;
         property->setOwner(this);
+        property->upgrade();
         std::cout << name << " bought " << property->getName() << "\n";
     } else {
         std::cout << name << " cannot afford " << property->getName() << "\n";
+    }
+}
+
+void Player::upgradeProperty(Property* property) {
+    if (money >= property->getPrice()) {
+        money -= property->getPrice();
+        property->upgrade();
+        if (property->getLevel() == 4) {
+            --NumberOfHouses;
+            ++NumberOfHotels;
+        }
+        std::cout << name << " upgrade " << property->getName() << "\n";
+    } else {
+        std::cout << name << " cannot upgrade " << property->getName() << "\n";
     }
 }
 
