@@ -14,16 +14,17 @@ private:
     bool bankrupt;
     int position;  // 玩家当前在棋盘上的位置
     int colourOfToken;  // 玩家棋子颜色（可选）
+    int playerIndex;
 
 public:
-    Player(std::string name, int initialMoney = 1500, int tokenColor = 0);
+    Player(std::string name, int initialMoney = 1500, int tokenColor = 0, int pI);
     
     // 获取玩家信息
     std::string getName() const;
     int getMoney() const;
     int getPosition() const;
     int getColourOfToken() const;
-    
+    int getPlayerIndex() const;
     // 玩家操作
     void updateMoney(int amount);  // 修改玩家资金
     void move(int steps);  // 玩家根据骰子步数移动
