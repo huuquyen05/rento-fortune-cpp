@@ -184,7 +184,6 @@ void GamePlay::renderSelectionScreen() {
         // Draw the buttons and their texts
         for (int i = 0; i < 3; ++i) {
             button[i].draw(this -> mainWindow);  // Draw the button
-            this -> mainWindow -> draw(button[i].button);
         }
 
         this -> mainWindow -> display();
