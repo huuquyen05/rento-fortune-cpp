@@ -20,7 +20,7 @@ public:
 };
 
 class buttonWithText : public buttonGeneral {
-private:
+protected:
     int textSize;
     std::string buttonLabel;
     sf::Text buttonText;
