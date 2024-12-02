@@ -16,7 +16,7 @@ buttonGeneral::buttonGeneral(int width, int height, int x, int y, sf::Color c) {
 }
 
 bool buttonGeneral::isHovering(int x, int y) {
-    return this -> button.getGlobalBounds().contains(x, y);
+    return coorX <= x && x <= coorX + buttonWidth && coorY <= y && y <= coorY + buttonHeight; 
 }
 
 bool buttonGeneral::isClicked(int x, int y) {

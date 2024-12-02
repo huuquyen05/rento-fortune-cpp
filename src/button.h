@@ -23,9 +23,7 @@ class buttonWithText : public buttonGeneral {
 private:
     int textSize;
     std::string buttonLabel;
-    sf::RectangleShape button;
     sf::Text buttonText;
-    sf::Color backgroundColor;
     sf::Color defaultTextColor;
     sf::Color hoverTextColor;
     sf::Font textFont;
