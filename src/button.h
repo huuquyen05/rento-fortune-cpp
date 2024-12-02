@@ -20,7 +20,7 @@ public:
 };
 
 class buttonWithText : public buttonGeneral {
-protected:
+private:
     int textSize;
     std::string buttonLabel;
     sf::Text buttonText;
@@ -31,6 +31,7 @@ protected:
 public:
     buttonWithText();
     buttonWithText(int width, int height, int size, std::string label, int x, int y);
+    buttonWithText(int width, int height, int size, std::string label, int x, int y,sf::Color TextColor);
     void changeColor();
     void returnColor();
     void draw(sf::RenderWindow* mainWindow);

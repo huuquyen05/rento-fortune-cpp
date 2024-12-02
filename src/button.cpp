@@ -69,6 +69,41 @@ buttonWithText::buttonWithText(int width, int height, int size, std::string labe
     );
 }
 
+buttonWithText::buttonWithText(int width, int height, int size, std::string label, int x, int y,sf::Color TextColor) {
+
+    buttonWidth = width;
+    buttonHeight = height;
+    buttonLabel = label;
+    textSize = size;
+    backgroundColor = sf::Color(255, 255, 255, 0);
+    defaultTextColor = TextColor;
+    hoverTextColor = sf::Color::Red;
+    if(!(textFont.loadFromFile("../fonts/Montserrat-Black.ttf"))) {
+        std::cerr << "Error loading font!" << std::endl;
+    }
+    coorX = x;
+    coorY = y;
+
+    // Set up button position
+    button.setSize(sf::Vector2f(buttonWidth, buttonHeight));
+    button.setFillColor(backgroundColor);
+    button.setPosition(x, y);
+
+        // Set up the text for each button
+    buttonText.setFont(textFont);  // Set font
+    buttonText.setString(buttonLabel);  // Set text
+    buttonText.setCharacterSize(textSize);  // Set text size
+    buttonText.setFillColor(defaultTextColor);  // Text color
+
+    // Center the text inside the button
+    textRect = buttonText.getLocalBounds();
+    buttonText.setOrigin(textRect.left + textRect.width / 2, textRect.top + textRect.height / 2);
+    buttonText.setPosition(
+        button.getPosition().x + buttonWidth / 2,  // Center horizontally
+        button.getPosition().y + buttonHeight / 2  // Center vertically
+    );
+}
+
 // Change text color to hoverTextColor
 void buttonWithText::changeColor() {
     buttonText.setFillColor(hoverTextColor);
