@@ -13,9 +13,9 @@ protected:
     sf::RectangleShape box;
     sf::Font font;
     std::vector <sf::Text> lines;
-    float padding;
-    float lineHeight;
-    float maxWidth;
+    float padding, lineHeight, maxWidth;
+    int maxLines;
+    int stLine, enLine;
 public:
     TextBox();
     TextBox(int x, int y, int width, int height);
@@ -23,6 +23,8 @@ public:
     void updateLines();
     void drawFromTop(sf::RenderWindow* window);
     void drawFromBottom(sf::RenderWindow* window);
+    bool isHovering(int x, int y);
+    void handleScrolling(float delta, int x, int y);
 };  
 
 class inputBox : public TextBox {

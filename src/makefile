@@ -4,7 +4,7 @@
 PROGRAM = game
 
 # Find all .cpp files and convert them to .o files (object files)
-SOURCES = button.cpp gameBoard.cpp
+SOURCES = chatbox.cpp button.cpp testchatbox.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
 # SFML include and lib paths

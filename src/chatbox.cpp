@@ -3,7 +3,7 @@
 TextBox::TextBox() {}
 
 TextBox::TextBox(int x, int y, int width, int height)
-        : textSize(15), input(""), padding(3.f), maxWidth(width - 2 * padding) {
+        : textSize(15), input(""), padding(3.f), maxWidth(width - 2 * padding), stLine(0), enLine(0) {
     // Load font
     std::string fontPath = "../fonts/Montserrat-Light.ttf";
     if (!font.loadFromFile(fontPath)) {
@@ -30,6 +30,7 @@ TextBox::TextBox(int x, int y, int width, int height)
     lines.push_back(text);
 
     lineHeight = text.getCharacterSize() + padding; // Set line height with padding
+    maxLines = height / lineHeight;
 }
 
 void TextBox::addString(std::string s) {
@@ -37,6 +38,8 @@ void TextBox::addString(std::string s) {
     for(char x: s)
         input.push_back(x);
     this -> updateLines();
+    stLine = std::max(0, (int)(lines.size()) - maxLines);
+    enLine = (int)(lines.size());
 }
 
 void TextBox::updateLines() {
@@ -78,19 +81,39 @@ void TextBox::updateLines() {
 
 void TextBox::drawFromTop(sf::RenderWindow* window) {
     window -> draw(box);
-    for (const auto& line : lines) {
-        window -> draw(line);
+    for(int i = stLine; i < enLine; ++i) {
+        sf::Text tmp = lines[i];
+        int posTmp = i - stLine;
+        tmp.setPosition(coorX + padding,
+                        coorY + padding + posTmp * lineHeight);
+        window -> draw(tmp);
     }
 }
 
 void TextBox::drawFromBottom(sf::RenderWindow* window) {
     window -> draw(box);
-    for(int i = lines.size() - 1; i >= 0; --i) {
+    for(int i = enLine - 1; i >= stLine; --i) {
         sf::Text tmp = lines[i];
         tmp.setPosition(coorX + padding,
-                        coorY + boxHeight - padding - (lines.size() - i) * lineHeight);
+                        coorY + boxHeight - padding - (enLine - i) * lineHeight);
         window -> draw(tmp);
     }
+}
+
+bool TextBox::isHovering(int x, int y) {
+    return coorX <= x && x <= coorX + boxWidth && coorY <= y && y <= coorY + boxHeight;
+}
+
+void TextBox::handleScrolling(float delta, int x, int y) {
+    if(!isHovering(x, y)) return;
+    delta *= -3;
+    if(delta < 0) {
+        delta = -std::min(abs((int)delta), stLine);
+    } else {
+        delta = std::min((int)delta, (int)(lines.size()) - enLine);
+    }
+    stLine += delta;
+    enLine += delta;
 }
 
 inputBox::inputBox(int x, int y, int width, int height) {
@@ -100,6 +123,7 @@ inputBox::inputBox(int x, int y, int width, int height) {
     padding = 3.f;
     maxWidth = width - 2 * padding;
     isActive = 0;
+    stLine = enLine = 0;
 
     // Load font
     std::string fontPath = "../fonts/Montserrat-Light.ttf";
@@ -127,6 +151,7 @@ inputBox::inputBox(int x, int y, int width, int height) {
     lines.push_back(text);
 
     lineHeight = text.getCharacterSize() + padding; // Set line height with padding
+    maxLines = height / lineHeight;
 }
 
 std::string inputBox::handleEvent(const sf::Event& event) {
@@ -150,6 +175,8 @@ std::string inputBox::handleEvent(const sf::Event& event) {
             input += static_cast<char>(event.text.unicode);
             updateLines();
         }
+        stLine = std::max(0, (int)(lines.size()) - maxLines);
+        enLine = (int)(lines.size());
     }
 
     // Handle Enter key for submitting the input
@@ -178,6 +205,12 @@ chatBox::~chatBox() {
 
 void chatBox::handleEvent(const sf::Event& event) {
     std::string tmp = inputbox -> handleEvent(event);
+    sf::Vector2i mousePos = sf::Mouse::getPosition();
+    if(event.type == sf::Event::MouseWheelScrolled) {
+        float tmp = event.mouseWheelScroll.delta;
+        textbox -> handleScrolling(tmp, mousePos.x, mousePos.y);
+        inputbox -> handleScrolling(tmp, mousePos.x, mousePos.y);
+    }
     if(tmp == "") return;
     this -> textbox -> addString("User: " + tmp);
 }
