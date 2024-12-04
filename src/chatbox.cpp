@@ -165,7 +165,7 @@ std::string inputBox::handleEvent(const sf::Event& event) {
     box.setOutlineThickness(isActive ? 2 : 1);
 
     // Handle text input
-    if (isActive && event.type == sf::Event::TextEntered) {
+    if (isActive && event.type == sf::Event::TextEntered && event.text.unicode != 13) {
         if (event.text.unicode == '\b') { // Handle backspace
             if (!input.empty()) {
                 input.pop_back();
@@ -180,7 +180,7 @@ std::string inputBox::handleEvent(const sf::Event& event) {
     }
 
     // Handle Enter key for submitting the input
-    if (isActive && event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+    if (isActive && event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter && input != "") {
         std::string tmp = input;
         input.clear(); // Clear the input after submission
         updateLines();

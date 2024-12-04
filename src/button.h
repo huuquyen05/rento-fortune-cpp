@@ -7,9 +7,10 @@
 
 class buttonGeneral {
 protected:
-    int buttonWidth, buttonHeight, coorX, coorY;
+    int buttonWidth, buttonHeight, coorX, coorY, outlineThickness;
     sf::RectangleShape button;
     sf::Color backgroundColor;
+    sf::Color outlineColor;
 public:
     buttonGeneral();
     buttonGeneral(int width, int height, int x, int y, sf::Color c);
@@ -35,6 +36,18 @@ public:
     void changeColor();
     void returnColor();
     void draw(sf::RenderWindow* mainWindow);
+};
+
+class menu {
+private:
+    int numChoices, coorX, coorY;
+    buttonWithText config; // this will contain the config of the button, such as width, height, etc.
+    std::vector <buttonWithText> choices;
+public:
+    menu();
+    menu(int num, int x, int y, buttonWithText tmp); // tmp is the button containing some configuration.
+    void handleEvent(const sf::Event& event);
+    void draw(sf::RenderWindow* window);
 };
 
 #endif
