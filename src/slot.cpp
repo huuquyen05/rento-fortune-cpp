@@ -16,14 +16,14 @@ void PropertySlot::landOn(Player& player) {
     }
 }
 
-// 公园格子
+// 停车场格子
 ParkSlot::ParkSlot() {
     name = "Park";
 }
 
 void ParkSlot::landOn(Player& player) {
-    // 公园格子触发的事件，例如获得奖金或其他操作
-    std::cout << player.getName() << " landed on Park.\n";
+    // 停车场格子触发的事件：无事发生
+    std::cout << player.getName() << " free Parking.\n";
 }
 
 // 超税格子
@@ -115,6 +115,7 @@ void ChanceSlot::landOn(Player& player) {
             // 前进到最近的铁路
             std::cout << player.getName() << " advanced to the nearest Railroad.\n";
             // 购买或支付租金的逻辑
+            RailwayStationSlot::landOn(Player& player);
             break;
         case 5:
             player.updateMoney(50);  // 银行支付50美元

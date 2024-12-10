@@ -15,6 +15,8 @@ private:
     int position;  // 玩家当前在棋盘上的位置
     int colourOfToken;  // 玩家棋子颜色（可选）
     int playerIndex;
+    int NumberOfHouses;
+    int NumberOfHotels;
 
 public:
     Player(std::string name, int initialMoney = 1500, int tokenColor = 0, int pI);
@@ -25,10 +27,13 @@ public:
     int getPosition() const;
     int getColourOfToken() const;
     int getPlayerIndex() const;
+    int getNumberOfHouses() const;
+    int getNumberOfHotels() const;
     // 玩家操作
     void updateMoney(int amount);  // 修改玩家资金
     void move(int steps);  // 玩家根据骰子步数移动
     void buyProperty(Property* property);  // 玩家购买物业
+    void upgradeProperty(Property* property);  // 玩家升级物业
     bool isInJail() const;  // 检查玩家是否在监狱
     void goToJail();  // 把玩家送到监狱
     void getOutOfJail();  // 让玩家脱离监狱
