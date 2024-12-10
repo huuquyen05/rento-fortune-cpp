@@ -2,6 +2,7 @@
 
 Property::Property(std::string name, int price)
     : name(name), price(price), owner(nullptr), level(0) {}
+    : name(name), price(price), owner(nullptr), level(0) {}
 
 std::string Property::getName() const {
     return name;
@@ -21,6 +22,10 @@ Player* Property::getOwner() const {
 
 void Property::setOwner(Player* player) {
     owner = player;
+}
+
+void Property::upgrade() {
+    ++level;
 }
 
 void Property::upgrade() {
