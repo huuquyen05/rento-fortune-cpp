@@ -36,6 +36,7 @@ public:
     void changeColor();
     void returnColor();
     void setText(std::string s);
+    void setTextColor(sf::Color c);
     void draw(sf::RenderWindow* mainWindow);
 };
 

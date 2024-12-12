@@ -137,3 +137,7 @@ void buttonWithText::setText(std::string s) {
         button.getPosition().y + buttonHeight / 2  // Center vertically
     );
 }
+
+void buttonWithText::setTextColor(sf::Color c) {
+    buttonText.setFillColor(c);
+}
