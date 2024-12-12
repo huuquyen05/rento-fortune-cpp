@@ -30,6 +30,7 @@ void Game::startTurn() {
     Player* currentPlayer = players[currentPlayerIndex];
     std::cout << currentPlayer->getName() << "'s turn\n";
     rollDice();
+    // trade
     processTurn();
 }
 
