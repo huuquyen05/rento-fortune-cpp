@@ -22,7 +22,8 @@ Game::Game(int numPlayers) : currentPlayerIndex(0) {
     // 初始化棋盘
     slots.resize(40);
     slots[0] = new ParkSlot();
-    slots[1] = new PropertySlot(new Property("Vine Street", 60));
+    Property* vineStreetProperty = new Property("Vine Street", 60);
+    slots[1] = new PropertySlot(vineStreetProperty);    
     slots[2] = new CommunityChestSlot();
     slots[3] = new PropertySlot(new Property("Coventry Street", 60));
     slots[4] = new LuxuryTaxSlot();
@@ -48,7 +49,7 @@ Game::Game(int numPlayers) : currentPlayerIndex(0) {
     slots[24] = new PropertySlot(new Property("Pall Mall", 240));
     slots[25] = new RailwayStationSlot(new Property("Kings Cross Station", 200));
     slots[26] = new PropertySlot(new Property("Bond Street", 260));
-    slots[27] = new PropertySlot(new Property("Strand"), 260);
+    slots[27] = new PropertySlot(new Property("Strand", 260));
     slots[28] = new UtilitySlot(new Property("Water Works", 150));
     slots[29] = new PropertySlot(new Property("Regent Street", 280));
     slots[30] = new GoToJailSlot();
@@ -123,9 +124,13 @@ void Game::processTurn() {
 // Check if the current player has gone bankrupt
 void Game::checkBankruptcy() {
     Player* currentPlayer = players[currentPlayerIndex];
-    if (currentPlayer->isBankrupt()) {
-        std::cout << currentPlayer->getName() << " is bankrupt and out of the game!\n";
-        currentPlayer->goBankrupt();  // Mark the player as bankrupt
+    if(currentPlayer->getMoney() < 0){
+        while(currentPlayer->getMoney() < 0 && currentPlayer->hasProperty()){
+            currentPlayer->mortgage();
+        }
+        if(currentPlayer->getMoney() < 0){
+            currentPlayer->goBankrupt();
+        }
     }
 }
 

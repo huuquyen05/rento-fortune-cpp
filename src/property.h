@@ -20,7 +20,7 @@ public:
     void setOwner(Player* player);
     void upgrade();
     void changePrice(int NewPrice);
-    virtual void payRent(Player& player) = 0;  // 纯虚函数，派生类需要实现
+    void payRend(Player* p);
 };
 
 #endif
