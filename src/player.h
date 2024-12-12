@@ -51,4 +51,6 @@ public:
     void addProperty(Property* property);  // 增加一个物业
 };
 
+extern std::vector<Player*> players;
+
 #endif

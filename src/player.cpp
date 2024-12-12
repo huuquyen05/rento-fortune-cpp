@@ -1,5 +1,6 @@
 #include "player.h"
 #include <iostream>
+std::vector<Player*> players;
 
 Player::Player(std::string name, int initialMoney, int tokenColor, int pI)
     : name(name), money(initialMoney), inJail(false), outJailcard(0), bankrupt(false), position(0), colourOfToken(tokenColor), playerIndex(pI), NumberOfHouses(0), NumberOfHotels(0) {}

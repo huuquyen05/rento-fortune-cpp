@@ -13,7 +13,7 @@ Game::Game(int numPlayers) : currentPlayerIndex(0) {
     // 可以继续添加更多格子...
 }
 
-vector<Player*> getAllPlayers() {
+std::vector<Player*> getAllPlayers() {
     return players; //获取所有玩家，用于机会卡
 }
 
@@ -30,6 +30,7 @@ void Game::startTurn() {
     Player* currentPlayer = players[currentPlayerIndex];
     std::cout << currentPlayer->getName() << "'s turn\n";
     rollDice();
+    // trade
     processTurn();
 }
 
@@ -40,7 +41,7 @@ void Game::rollDice() {
     if (players[currentPlayerIndex]->isInJail() == false) {
         players[currentPlayerIndex]->move(dice1 + dice2);
     }else {
-        players[currentPlayerIndex]->isInJail() = (dice1 == dice2) ? false : true; //在监狱里的判断
+        if (dice1 == dice2)  players[currentPlayerIndex]->getOutOfJail() ; //在监狱里的判断
     }
 }
 
@@ -48,7 +49,7 @@ void Game::processTurn() {
     Player* currentPlayer = players[currentPlayerIndex];
     Slot* currentSlot = board[currentPlayer->getPosition()];
     std::cout << currentPlayer->getName() << " landed on " << currentSlot->getName() << "\n";
-    currentSlot->landOn(*currentPlayer);
+    currentSlot->landOn(*currentPlayer, players);
     checkBankruptcy();
     nextPlayer();
 }
