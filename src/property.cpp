@@ -26,3 +26,7 @@ void Property::setOwner(Player* player) {
 void Property::upgrade() {
     ++level;
 }
+
+void Property::changePrice(int NewPrice) {
+    price = NewPrice;
+}

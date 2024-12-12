@@ -26,6 +26,7 @@ public:
     void drawFromBottom(sf::RenderWindow* window);
     bool isHovering(int x, int y);
     void handleScrolling(float delta, int x, int y);
+    void handleEvent(const sf::Event& event);
 };  
 
 class inputBox : public TextBox {
