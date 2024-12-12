@@ -13,6 +13,14 @@ Game::Game(int numPlayers) : currentPlayerIndex(0) {
     // 可以继续添加更多格子...
 }
 
+std::vector<Player*> getAllPlayers() {
+    return players; //获取所有玩家，用于机会卡
+}
+
+int getNumOfPlayers() {
+    return players.size(); //获取玩家总数
+}
+
 void Game::initGame() {
     srand(time(0));  // 随机种子
     // 初始化其他游戏设置（比如洗牌卡片等）
@@ -29,14 +37,18 @@ void Game::rollDice() {
     int dice1 = rand() % 6 + 1;  // 随机掷骰子
     int dice2 = rand() % 6 + 1;
     std::cout << "Rolled: " << dice1 << " and " << dice2 << "\n";
-    players[currentPlayerIndex]->move(dice1 + dice2);
+    if (players[currentPlayerIndex]->isInJail() == false) {
+        players[currentPlayerIndex]->move(dice1 + dice2);
+    }else {
+        if (dice1 == dice2)  players[currentPlayerIndex]->getOutOfJail() ; //在监狱里的判断
+    }
 }
 
 void Game::processTurn() {
     Player* currentPlayer = players[currentPlayerIndex];
     Slot* currentSlot = board[currentPlayer->getPosition()];
     std::cout << currentPlayer->getName() << " landed on " << currentSlot->getName() << "\n";
-    currentSlot->landOn(*currentPlayer);
+    currentSlot->landOn(*currentPlayer, players);
     checkBankruptcy();
     nextPlayer();
 }

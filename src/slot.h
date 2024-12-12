@@ -86,6 +86,7 @@ public:
     UtilitySlot(Property* p);
     void landOn(Player& player, std::vector<Player*>& allPlayers) override;
 };
+extern std::vector<Slot*> slots;
 
 #endif
 
