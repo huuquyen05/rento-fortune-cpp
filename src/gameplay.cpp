@@ -1,6 +1,7 @@
 #include "gameplay.h"
 #include "chatbox.h"
-
+#include "button.h"
+ 
 GamePlay::GamePlay() {
     if(!(this -> font).loadFromFile("../fonts/Montserrat-Black.ttf")) {
         std::cerr << "Error loading font!" << std::endl;
@@ -8,10 +9,11 @@ GamePlay::GamePlay() {
     if(!(this -> music).openFromFile("../assets/bgm.wav")) {
         std::cerr << "Error loading bgm!" << std::endl;
     }
-    this -> mainWindow = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Main Window", sf::Style::Fullscreen);
-    this -> mainWindow->setFramerateLimit(60);
+    this -> mainWindow = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Main Window", sf::Style::Fullscreen );
+    this -> mainWindow->setFramerateLimit(30);
     this -> music.play();
     this -> music.setLoop(true);
+    std::cout << "OK init\n";
 }
 
 void GamePlay::renderTitleScreen() {
@@ -22,7 +24,9 @@ void GamePlay::renderTitleScreen() {
     // Create title screen background
     sf::RectangleShape titleScreen(sf::Vector2f(fullscreenMode.width, fullscreenMode.height));
     sf::Texture titleScreenTexture;
-    titleScreenTexture.loadFromFile("../assets/title-screen.png");
+    if(!titleScreenTexture.loadFromFile("../assets/title-screen.png")) {
+        std::cout << "Error loading bg for title\n";
+    }   
     titleScreen.setTexture(&titleScreenTexture);
 
     // Define button size and positions
@@ -42,7 +46,7 @@ void GamePlay::renderTitleScreen() {
             (fullscreenMode.height - (buttonHeight * 3 + buttonSpacing * 2)) / 3 * 2 + (buttonHeight + buttonSpacing) * i
         );
     }
-    std::cout << "OK title\n";
+    std::cout << "OK init title\n";
 
     // Main event and rendering loop for the title screen
     while (this -> mainWindow -> isOpen()) {
@@ -158,14 +162,36 @@ void GamePlay::renderSelectionScreen() {
         enterName[i] = buttonWithText(
             400,
             200,
-            20,
+            30,
             "Enter your name:",
             pos.x + (recWidth - 400) / 2, 
             pos.y + recHeight - 250
         );
     } 
 
-    std::string name[4];
+    buttonWithText welcome[4], namePlate[4];
+     for(int i = 0; i < 4; ++i) {
+        sf::Vector2f pos = rect[i].getPosition();
+        welcome[i] = buttonWithText(
+            400,
+            200,
+            30,
+            "Welcome!",
+            pos.x + (recWidth - 400) / 2, 
+            pos.y + recHeight - 300
+        );
+        namePlate[i] = buttonWithText(
+            400,
+            200,
+            30,
+            "",
+            pos.x + (recWidth - 400) / 2, 
+            pos.y + recHeight - 200,
+            playerColor[i]
+        );
+    } 
+
+    std::string name[4] = {""};
 
     std::cout << "OK selection\n";
 
@@ -184,10 +210,12 @@ void GamePlay::renderSelectionScreen() {
                 }
             }
             for(int i = 0; i < 4; ++i) {
+                if((int)(name[i].size()) > 0) continue;
                 std::string tmp = nameHolder[i].handleEvent(event);
                 if(tmp != "") {
                     name[i] = tmp;
                     std::cout << i << " " << name[i] << std::endl;
+                    namePlate[i].setText(name[i]);
                 }
             }
         }
@@ -200,8 +228,14 @@ void GamePlay::renderSelectionScreen() {
         for (int i = 0; i < 4; ++i) {
             this -> mainWindow -> draw(rect[i]);
             this -> mainWindow -> draw(avatar[i]);
-            nameHolder[i].drawFromTop(this -> mainWindow);
-            enterName[i].draw(this -> mainWindow);
+            if(name[i].size() == 0) {
+                nameHolder[i].drawFromTop(this -> mainWindow);
+                enterName[i].draw(this -> mainWindow);
+            }
+            else {
+                welcome[i].draw(this -> mainWindow);
+                namePlate[i].draw(this -> mainWindow);
+            }
         }
 
         title.draw(this -> mainWindow);

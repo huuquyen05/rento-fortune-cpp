@@ -54,7 +54,7 @@ buttonWithText::buttonWithText(int width, int height, int size, std::string labe
     button.setFillColor(backgroundColor);
     button.setPosition(x, y);
 
-        // Set up the text for each button
+    // Set up the text for each button
     buttonText.setFont(textFont);  // Set font
     buttonText.setString(buttonLabel);  // Set text
     buttonText.setCharacterSize(textSize);  // Set text size
@@ -89,7 +89,7 @@ buttonWithText::buttonWithText(int width, int height, int size, std::string labe
     button.setFillColor(backgroundColor);
     button.setPosition(x, y);
 
-        // Set up the text for each button
+    // Set up the text for each button
     buttonText.setFont(textFont);  // Set font
     buttonText.setString(buttonLabel);  // Set text
     buttonText.setCharacterSize(textSize);  // Set text size
@@ -119,4 +119,21 @@ void buttonWithText::draw(sf::RenderWindow* mainWindow) {
     mainWindow -> draw(button);
     buttonText.setFont(textFont);
     mainWindow -> draw(buttonText);
+}
+
+void buttonWithText::setText(std::string s) {
+    buttonLabel = s;
+    // Set up the text for each button
+    buttonText.setFont(textFont);  // Set font
+    buttonText.setString(buttonLabel);  // Set text
+    buttonText.setCharacterSize(textSize);  // Set text size
+    buttonText.setFillColor(defaultTextColor);  // Text color
+
+    // Center the text inside the button
+    textRect = buttonText.getLocalBounds();
+    buttonText.setOrigin(textRect.left + textRect.width / 2, textRect.top + textRect.height / 2);
+    buttonText.setPosition(
+        button.getPosition().x + buttonWidth / 2,  // Center horizontally
+        button.getPosition().y + buttonHeight / 2  // Center vertically
+    );
 }

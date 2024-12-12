@@ -35,6 +35,7 @@ public:
     buttonWithText(int width, int height, int size, std::string label, int x, int y,sf::Color TextColor);
     void changeColor();
     void returnColor();
+    void setText(std::string s);
     void draw(sf::RenderWindow* mainWindow);
 };
 

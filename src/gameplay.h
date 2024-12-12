@@ -15,7 +15,7 @@ private:
     sf::Music music;
     sf::Color defaultTextColor = sf::Color::Black;
     sf::Color hoverTextColor = sf::Color::Red;
-    sf::Color playerColor[4] = {sf::Color::Red, sf::Color::Yellow, sf::Color::Green, sf::Color::Blue};
+    sf::Color playerColor[4] = {sf::Color::Red, sf::Color::Green, sf::Color::Blue, sf::Color(242, 107, 15)};
 public:
     GamePlay();
     void renderTitleScreen();
