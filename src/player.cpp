@@ -49,6 +49,10 @@ bool Player::checkoutJailcard() const {
     }
 }
 
+void Player::setlaststep(int steps){
+    laststep = steps;
+}
+
 void Player::move(int steps) {
     if (position + steps > 39){
         money += 200;
@@ -86,6 +90,9 @@ void Player::buyProperty(Property* property) {
     }
 }
 
+int Player::getlaststep(){
+    return laststep;
+}
 
 void Player::upgradeProperty(Property* property) {
     if (property->getLevel() < 5){

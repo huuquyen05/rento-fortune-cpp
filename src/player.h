@@ -19,7 +19,7 @@ private:
     int NumberOfPlayers;
     int NumberOfHouses;
     int NumberOfHotels;
-
+    int laststep;
 public:
     Player(std::string name, int initialMoney = 1500, int tokenColor = 0, int pI) {
         ++NumberOfPlayers;
@@ -51,6 +51,8 @@ public:
     void addProperty(Property* property);  // 增加一个物业
     int hasProperty();
     void mortgage();
+    void setlaststep(int t);
+    int getlaststep();
 };
 
 extern std::vector<Player*> players;
