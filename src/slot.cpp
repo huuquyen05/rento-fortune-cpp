@@ -7,7 +7,7 @@ PropertySlot::PropertySlot(Property* p) : property(p) {
     name = property->getName();
 }
 
-void PropertySlot::landOn(Player& player) {
+void PropertySlot::landOn(Player& player, std::vector<Player*>& allPlayers) {
     if (property->getOwner() == nullptr) {
         // to be continue
         player.buyProperty(property);
@@ -21,7 +21,7 @@ ParkSlot::ParkSlot() {
     name = "Park";
 }
 
-void ParkSlot::landOn(Player& player) {
+void ParkSlot::landOn(Player& player, std::vector<Player*>& allPlayers) {
     // 公园格子触发的事件，例如获得奖金或其他操作
     std::cout << player.getName() << " landed on Park.\n";
 }
@@ -31,7 +31,7 @@ SuperTaxSlot::SuperTaxSlot() {
     name = "Super Tax";
 }
 
-void SuperTaxSlot::landOn(Player& player) {
+void SuperTaxSlot::landOn(Player& player, std::vector<Player*>& allPlayers) {
     // 超税格子触发的事件，例如支付超税
     player.updateMoney(-100);  // 假设超税为100
     std::cout << player.getName() << " paid $100 in Super Tax.\n";
@@ -42,7 +42,7 @@ LuxuryTaxSlot::LuxuryTaxSlot() {
     name = "Luxury Tax";
 }
 
-void LuxuryTaxSlot::landOn(Player& player) {
+void LuxuryTaxSlot::landOn(Player& player, std::vector<Player*>& allPlayers) {
     // 奢侈税格子触发的事件，例如支付奢侈税
     player.updateMoney(-75);  // 假设奢侈税为75
     std::cout << player.getName() << " paid $75 in Luxury Tax.\n";
@@ -53,7 +53,7 @@ GoToJailSlot::GoToJailSlot() {
     name = "Go to Jail";
 }
 
-void GoToJailSlot::landOn(Player& player) {
+void GoToJailSlot::landOn(Player& player, std::vector<Player*>& allPlayers) {
     // 进入监狱
     player.goToJail();
     std::cout << player.getName() << " has been sent to Jail.\n";
@@ -64,7 +64,7 @@ RailwayStationSlot::RailwayStationSlot(Property* p) : property(p) {
     name = property->getName();
 }
 
-void RailwayStationSlot::landOn(Player& player) {
+void RailwayStationSlot::landOn(Player& player, std::vector<Player*>& allPlayers) {
     if (property->getOwner() == nullptr) {
         // 铁路站未被购买，玩家可以选择购买
         player.buyProperty(property);
@@ -78,14 +78,14 @@ void RailwayStationSlot::landOn(Player& player) {
 class ChanceSlot : public Slot {
 public:
     ChanceSlot();
-    void landOn(Player& player) override;
+    void landOn(Player& player, std::vector<Player*>& allPlayers) override;
 };
 
 ChanceSlot::ChanceSlot() {
     name = "Chance";
 }
 
-void ChanceSlot::landOn(Player& player) {
+void ChanceSlot::landOn(Player& player, std::vector<Player*>& allPlayers) {
     // 机会卡触发的事件，例如玩家抽到机会卡
     std::cout << player.getName() << " drew a Chance card.\n";
     
@@ -170,7 +170,7 @@ UtilitySlot::UtilitySlot(Property* p) : property(p) {
     name = property->getName();
 }
 
-void UtilitySlot::landOn(Player& player) {
+void UtilitySlot::landOn(Player& player, std::vector<Player*>& allPlayers) {
     if (property->getOwner() == nullptr) {
         // 水电公司未被购买，玩家可以选择购买
         player.buyProperty(property);
@@ -184,8 +184,8 @@ CommunityChestSlot::CommunityChestSlot() {
     name = "Community Chest";
 }
 
-// 当玩家踩到社区宝箱格子时触发的事件
-void CommunityChestSlot::landOn(Player& player) {
+// every cout here should be changed into corresponding GUI thing.
+void CommunityChestSlot::landOn(Player& player, std::vector<Player*>& allPlayers) {
     std::cout << player.getName() << " drew a Community Chest card.\n";
     
     // 随机决定触发的卡片
@@ -219,13 +219,12 @@ void CommunityChestSlot::landOn(Player& player) {
         case 6:
             // 向每个玩家收取50美元，模拟“Grand Opera Night”
             std::cout << player.getName() << " collects $50 from each player for Grand Opera Night.\n";
-            // 假设你有一个获取所有玩家的方法
-            // for (Player& p : allPlayers) {
-            //     if (p.getName() != player.getName()) {
-            //         p.updateMoney(-50);
-            //         player.updateMoney(50);
-            //     }
-            // }
+            for (auto p : allPlayers) {
+                if (p->getName() != player.getName()) {
+                    p->updateMoney(-50);
+                    player.updateMoney(50);
+                }
+            }
             break;
         case 7:
             player.updateMoney(100);  // 假设Holiday Fund获得100美元
@@ -238,6 +237,12 @@ void CommunityChestSlot::landOn(Player& player) {
         case 9:
             // 生日获得10美元来自每个玩家
             std::cout << player.getName() << " collected $10 from each player for birthday.\n";
+            for (auto p : allPlayers) {
+                if (p->getName() != player.getName()) {
+                    p->updateMoney(-10);
+                    player.updateMoney(10);
+                }
+            }
             break;
         case 10:
             player.updateMoney(100);  // 生命保险支付100美元

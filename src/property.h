@@ -9,7 +9,6 @@ protected:
     std::string name;
     int price;
     Player* owner;  // 物业的拥有者
-
 public:
     Property(std::string name, int price);
     std::string getName() const;
