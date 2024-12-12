@@ -80,7 +80,6 @@ void Player::buyProperty(Property* property) {
             money -= property->getPrice();  // Deduct the price
             addProperty(property);           // Add the property to player's list
             property->setOwner(this);        // Set the player as the owner of the property
-            property->changePrice(0.5 * property->getPrice());
             std::cout << name << " bought " << property->getName() << "\n";
         } else {
             std::cout << name << " decided not to buy " << property->getName() << "\n";
@@ -96,7 +95,7 @@ int Player::getlaststep(){
 
 void Player::upgradeProperty(Property* property) {
     if (property->getLevel() < 5){
-        if (money >= property->getPrice()) {
+        if (money >= property->getPrice() * 0.5) {
             std::cout << name << ", do you want to upgrade " << property->getName() << " for $" << property->getPrice() << "? (yes/no): ";
             std::string choice;
             std::cin >> choice;

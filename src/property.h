@@ -11,7 +11,7 @@ protected:
     int price;
     Player* owner;  // 物业的拥有者
     int level;
-    int type;
+    int Type;
 
 public:
     Property(std::string name, int price);
@@ -22,7 +22,6 @@ public:
     Player* getOwner() const;
     void setOwner(Player* player);
     void upgrade();
-    void changePrice(int NewPrice);
     void payRent(Player* p);
     void utilitypayRent(Player* p);
     void stationpayRent(Player* p);
