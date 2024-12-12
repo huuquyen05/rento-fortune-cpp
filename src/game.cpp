@@ -9,7 +9,47 @@ Game::Game(int numPlayers) : currentPlayerIndex(0) {
     }
 
     // 初始化棋盘
-    
+    slots.resize(40);
+    slots[0] = new ParkSlot();
+    slots[1] = new PropertySlot(new Property("Vine Street", 60));
+    slots[2] = new CommunityChestSlot();
+    slots[3] = new PropertySlot(new Property("Coventry Street", 60));
+    slots[4] = new LuxuryTaxSlot();
+    slots[5] = new RailwayStationSlot(new Property("Marylebone Station", 200));
+    slots[6] = new PropertySlot(new Property("Leicester Square", 100));
+    slots[7] = new ChanceSlot();
+    slots[8] = new PropertySlot(new Property("Bow Street", 100));
+    slots[9] = new PropertySlot(new Property("Whitechapel Road", 120));
+    slots[10] = new GoToJailSlot();
+    slots[11] = new PropertySlot(new Property("The Angel, Islington", 140));
+    slots[12] = new UtilitySlot(new Property("Electric Company", 150));
+    slots[13] = new PropertySlot(new Property("Trafalgar Square", 140));
+    slots[14] = new PropertySlot(new Property("Northumrl'd Avenue", 160));
+    slots[15] = new RailwayStationSlot(new Property("Fenchurch st.Station", 200));
+    slots[16] = new PropertySlot(new Property("M'Borough Street", 180));
+    slots[17] = new CommunityChestSlot();
+    slots[18] = new PropertySlot(new Property("Fleet Street", 180));
+    slots[19] = new PropertySlot(new Property("Old Kent Road", 200));
+    slots[20] = new ParkSlot();
+    slots[21] = new PropertySlot(new Property("White Hall", 220));
+    slots[22] = new ChanceSlot();
+    slots[23] = new PropertySlot(new Property("Pentonville Road", 220));
+    slots[24] = new PropertySlot(new Property("Pall Mall", 240));
+    slots[25] = new RailwayStationSlot(new Property("Kings Cross Station", 200));
+    slots[26] = new PropertySlot(new Property("Bond Street", 260));
+    slots[27] = new PropertySlot(new Property("Strand"), 260);
+    slots[28] = new UtilitySlot(new Property("Water Works", 150));
+    slots[29] = new PropertySlot(new Property("Regent Street", 280));
+    slots[30] = new GoToJailSlot();
+    slots[31] = new PropertySlot(new Property("Euston Road", 300));
+    slots[32] = new PropertySlot(new Property("Piccadilly", 300));
+    slots[33] = new CommunityChestSlot();
+    slots[34] = new PropertySlot(new Property("Oxford Street", 320));
+    slots[35] = new RailwayStationSlot(new Property("Liverpool st.Station", 200));
+    slots[36] = new ChanceSlot();
+    slots[37] = new PropertySlot(new Property("Park Lane", 350));
+    slots[38] = new SuperTaxSlot();
+    slots[39] = new PropertySlot(new Property("Mayfair", 400));
     // 可以继续添加更多格子...
 }
 

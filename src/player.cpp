@@ -67,9 +67,8 @@ void Player::buyProperty(Property* property) {
     if (money >= property->getPrice()) {
         money -= property->getPrice();
         addProperty(property);
-        ++NumberOfHouses;
         property->setOwner(this);
-        property->upgrade();
+        property->changePrice(0.5 * property->getPrice());
         std::cout << name << " bought " << property->getName() << "\n";
     } else {
         std::cout << name << " cannot afford " << property->getName() << "\n";
@@ -80,7 +79,7 @@ void Player::upgradeProperty(Property* property) {
     if (money >= property->getPrice()) {
         money -= property->getPrice();
         property->upgrade();
-        if (property->getLevel() == 4) {
+        if (property->getLevel() == 5) {
             ++NumberOfHotels;
             --NumberOfHouses;
         }
