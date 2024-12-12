@@ -20,7 +20,7 @@ public:
     void setOwner(Player* player);
     void upgrade();
     void changePrice(int NewPrice);
-    void payRend(Player* p);
+    void payRent(Player* p);
 };
 
 #endif

@@ -31,3 +31,6 @@ void Property::changePrice(int NewPrice) {
     price = NewPrice;
 }
 
+void Property::payRent(Player* p){
+    
+}
