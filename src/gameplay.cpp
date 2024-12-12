@@ -191,7 +191,14 @@ void GamePlay::renderSelectionScreen() {
         );
     } 
 
+    buttonWithText controls[2];
+    std::string controlsTexts[2] = {"Go back", "Start!"};
+    int pad = 50;
+    controls[0] = buttonWithText(300, 80, 50, controlsTexts[0], fullscreenMode.width / 2 - pad - 300, fullscreenMode.height - 150);
+    controls[1] = buttonWithText(300, 80, 50, controlsTexts[1], fullscreenMode.width / 2 + pad, fullscreenMode.height - 150);
+
     std::string name[4] = {""};
+    int nameEntered = 0;
 
     std::cout << "OK selection\n";
 
@@ -216,9 +223,31 @@ void GamePlay::renderSelectionScreen() {
                     name[i] = tmp;
                     std::cout << i << " " << name[i] << std::endl;
                     namePlate[i].setText(name[i]);
+                    ++nameEntered;
                 }
             }
         }
+
+        auto [x, y] = sf::Mouse::getPosition();
+
+        if(nameEntered < 4) controls[1].setTextColor(sf::Color(120, 120, 120));
+        else {
+            if(controls[1].isHovering(x, y)) {
+                controls[1].changeColor();
+                if(controls[1].isClicked(x, y)) {
+                    // Do some shit
+                }
+            }
+            else controls[1].returnColor();
+        }
+
+        if(controls[0].isHovering(x, y)) {
+            controls[0].changeColor();
+            if(controls[0].isClicked(x, y)) {
+                renderTitleScreen();
+            }
+        }
+        else controls[0].returnColor();
 
         this -> mainWindow -> clear(sf::Color::Black);
 
@@ -236,6 +265,10 @@ void GamePlay::renderSelectionScreen() {
                 welcome[i].draw(this -> mainWindow);
                 namePlate[i].draw(this -> mainWindow);
             }
+        }
+
+        for(int i = 0; i < 2; ++i) {
+            controls[i].draw(this -> mainWindow);
         }
 
         title.draw(this -> mainWindow);
