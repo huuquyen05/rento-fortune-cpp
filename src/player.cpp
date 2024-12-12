@@ -73,9 +73,8 @@ void Player::buyProperty(Property* property) {
             // Proceed with the purchase
             money -= property->getPrice();  // Deduct the price
             addProperty(property);           // Add the property to player's list
-            ++NumberOfHouses;                // Increment the house count (if applicable)
             property->setOwner(this);        // Set the player as the owner of the property
-            property->upgrade();             // Upgrade the property (e.g., build a house)
+            property->changePrice(0.5 * property->getPrice());
             std::cout << name << " bought " << property->getName() << "\n";
         } else {
             std::cout << name << " decided not to buy " << property->getName() << "\n";
