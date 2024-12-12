@@ -86,16 +86,28 @@ void Player::buyProperty(Property* property) {
 
 
 void Player::upgradeProperty(Property* property) {
-    if (money >= property->getPrice()) {
-        money -= property->getPrice();
-        property->upgrade();
-        if (property->getLevel() == 5) {
-            ++NumberOfHotels;
-            --NumberOfHouses;
+    if (property->getLevel < 5){
+        if (money >= property->getPrice()) {
+            std::cout << name << ", do you want to upgrade " << property->getName() << " for $" << property->getPrice() << "? (yes/no): ";
+            std::string choice;
+            std::cin >> choice;
+
+            if (choice == "yes") {
+                money -= property->getPrice();
+                property->upgrade();
+                if (property->getLevel() == 5) {
+                    ++NumberOfHotels;
+                    --NumberOfHouses;
+                }
+                std::cout << name << " upgrade " << property->getName() << "\n";
+            }else {
+                std::cout << name << " decided not to upgrade " << property->getName() << "\n";
+            }
+        } else {
+            std::cout << name << " cannot upgrade " << property->getName() << "\n";
         }
-        std::cout << name << " upgrade " << property->getName() << "\n";
-    } else {
-        std::cout << name << " cannot upgrade " << property->getName() << "\n";
+    }else {
+        std::cout << property->getName() << "has been full level!" << "\n";
     }
 }
 
