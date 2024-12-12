@@ -123,6 +123,14 @@ void TextBox::handleScrolling(float delta, int x, int y) {
     enLine += delta;
 }
 
+void TextBox::handleEvent(const sf::Event& event) {
+    sf::Vector2i mousePos = sf::Mouse::getPosition();
+    if(event.type == sf::Event::MouseWheelScrolled) {
+        float tmp = event.mouseWheelScroll.delta;
+        this -> handleScrolling(tmp, mousePos.x, mousePos.y);
+    }
+} 
+
 inputBox::inputBox(){}
 
 inputBox::inputBox(int x, int y, int width, int height) {
