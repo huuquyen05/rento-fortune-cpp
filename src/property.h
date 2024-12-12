@@ -3,6 +3,7 @@
 
 #include <string>
 #include "player.h"
+#include "slot.h"
 
 class Property {
 protected:
