@@ -30,3 +30,4 @@ void Property::upgrade() {
 void Property::changePrice(int NewPrice) {
     price = NewPrice;
 }
+

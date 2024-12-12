@@ -88,7 +88,7 @@ void Player::buyProperty(Property* property) {
 
 
 void Player::upgradeProperty(Property* property) {
-    if (property->getLevel < 5){
+    if (property->getLevel() < 5){
         if (money >= property->getPrice()) {
             std::cout << name << ", do you want to upgrade " << property->getName() << " for $" << property->getPrice() << "? (yes/no): ";
             std::string choice;
