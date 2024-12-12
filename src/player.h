@@ -49,6 +49,8 @@ public:
     bool isBankrupt() const;  // 检查玩家是否破产
     void goBankrupt();  // 玩家破产，退出游戏
     void addProperty(Property* property);  // 增加一个物业
+    int hasProperty();
+    void mortgage();
 };
 
 extern std::vector<Player*> players;

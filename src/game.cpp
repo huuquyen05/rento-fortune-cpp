@@ -79,9 +79,13 @@ void Game::processTurn() {
 // Check if the current player has gone bankrupt
 void Game::checkBankruptcy() {
     Player* currentPlayer = players[currentPlayerIndex];
-    if (currentPlayer->isBankrupt()) {
-        std::cout << currentPlayer->getName() << " is bankrupt and out of the game!\n";
-        currentPlayer->goBankrupt();  // Mark the player as bankrupt
+    if(currentPlayer->getMoney() < 0){
+        while(currentPlayer->getMoney() < 0 && currentPlayer->hasProperty()){
+            currentPlayer->mortgage();
+        }
+        if(currentPlayer->getMoney() < 0){
+            currentPlayer->goBankrupt();
+        }
     }
 }
 

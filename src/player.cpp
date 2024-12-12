@@ -62,7 +62,9 @@ void Player::moveto(int destination) {
     }
     position = destination;
 }
-
+int Player::hasProperty(){
+    return properties.size() > 0;
+}
 void Player::buyProperty(Property* property) {
     if (money >= property->getPrice()) {
         std::cout << name << ", do you want to buy " << property->getName() << " for $" << property->getPrice() << "? (yes/no): ";
@@ -132,4 +134,37 @@ void Player::goBankrupt() {
 
 void Player::addProperty(Property* property) {
     properties.push_back(property);
+}
+
+void Player::mortgage() {
+    if (properties.empty()) {
+        std::cout << name << " has no properties to mortgage.\n";
+        return;
+    }
+
+    std::cout << "Choose a property to mortgage (0-" << properties.size() - 1 << "):\n";
+    for (int i = 0; i < properties.size(); ++i) {
+        std::cout << i << ": " << properties[i]->getName() << " (Value: $" << properties[i]->getPrice() << ")\n";
+    }
+
+    int choice;
+    std::cin >> choice;
+
+    if (choice >= 0 && choice < properties.size()) {
+        Property* propertyToMortgage = properties[choice];
+        int mortgageValue = propertyToMortgage->getPrice() / 2;  // 50% of the property value
+
+        money += mortgageValue;
+        std::cout << name << " mortgaged " << propertyToMortgage->getName() 
+                  << " for $" << mortgageValue << ".\n";
+        
+        propertyToMortgage->setOwner(nullptr);
+        properties.erase(properties.begin() + choice);
+
+        if (money >= 0) {
+            std::cout << name << " now has $" << money << ".\n";
+        }
+    } else {
+        std::cout << "Invalid choice. No property mortgaged.\n";
+    }
 }
