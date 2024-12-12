@@ -71,7 +71,7 @@ void RailwayStationSlot::landOn(Player* player, std::vector<Player*>& allPlayers
         player->buyProperty(property);
     } else {
         // 已有玩家拥有铁路站，支付租金
-        property->payRent(player);
+        property->stationpayRent(player);
     }
 }
 
@@ -186,7 +186,7 @@ void UtilitySlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
         player->buyProperty(property);
     } else {
         // 已有玩家拥有水电公司，支付租金
-        property->payRent(player);
+        property->utilitypayRent(player);
     }
 }
 

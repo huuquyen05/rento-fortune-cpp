@@ -21,6 +21,8 @@ public:
     void upgrade();
     void changePrice(int NewPrice);
     void payRent(Player* p);
+    void utilitypayRent(Player* p);
+    void stationpayRent(Player* p);
 };
 
 #endif

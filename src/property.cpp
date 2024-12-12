@@ -34,3 +34,11 @@ void Property::changePrice(int NewPrice) {
 void Property::payRent(Player* p){
     
 }
+
+void Property::utilitypayRent(Player* p){
+
+}
+
+void Property::stationpayRent(Player* p){
+
+}

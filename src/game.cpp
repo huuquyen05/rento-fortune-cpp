@@ -141,7 +141,7 @@ void Game::processTurn() {
     std::cout << currentPlayer->getName() << " rolled the dice and landed on " << currentSlot->getName() << "\n";
     
     // Trigger any events based on the slot
-    currentSlot->landOn(*currentPlayer, players);  // This could trigger actions like paying rent, drawing cards, etc.
+    currentSlot->landOn(currentPlayer, players);  // This could trigger actions like paying rent, drawing cards, etc.
     // Check if the player is bankrupt
     checkBankruptcy();
     // Move to the next player after the turn is finished
