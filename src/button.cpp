@@ -127,7 +127,6 @@ void buttonWithText::setText(std::string s) {
     buttonText.setFont(textFont);  // Set font
     buttonText.setString(buttonLabel);  // Set text
     buttonText.setCharacterSize(textSize);  // Set text size
-    buttonText.setFillColor(defaultTextColor);  // Text color
 
     // Center the text inside the button
     textRect = buttonText.getLocalBounds();
