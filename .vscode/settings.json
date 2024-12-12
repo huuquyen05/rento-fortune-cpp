@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "string": "cpp"
+        "string": "cpp",
+        "stdexcept": "cpp",
+        "iostream": "cpp"
     }
 }

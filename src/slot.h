@@ -23,6 +23,9 @@ private:
 public:
     PropertySlot(Property* p);
     void landOn(Player& player, std::vector<Player*>& allPlayers) override;
+    Property* getProperty(){
+        return property;
+    }
 };
 
 // 公园格子

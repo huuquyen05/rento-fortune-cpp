@@ -5,7 +5,7 @@ TextBox::TextBox() {}
 TextBox::TextBox(int x, int y, int width, int height)
         : textSize(15), input(""), padding(3.f), maxWidth(width - 2 * padding), stLine(0), enLine(0) {
     // Load font
-    std::string fontPath = "../fonts/Montserrat-Light.ttf";
+    std::string fontPath = "../fonts/Montserrat-Medium.ttf";
     if (!font.loadFromFile(fontPath)) {
         throw std::runtime_error("Unable to load font");
     }
@@ -81,13 +81,20 @@ void TextBox::updateLines() {
 
 void TextBox::drawFromTop(sf::RenderWindow* window) {
     window -> draw(box);
-    for(int i = stLine; i < enLine; ++i) {
-        sf::Text tmp = lines[i];
-        int posTmp = i - stLine;
+    if(middleAlign) { // only for name input box
+        sf::Text tmp = lines[0];
         tmp.setPosition(coorX + padding,
-                        coorY + padding + posTmp * lineHeight);
+                        coorY);
         window -> draw(tmp);
     }
+    else 
+        for(int i = stLine; i < enLine; ++i) {
+            sf::Text tmp = lines[i];
+            int posTmp = i - stLine;
+            tmp.setPosition(coorX + padding,
+                            coorY + padding + posTmp * lineHeight);
+            window -> draw(tmp);
+        }
 }
 
 void TextBox::drawFromBottom(sf::RenderWindow* window) {
@@ -116,6 +123,8 @@ void TextBox::handleScrolling(float delta, int x, int y) {
     enLine += delta;
 }
 
+inputBox::inputBox(){}
+
 inputBox::inputBox(int x, int y, int width, int height) {
     // Init some variables
     textSize = 15;
@@ -124,9 +133,51 @@ inputBox::inputBox(int x, int y, int width, int height) {
     maxWidth = width - 2 * padding;
     isActive = 0;
     stLine = enLine = 0;
+    charLimit = 1000;
 
     // Load font
-    std::string fontPath = "../fonts/Montserrat-Light.ttf";
+    std::string fontPath = "../fonts/Montserrat-Medium.ttf";
+    if (!font.loadFromFile(fontPath)) {
+        throw std::runtime_error("Unable to load font");
+    }
+
+    // Configure box
+    boxHeight = height;
+    boxWidth = width;
+    coorX = x;
+    coorY = y;
+    box.setPosition(x, y);
+    box.setSize({ width, height });
+    box.setFillColor(sf::Color::White);
+    box.setOutlineColor(sf::Color::Black);
+    box.setOutlineThickness(1);
+
+    // Configure initial text line
+    sf::Text text;
+    text.setFont(font);
+    text.setPosition(x + padding, y + padding);
+    text.setCharacterSize(textSize);
+    text.setFillColor(sf::Color::Black);
+    lines.push_back(text);
+
+    lineHeight = text.getCharacterSize() + padding; // Set line height with padding
+    maxLines = height / lineHeight;
+}
+
+inputBox::inputBox(int x, int y, int width, int height, int fontSize, bool aligned) {
+    // Init some variables
+    textSize = 15;
+    input = "";
+    padding = 5.f;
+    maxWidth = width - 2 * padding;
+    isActive = 0;
+    stLine = enLine = 0;
+    textSize = fontSize;
+    middleAlign = aligned;
+    charLimit = 10;
+
+    // Load font
+    std::string fontPath = "../fonts/Montserrat-Medium.ttf";
     if (!font.loadFromFile(fontPath)) {
         throw std::runtime_error("Unable to load font");
     }
@@ -171,7 +222,7 @@ std::string inputBox::handleEvent(const sf::Event& event) {
                 input.pop_back();
                 updateLines();
             }
-        } else if (event.text.unicode < 128) { // Handle ASCII characters
+        } else if (event.text.unicode < 128 && (int)input.size() < charLimit) { // Handle ASCII characters
             input += static_cast<char>(event.text.unicode);
             updateLines();
         }

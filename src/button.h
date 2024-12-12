@@ -35,17 +35,17 @@ public:
     buttonWithText(int width, int height, int size, std::string label, int x, int y,sf::Color TextColor);
     void changeColor();
     void returnColor();
+    void setText(std::string s);
     void draw(sf::RenderWindow* mainWindow);
 };
 
 class menu {
 private:
-    int numChoices, coorX, coorY;
-    buttonWithText config; // this will contain the config of the button, such as width, height, etc.
+    int coorX, coorY;
     std::vector <buttonWithText> choices;
 public:
     menu();
-    menu(int num, int x, int y, buttonWithText tmp); // tmp is the button containing some configuration.
+    menu(int x, int y, std::vector <buttonWithText> choices); 
     void handleEvent(const sf::Event& event);
     void draw(sf::RenderWindow* window);
 };

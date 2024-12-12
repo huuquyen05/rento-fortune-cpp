@@ -1,5 +1,7 @@
 #include "gameplay.h"
-
+#include "chatbox.h"
+#include "button.h"
+ 
 GamePlay::GamePlay() {
     if(!(this -> font).loadFromFile("../fonts/Montserrat-Black.ttf")) {
         std::cerr << "Error loading font!" << std::endl;
@@ -7,10 +9,11 @@ GamePlay::GamePlay() {
     if(!(this -> music).openFromFile("../assets/bgm.wav")) {
         std::cerr << "Error loading bgm!" << std::endl;
     }
-    this -> mainWindow = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Main Window", sf::Style::Fullscreen);
-    this -> mainWindow->setFramerateLimit(60);
+    this -> mainWindow = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Main Window", sf::Style::Fullscreen );
+    this -> mainWindow->setFramerateLimit(30);
     this -> music.play();
     this -> music.setLoop(true);
+    std::cout << "OK init\n";
 }
 
 void GamePlay::renderTitleScreen() {
@@ -21,26 +24,29 @@ void GamePlay::renderTitleScreen() {
     // Create title screen background
     sf::RectangleShape titleScreen(sf::Vector2f(fullscreenMode.width, fullscreenMode.height));
     sf::Texture titleScreenTexture;
-    titleScreenTexture.loadFromFile("../assets/title-screen.png");
+    if(!titleScreenTexture.loadFromFile("../assets/title-screen.png")) {
+        std::cout << "Error loading bg for title\n";
+    }   
     titleScreen.setTexture(&titleScreenTexture);
 
     // Define button size and positions
-    int buttonWidth = 300, buttonHeight = 100;
+    int buttonWidth = 300, buttonHeight = 80;
     int buttonSpacing = 30;
-    std::string buttonLabels[3] = {"New Game", "Settings", "Quit"};
-    buttonWithText button[3];
+    std::string buttonLabels[4] = {"Load Game", "New Game", "Settings", "Quit"};
+    buttonWithText button[4];
 
     // Setup buttons and texts
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 4; ++i) {
         button[i] = buttonWithText(
             buttonWidth, 
             buttonHeight, 
-            50, 
+            40, 
             buttonLabels[i], 
             (fullscreenMode.width - buttonWidth) / 2,
             (fullscreenMode.height - (buttonHeight * 3 + buttonSpacing * 2)) / 3 * 2 + (buttonHeight + buttonSpacing) * i
         );
     }
+    std::cout << "OK init title\n";
 
     // Main event and rendering loop for the title screen
     while (this -> mainWindow -> isOpen()) {
@@ -61,21 +67,25 @@ void GamePlay::renderTitleScreen() {
         // Mouse interaction detection (hover and click)
         sf::Vector2i mousePos = sf::Mouse::getPosition(*(this -> mainWindow));
 
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < 4; ++i) {
             if (button[i].isHovering(mousePos.x, mousePos.y)) {
                 button[i].changeColor();  // Change text color on hover
 
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                     // Handle button click
-                    if (i == 0) {
+                    if(i == 0) {
+                        std::cout << "Load Game Button Clicked!" << std::endl;
+                        // do random shit
+                    }
+                    else if (i == 1) {
                         std::cout << "New Game Button Clicked!" << std::endl;
                         this -> renderSelectionScreen();
                     }
-                    else if (i == 1) {
+                    else if (i == 2) {
                         std::cout << "Settings Button Clicked!" << std::endl;
                         this -> renderSettingScreen();
                     }
-                    else if (i == 2) {
+                    else if (i == 3) {
                         std::cout << "Quit Button Clicked!" << std::endl;
                         this -> mainWindow -> close();  // Close the window on "Quit" button click
                         exit(0);  // Exit the function after quitting
@@ -93,7 +103,7 @@ void GamePlay::renderTitleScreen() {
         this -> mainWindow -> draw(titleScreen);
 
         // Draw the buttons and their texts
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < 4; ++i) {
             button[i].draw(this -> mainWindow);  // Draw the button
         }
 
@@ -112,25 +122,78 @@ void GamePlay::renderSelectionScreen() {
     selectionScreenTexture.loadFromFile("../assets/background.png");
     selectionScreen.setTexture(&selectionScreenTexture);
 
-    // Define button size and positions
     int buttonWidth = 300, buttonHeight = 100;
-    int buttonSpacing = 30;
-    sf::RectangleShape gameModes[3];
-    sf::Text buttonTexts[3];
-    std::string buttonLabels[3] = {"Host a game", "Join a game", "Go back"};
-    buttonWithText button[3];
+    buttonWithText title = buttonWithText(
+        buttonWidth,
+        buttonHeight,
+        50,
+        "Selection Phase",
+        (fullscreenMode.width - buttonWidth) / 2,
+        fullscreenMode.height * 5 / 100
+    );  
 
-    // Setup buttons and texts
-    for (int i = 0; i < 3; ++i) {
-        button[i] = buttonWithText(
-            buttonWidth, 
-            buttonHeight, 
-            50, 
-            buttonLabels[i], 
-            (fullscreenMode.width - buttonWidth) / 2,
-            (fullscreenMode.height - (buttonHeight * 3 + buttonSpacing * 2)) / 2 + (buttonHeight + buttonSpacing) * i
-        );
+    int recWidth = 400, recHeight = 500;
+    float spaceBetween = (fullscreenMode.width - 4 * recWidth) / 5.0f;
+
+    sf::RectangleShape rect[4];
+    for(int i = 0; i < 4; ++i) {
+        rect[i].setPosition(spaceBetween * (i + 1) + i * recWidth, (fullscreenMode.height - recHeight) / 2.5f);
+        rect[i].setFillColor(sf::Color(255, 255, 255, 100));
+        rect[i].setSize(sf::Vector2f(recWidth, recHeight));
     }
+
+    sf::RectangleShape avatar[4];
+    int avtSize = 150;
+    for(int i = 0; i < 4; ++i) {
+        avatar[i].setPosition(rect[i].getPosition().x + (recWidth - avtSize) / 2, rect[i].getPosition().y + 50);
+        avatar[i].setFillColor(playerColor[i]);
+        avatar[i].setSize(sf::Vector2f(avtSize, avtSize));
+        avatar[i].setOutlineColor(sf::Color::Black);
+        avatar[i].setOutlineThickness(5);
+    }
+
+    buttonWithText enterName[4];
+
+    inputBox nameHolder[4];
+    int nameHeight = 40, nameWidth = 200;
+    for(int i = 0; i < 4; ++i) {
+        sf::Vector2f pos = rect[i].getPosition();
+        nameHolder[i] = inputBox(pos.x + (recWidth - nameWidth) / 2, pos.y + recHeight - 100, nameWidth, nameHeight, nameHeight - 10, 1);
+        enterName[i] = buttonWithText(
+            400,
+            200,
+            30,
+            "Enter your name:",
+            pos.x + (recWidth - 400) / 2, 
+            pos.y + recHeight - 250
+        );
+    } 
+
+    buttonWithText welcome[4], namePlate[4];
+     for(int i = 0; i < 4; ++i) {
+        sf::Vector2f pos = rect[i].getPosition();
+        welcome[i] = buttonWithText(
+            400,
+            200,
+            30,
+            "Welcome!",
+            pos.x + (recWidth - 400) / 2, 
+            pos.y + recHeight - 300
+        );
+        namePlate[i] = buttonWithText(
+            400,
+            200,
+            30,
+            "",
+            pos.x + (recWidth - 400) / 2, 
+            pos.y + recHeight - 200,
+            playerColor[i]
+        );
+    } 
+
+    std::string name[4] = {""};
+
+    std::cout << "OK selection\n";
 
     // Main event and rendering loop for the title screen
     while (this -> mainWindow -> isOpen()) {
@@ -146,33 +209,14 @@ void GamePlay::renderSelectionScreen() {
                     exit(0);  // Exit the function if the escape key is pressed
                 }
             }
-        }
-
-        // Mouse interaction detection (hover and click)
-        sf::Vector2i mousePos = sf::Mouse::getPosition(*(this -> mainWindow));
-
-        for (int i = 0; i < 3; ++i) {
-            if (button[i].isHovering(mousePos.x, mousePos.y)) {
-                button[i].changeColor();  // Change text color on hover
-
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                    // Handle button click
-                    if (i == 0) {
-                        std::cout << "Selection: Host a game Clicked!" << std::endl;
-                        // TODO
-                    }
-                    else if (i == 1) {
-                        std::cout << "Selection: Join a game Clicked!" << std::endl;
-                        // TODO
-                    }
-                    else if (i == 2) {
-                        std::cout << "Selection: Quit Button Clicked!" << std::endl;
-                        this -> renderTitleScreen();
-                    }
+            for(int i = 0; i < 4; ++i) {
+                if((int)(name[i].size()) > 0) continue;
+                std::string tmp = nameHolder[i].handleEvent(event);
+                if(tmp != "") {
+                    name[i] = tmp;
+                    std::cout << i << " " << name[i] << std::endl;
+                    namePlate[i].setText(name[i]);
                 }
-            }
-            else {
-                button[i].returnColor();  // Reset text color when not hovered
             }
         }
 
@@ -181,10 +225,20 @@ void GamePlay::renderSelectionScreen() {
         // Draw the title screen background
         this -> mainWindow -> draw(selectionScreen);
 
-        // Draw the buttons and their texts
-        for (int i = 0; i < 3; ++i) {
-            button[i].draw(this -> mainWindow);  // Draw the button
+        for (int i = 0; i < 4; ++i) {
+            this -> mainWindow -> draw(rect[i]);
+            this -> mainWindow -> draw(avatar[i]);
+            if(name[i].size() == 0) {
+                nameHolder[i].drawFromTop(this -> mainWindow);
+                enterName[i].draw(this -> mainWindow);
+            }
+            else {
+                welcome[i].draw(this -> mainWindow);
+                namePlate[i].draw(this -> mainWindow);
+            }
         }
+
+        title.draw(this -> mainWindow);
 
         this -> mainWindow -> display();
     }

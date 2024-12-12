@@ -21,6 +21,10 @@ public:
     void nextPlayer();
     std::vector<Player*> getAllPlayers(); //获取所有玩家
     int getNumOfPlayers(); //获取玩家人数
+    void handleJailTransaction(Player& player); // 处理监狱中的交易
+    void handlePropertyTransaction(Player& player); // 处理地产交易
+    void handleTrade(Player& player1, Player& player2, Property* property); // 处理玩家之间的交易
+    bool askForTrade(Player& player); // 询问玩家是否继续交易
 };
 
 #endif
