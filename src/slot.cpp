@@ -8,7 +8,7 @@ PropertySlot::PropertySlot(Property* p) : property(p) {
 }
 
 void PropertySlot::landOn(Player& player) {
-    if (property->getOwner() == nullptr) {
+    if (property->getOwner() == nullptr || property->getOwner() == player.getName) {
         // to be continue
         player.buyProperty(property);
     } else {
@@ -18,7 +18,7 @@ void PropertySlot::landOn(Player& player) {
 
 // 停车场格子
 ParkSlot::ParkSlot() {
-    name = "Park";
+    name = "Free Parking";
 }
 
 void ParkSlot::landOn(Player& player) {
@@ -93,27 +93,42 @@ void ChanceSlot::landOn(Player& player) {
     int event = rand() % 15;  // 假设有15种不同的机会卡事件
     switch (event) {
         case 0:
-            player.updateMoney(200);  // 前进到“Go”，获得200美元
+            player.moveto(0); // 前进到“Go”
             std::cout << player.getName() << " advanced to 'Go' and received $200.\n";
             break;
         case 1:
             // 前进到 Trafalgar Square，经过“Go”时，额外获得200美元
             std::cout << player.getName() << " advanced to Trafalgar Square. If you pass 'Go', you collect $200.\n";
-            player.updateMoney(200);  // 假设经过Go
+            player.moveto(13);
             break;
         case 2:
             // 前进到 Pall Mall，经过“Go”时，额外获得200美元
             std::cout << player.getName() << " advanced to Pall Mall. If you pass 'Go', you collect $200.\n";
-            player.updateMoney(200);  // 假设经过Go
+            player.moveto(24);
             break;
         case 3:
             // 前进到最近的公用设施
             std::cout << player.getName() << " advanced to the nearest Utility.\n";
+            if (player.getPosition < 12 || player.getPosition > 28) {
+                player.moveto(12);
+            }else{
+                player.moveto(28);
+            }
             // 这里我们假设玩家会选择购买或者支付租金，具体逻辑依赖于游戏规则
+            UtilitySlot::landOn(Player& player);
             break;
         case 4:
             // 前进到最近的铁路
             std::cout << player.getName() << " advanced to the nearest Railroad.\n";
+            if (player.getPosition() < 5 || player.getPosition() > 35) {
+                player.moveto(5);
+            }else if (player.getPosition() > 5 && player.getPosition() < 15) {
+                player.moveto(15);
+            }else if (player.getPosition() > 15 && player.getPosition() < 25) {
+                player.moveto(25);
+            }else {
+                player.moveto(35);
+            }
             // 购买或支付租金的逻辑
             RailwayStationSlot::landOn(Player& player);
             break;
@@ -123,41 +138,39 @@ void ChanceSlot::landOn(Player& player) {
             break;
         case 6:
             // 获取一张"出狱免费卡"（需要实现卡片存储逻辑）
+            player.haveoutJailcard();
             std::cout << player.getName() << " received a 'Get out of Jail Free' card.\n";
             break;
         case 7:
-            // 后退三格
-            std::cout << player.getName() << " goes back three spaces.\n";
-            player.move(-3);  // 假设有一个`changeLocation`方法
-            break;
-        case 8:
             // 直接进监狱
             std::cout << player.getName() << " goes directly to Jail. (Cannot collect $200 from 'Go')\n";
             player.goToJail();  // 假设有一个`putInJail`方法
             break;
-        case 9:
+        case 8:
             // 修理财产
             std::cout << player.getName() << " must make general repairs on all properties.\n";
+            player.updateMoney(-25 * player.getNumberOfHouses() - 100 * player.getNumberOfHotels())
             // 例如：每个房子支付$25，每个酒店支付$100
             break;
-        case 10:
+        case 9:
             // 乘坐King’s Cross Station
             std::cout << player.getName() << " took a ride to King's Cross Station.\n";
-            player.updateMoney(200);  // 假设经过“Go”时，获得200美元
+            player.moveto(25);
             break;
-        case 11:
+        case 10:
             player.updateMoney(-15);  // 支付Poor Tax 15美元
             std::cout << player.getName() << " paid Poor Tax of $15.\n";
             break;
-        case 12:
+        case 11:
             // 前进到 Mayfair
             std::cout << player.getName() << " advanced to Mayfair.\n";
+            player.moveto(39);
             break;
-        case 13:
-            player.updateMoney(-50);  // 作为董事会主席，支付每个玩家50美元
+        case 12:
+            player.updateMoney(-50 * player.getNumberOfPlayers());  // 作为董事会主席，支付每个玩家50美元
             std::cout << player.getName() << " has been elected Chairman of the Board. Pay each player $50.\n";
             break;
-        case 14:
+        case 13:
             player.updateMoney(150);  // 收取$150
             std::cout << player.getName() << " collected $150 from building and loan maturity.\n";
             break;
@@ -193,7 +206,7 @@ void CommunityChestSlot::landOn(Player& player) {
     int event = rand() % 17;  // 假设有17种不同的社区宝箱事件
     switch (event) {
         case 0:
-            player.updateMoney(200);  // 前进到“Go”，获得200美元
+            player.moveto(0);  // 前进到“Go”，获得200美元
             std::cout << player.getName() << " advanced to 'Go' and received $200.\n";
             break;
         case 1:
@@ -210,6 +223,7 @@ void CommunityChestSlot::landOn(Player& player) {
             break;
         case 4:
             // 获取“出狱免费卡” (此部分需要玩家类实现“出狱免费卡”功能)
+            player.haveoutJailcard();
             std::cout << player.getName() << " received a 'Get out of Jail Free' card.\n";
             break;
         case 5:
@@ -238,6 +252,7 @@ void CommunityChestSlot::landOn(Player& player) {
             break;
         case 9:
             // 生日获得10美元来自每个玩家
+            player.updateMoney(10 * player.getNumberOfPlayers());
             std::cout << player.getName() << " collected $10 from each player for birthday.\n";
             break;
         case 10:
