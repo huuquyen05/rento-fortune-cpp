@@ -12,8 +12,8 @@ private:
     std::vector<Property*> properties;  // 玩家拥有的物业
     bool inJail;
     int outJailcard; //玩家是否有出狱卡
-    bool bankrupt;
-    int position;  // 玩家当前在棋盘上的位置
+    bool bankrupt = false;
+    int position = 0;  // 玩家当前在棋盘上的位置
     int colourOfToken;  // 玩家棋子颜色（可选）
     int playerIndex;
     int NumberOfPlayers;

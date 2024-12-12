@@ -139,7 +139,7 @@ void ChanceSlot::landOn(Player& player, std::vector<Player*>& allPlayers) {
             // 购买或支付租金的逻辑
             break;
         case 5:
-            player.updateMoney(50);  // 银行支付50美元
+            player.updateMoney(50); 
             std::cout << player.getName() << " received a dividend of $50 from the bank.\n";
             break;
         case 6:
@@ -148,36 +148,36 @@ void ChanceSlot::landOn(Player& player, std::vector<Player*>& allPlayers) {
             std::cout << player.getName() << " received a 'Get out of Jail Free' card.\n";
             break;
         case 7:
-            // 直接进监狱
+            
             std::cout << player.getName() << " goes directly to Jail. (Cannot collect $200 from 'Go')\n";
-            player.goToJail();  // 假设有一个`putInJail`方法
+            player.goToJail();  
             break;
         case 8:
-            // 修理财产
+            
             std::cout << player.getName() << " must make general repairs on all properties.\n";
             player.updateMoney(-25 * player.getNumberOfHouses() - 100 * player.getNumberOfHotels());
-            // 例如：每个房子支付$25，每个酒店支付$100
+            
             break;
         case 9:
-            // 乘坐King’s Cross Station
+            
             std::cout << player.getName() << " took a ride to King's Cross Station.\n";
             player.moveto(25);
             break;
         case 10:
-            player.updateMoney(-15);  // 支付Poor Tax 15美元
+            player.updateMoney(-15);  
             std::cout << player.getName() << " paid Poor Tax of $15.\n";
             break;
         case 11:
-            // 前进到 Mayfair
+            
             std::cout << player.getName() << " advanced to Mayfair.\n";
             player.moveto(39);
             break;
         case 12:
-            player.updateMoney(-50 * player.getNumberOfPlayers());  // 作为董事会主席，支付每个玩家50美元
+            player.updateMoney(-50 * player.getNumberOfPlayers());  
             std::cout << player.getName() << " has been elected Chairman of the Board. Pay each player $50.\n";
             break;
         case 13:
-            player.updateMoney(150);  // 收取$150
+            player.updateMoney(150);  
             std::cout << player.getName() << " collected $150 from building and loan maturity.\n";
             break;
         default:
