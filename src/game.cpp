@@ -125,6 +125,7 @@ void Game::rollDice() {
     // If the player is not in jail, move them based on dice rolls
     if (!players[currentPlayerIndex]->isInJail()) {
         players[currentPlayerIndex]->move(dice1 + dice2);
+        players[currentPlayerIndex]->setlaststep(dice1 + dice2);
     } else {
         // If the player is in jail, check if they rolled doubles to get out
         if (dice1 == dice2) {

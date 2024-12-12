@@ -71,6 +71,9 @@ private:
 public:
     RailwayStationSlot(Property* p);
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
+    Property* getProperty(){
+        return property;
+    }
 };
 
 // 社区宝箱格子
@@ -84,6 +87,9 @@ public:
 class UtilitySlot : public Slot {
 private:
     Property* property;
+    Property* getProperty(){
+        return property;
+    }
 
 public:
     UtilitySlot(Property* p);
