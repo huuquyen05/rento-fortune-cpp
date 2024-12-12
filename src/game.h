@@ -19,6 +19,8 @@ public:
     void processTurn();
     void checkBankruptcy();
     void nextPlayer();
+    vector<Player*> getAllPlayers(); //获取所有玩家
+    int getNumOfPlayers(); //获取玩家人数
 };
 
 #endif
