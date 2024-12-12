@@ -16,6 +16,7 @@ protected:
     float padding, lineHeight, maxWidth;
     int maxLines;
     int stLine, enLine;
+    bool middleAlign;
 public:
     TextBox();
     TextBox(int x, int y, int width, int height);
@@ -30,9 +31,11 @@ public:
 class inputBox : public TextBox {
 private:
     bool isActive;
+    int charLimit;
 public:
     inputBox();
     inputBox(int x, int y, int width, int height);
+    inputBox(int x, int y, int width, int height, int fontSize, bool aligned);
     std::string handleEvent(const sf::Event& event);
 };
 
