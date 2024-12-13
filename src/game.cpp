@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <unordered_map>
 #include "property.h"
+#include "player.h"
+#include "slot.h"
 
 // Global map to map player names to their indices in the players vector
 std::unordered_map<std::string, int> playerNameToIndex;
@@ -15,7 +17,7 @@ Game::Game(int numPlayers) : currentPlayerIndex(0) {
         std::string playerName;
         std::cout << "Enter name for Player " << i + 1 << ": ";
         std::cin >> playerName;
-        players.push_back(new Player(playerName));
+        players.push_back(new Player(playerName, 1500, 1));
         playerNameToIndex[playerName] = i;  // Map player name to index
     }
 

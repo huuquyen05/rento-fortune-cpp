@@ -23,9 +23,7 @@ private:
     int NumberOfHotels;
     int laststep;
 public:
-    Player(std::string name, int initialMoney = 1500, int tokenColor = 0, int pI) {
-        ++NumberOfPlayers;
-    };
+    Player(std::string name, int initialMoney, int tokenColor);
     
     // 获取玩家信息
     std::string getName() const;
