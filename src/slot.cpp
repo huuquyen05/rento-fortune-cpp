@@ -249,15 +249,8 @@ void CommunityChestSlot::landOn(Player* player, std::vector<Player*>& allPlayers
             std::cout << player->getName() << " received an income tax refund of $20.\n";
             break;
         case 9:
-            // 生日获得10美元来自每个玩家
-            player->updateMoney(10 * player->getNumberOfPlayers());
-            std::cout << player->getName() << " collected $10 from each player for birthday.\n";
-            for (auto p : allPlayers) {
-                if (p->getName() != player->getName()) {
-                    p->updateMoney(-10);
-                    player->updateMoney(10);
-                }
-            }
+            player->updateMoney(40);  // 假设Birthday获得40美元
+            std::cout << player->getName() << " collected $40 on Birthday.\n";
             break;
         case 10:
             player->updateMoney(100);  // 生命保险支付100美元
