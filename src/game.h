@@ -2,8 +2,9 @@
 #define GAME_H
 
 #include <vector>
-#include "player.h"
-#include "slot.h"
+class Player;
+class Slot;
+
 
 class Game {
 private:

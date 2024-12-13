@@ -3,7 +3,9 @@
 
 #include <string>
 #include <vector>
-#include "property.h"
+class Property;
+class Slot;
+
 
 class Player {
 private:

@@ -2,8 +2,7 @@
 #define PROPERTY_H
 
 #include <string>
-#include "player.h"
-#include "slot.h"
+class player;
 
 class Property {
 protected:

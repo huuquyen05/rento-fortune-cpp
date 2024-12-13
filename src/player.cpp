@@ -1,4 +1,5 @@
 #include "player.h"
+#include "property.h"
 #include <iostream>
 std::vector<Player*> players;
 
