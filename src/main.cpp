@@ -2,6 +2,7 @@
 #include "slot.h"
 #include "property.h"
 #include "game.h"
+#include "player.h"
 int main() {
     // 玩家数量输入
     int numPlayers;
