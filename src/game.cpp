@@ -128,18 +128,20 @@ void Game::rollDice() {
     if (!players[currentPlayerIndex]->isInJail()) {
         players[currentPlayerIndex]->move(dice1 + dice2);
         players[currentPlayerIndex]->setlaststep(dice1 + dice2);
+        //std::cout<<players[currentPlayerIndex]->getPosition()<<std::endl;
     } else {
         // If the player is in jail, check if they rolled doubles to get out
         if (dice1 == dice2) {
             players[currentPlayerIndex]->getOutOfJail();
         }
     }
+    //std::cout<<"enter"<<std::endl;
 }
 
 // Handle the current player's turn (land on a slot and trigger its event)
 void Game::processTurn() {
     Player* currentPlayer = players[currentPlayerIndex];
-    Slot* currentSlot = board[currentPlayer->getPosition()];
+    Slot* currentSlot = slots[currentPlayer->getPosition()];
     
     std::cout << currentPlayer->getName() << " rolled the dice and landed on " << currentSlot->getName() << "\n";
     
