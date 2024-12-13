@@ -1,7 +1,7 @@
 #include "slot.h"
 #include "property.h"
 #include <iostream>
-std::vector<Slot*> slots;
+extern std::vector<Slot*> slots;
 
 // 物业格子
 PropertySlot::PropertySlot(Property* p) : property(p) {

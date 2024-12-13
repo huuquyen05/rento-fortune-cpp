@@ -14,7 +14,7 @@ protected:
     int Type;
 
 public:
-    Property(std::string name, int price);
+    Property(std::string name, int price, int Type);
     std::string getName() const;
     int getPrice() const;
     int getLevel() const;
