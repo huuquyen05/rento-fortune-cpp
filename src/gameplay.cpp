@@ -1,6 +1,7 @@
 #include "gameplay.h"
 #include "chatbox.h"
 #include "button.h"
+#include <unistd.h>
  
 GamePlay::GamePlay() {
     if(!(this -> font).loadFromFile("../fonts/Montserrat-Black.ttf")) {
@@ -297,6 +298,14 @@ void GamePlay::renderSettingScreen() {
         fullscreenMode.height * 5 / 100
     );  
 
+    buttonWithText backButton = buttonWithText(300, 80, 50, "Go back", (fullscreenMode.width - 300) / 2, fullscreenMode.height - 150);
+
+    std::string state[2] = {"Off", "On"};
+    buttonWithText onOff = buttonWithText(300, 80, 40, state[0], (fullscreenMode.width - 300) - 300, 200);
+    int curState = 1; // initially On
+
+    buttonWithText soundText = buttonWithText(300, 80, 40, "Sound", 300, 200);
+    
     // Main event and rendering loop for the title screen
     while (this -> mainWindow -> isOpen()) {
         sf::Event event;
@@ -313,10 +322,35 @@ void GamePlay::renderSettingScreen() {
             }
         }
 
+        auto [x, y] = sf::Mouse::getPosition();
+        if(backButton.isHovering(x, y)) {
+            backButton.changeColor();
+            if(backButton.isClicked(x, y)) {
+                renderTitleScreen();
+            }
+        }
+        else backButton.returnColor();
+        if(onOff.isHovering(x, y)) {
+            onOff.changeColor();
+            if(onOff.isClicked(x, y)) {
+                usleep(300000);
+                curState ^= 1;
+                if(curState == 1) {this -> music.play(); this -> music.setLoop(true);}
+                else this -> music.stop();
+            }
+        }
+        else onOff.returnColor();
+
+        onOff.setText(state[curState]);
+
         this -> mainWindow -> clear(sf::Color::Black);
 
         // Draw the title screen background
         this -> mainWindow -> draw(settingScreen);
+
+        backButton.draw(this -> mainWindow);
+        onOff.draw(this -> mainWindow);
+        soundText.draw(this -> mainWindow);
 
         title.draw(this -> mainWindow);
 

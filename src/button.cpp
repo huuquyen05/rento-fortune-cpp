@@ -127,7 +127,6 @@ void buttonWithText::setText(std::string s) {
     buttonText.setFont(textFont);  // Set font
     buttonText.setString(buttonLabel);  // Set text
     buttonText.setCharacterSize(textSize);  // Set text size
-    buttonText.setFillColor(defaultTextColor);  // Text color
 
     // Center the text inside the button
     textRect = buttonText.getLocalBounds();
@@ -140,4 +139,77 @@ void buttonWithText::setText(std::string s) {
 
 void buttonWithText::setTextColor(sf::Color c) {
     buttonText.setFillColor(c);
+}
+
+buttonWithLines::buttonWithLines(){}
+
+buttonWithLines::buttonWithLines(int width, int height, int size, std::vector <std::string> labels, int x, int y) {
+    
+    buttonWidth = width;
+    buttonHeight = height;
+    textSize = size;
+    backgroundColor = sf::Color(255, 255, 255, 0);
+    defaultTextColor = sf::Color::Black;
+    hoverTextColor = sf::Color::Red;
+    if(!(textFont.loadFromFile("../fonts/Montserrat-Medium.ttf"))) {
+        std::cerr << "Error loading font!" << std::endl;
+    }
+    coorX = x;
+    coorY = y;
+
+    // Set up button position
+    button.setSize(sf::Vector2f(buttonWidth, buttonHeight));
+    button.setFillColor(backgroundColor);
+    button.setPosition(x, y);
+    button.setOutlineColor(sf::Color::Black);
+    button.setOutlineThickness(2);
+
+    std::cout << button.getGlobalBounds().getPosition().y << '\n';
+
+    // Set up the texts
+    textLines = labels;
+
+    // Set up textholders
+    int s = 0;
+    lines.resize((int)(labels.size()));
+    for(int i = 0; i < (int)(labels.size()); ++i) {
+        lines[i].setFont(textFont);
+        lines[i].setString(textLines[i]);
+        lines[i].setCharacterSize(textSize);
+        lines[i].setFillColor(defaultTextColor);
+        s += lines[i].getLocalBounds().height;
+    }
+
+    // Center the text inside the button
+    int dist = (buttonHeight - s) / ((int)(labels.size()) + 1);
+    int tmp = 0;
+    for(int i = 0; i < (int)(labels.size()); ++i) {
+        textRect = lines[i].getLocalBounds();
+        lines[i].setPosition(
+            x + (buttonWidth - textRect.getSize().x) / 2,  // Center horizontally
+            y + dist * (i + 1) + tmp - lines[i].getGlobalBounds().top
+        );
+        std::cout << dist * (i + 1) + tmp << " " << tmp << " " << i << '\n';
+        std::cout << lines[i].getGlobalBounds().getPosition().y - y - dist * (i + 1) + tmp << '\n';
+        tmp += textRect.height;
+    }
+}
+
+void buttonWithLines::changeColor() {
+    for(auto &line: lines) {
+        line.setFillColor(hoverTextColor);
+    }
+}
+
+void buttonWithLines::returnColor() {
+    for(auto &line: lines) {
+        line.setFillColor(defaultTextColor);
+    }
+}
+
+void buttonWithLines::draw(sf::RenderWindow* mainWindow) {
+    mainWindow -> draw(button);
+    for(auto line: lines) {
+        mainWindow -> draw(line);
+    }
 }
