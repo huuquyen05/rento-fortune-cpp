@@ -2,7 +2,7 @@
 #define PROPERTY_H
 
 #include <string>
-class player;
+class Player;
 
 class Property {
 protected:

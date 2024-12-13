@@ -1,7 +1,7 @@
 #include "slot.h"
 #include "property.h"
 #include <iostream>
-extern std::vector<Slot*> slots;
+std::vector<Slot*> slots;
 
 // 物业格子
 PropertySlot::PropertySlot(Property* p) : property(p) {
@@ -199,6 +199,10 @@ void CommunityChestSlot::landOn(Player* player, std::vector<Player*>& allPlayers
     
     // 随机决定触发的卡片
     int event = rand() % 17;  // 假设有17种不同的社区宝箱事件
+    // 在 switch 语句外部初始化
+    int houses = player->getNumberOfHouses();  // 获取玩家的房子数量
+    int hotels = player->getNumberOfHotels();  // 获取玩家的酒店数量
+
     switch (event) {
         case 0:
             player->moveto(0);  // 前进到“Go”，获得200美元
@@ -274,10 +278,7 @@ void CommunityChestSlot::landOn(Player* player, std::vector<Player*>& allPlayers
         case 14:
             // 道路维修费用，按房子数量计算
             std::cout << player->getName() << " is assessed for street repairs. Pay $40 per house and $115 per hotel.\n";
-            // 假设Player类有`getNumberOfHouses`和`getNumberOfHotels`方法
-            int houses = player->getNumberOfHouses();  // 假设有此方法
-            int hotels = player->getNumberOfHotels(); // 假设有此方法
-            player->updateMoney(-(40 * houses + 115 * hotels));
+            player->updateMoney(-(40 * houses + 115 * hotels));  // 使用外部初始化的变量
             break;
         case 15:
             player->updateMoney(10);  // 美容大赛，获得10美元
@@ -291,4 +292,5 @@ void CommunityChestSlot::landOn(Player* player, std::vector<Player*>& allPlayers
             std::cout << player->getName() << " drew a Community Chest card with no effect.\n";
             break;
     }
+
 }
