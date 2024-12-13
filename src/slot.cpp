@@ -163,7 +163,8 @@ void ChanceSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
             player->moveto(39);
             break;
         case 12:
-            player->updateMoney(-50 * player->getNumberOfPlayers());  
+            player->updateMoney(-50 * (player->getNumberOfPlayers() - 1));
+            //需要给别的玩家付钱
             std::cout << player->getName() << " has been elected Chairman of the Board. Pay each player $50.\n";
             break;
         case 13:
