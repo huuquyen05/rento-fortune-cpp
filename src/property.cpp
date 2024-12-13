@@ -72,3 +72,4 @@ void Property::stationpayRent(Player* p) {
     // 输出支付信息
     std::cout << p->getName() << " paid " << rent << " rent to " << owner->getName() << " for station.\n";
 }
+
