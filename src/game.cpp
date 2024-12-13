@@ -39,7 +39,7 @@ Game::Game(int numPlayers) : currentPlayerIndex(0) {
     slots[8] = new PropertySlot(bowStreetProperty);
     Property* whitechapelRoadProperty = new Property("Whitechapel Road", 120, 2);
     slots[9] = new PropertySlot(whitechapelRoadProperty);
-    slots[10] = new GoToJailSlot();
+    slots[10] = new ParkSlot();
     Property* angelIslingtonProperty = new Property("The Angel, Islington", 140, 3);
     slots[11] = new PropertySlot(angelIslingtonProperty);
     Property* electricCompanyProperty = new Property("Electric Company", 150, 10);
