@@ -12,6 +12,13 @@ int main() {
     int slotNUm = -1;
     int inTurnPlayer = -1;
     std::vector<int> playerNumber[4];
+    int linkList[40]={
+        0,30,20,10,
+        9,8,7,6,5,4,3,2,1,
+        39,38,37,36,35,34,33,32,31,
+        21,22,23,24,25,26,27,28,29,
+        11,12,13,14,15,16,17,18,19
+    };
     //--------------------------------------------------------------------------------------------
 
     sf::VideoMode fullscreenMode = sf::VideoMode::getDesktopMode();
@@ -24,7 +31,6 @@ int main() {
     float fix = screenHeight * (1.0f / 120.0f); 
     float margin = squareSide / 18.0f;
     float fontSizeMultiplier = screenHeight / 1440;                   
-    std::cout << screenHeight << '\n';
 
     sf::Texture backgroundTexture;
     if (!backgroundTexture.loadFromFile("../assets/background.png")) {  // 替换为你的图片路径
@@ -93,8 +99,8 @@ int main() {
         button[i]=buttonWithText(sss-fix,ss,15 * fontSizeMultiplier,nameList[i],margin+ss+(i-31)*(sss-fix),margin,colorList[i]);
     }
 
-    buttonWithText quit=buttonWithText(sss,sss,20 * fontSizeMultiplier,"quit",margin/4, margin/12);
-    buttonWithText save=buttonWithText(sss,sss,20 * fontSizeMultiplier,"save",margin/3, margin/8);
+    buttonWithText quit=buttonWithText(sss,sss,30 * fontSizeMultiplier,"quit",1.7*margin, -1*margin/4);
+    buttonWithText save=buttonWithText(sss,sss,30 * fontSizeMultiplier,"save",0.2*margin, -1*margin/4);
     //----------------------------------------------------------------------------------above is button
 
     sf::RectangleShape square[45];
@@ -102,23 +108,10 @@ int main() {
     sf::RectangleShape uplayer[10];sf::RectangleShape dplayer[10];
     sf::Vector2f playerSize(ss, ss);sf::Vector2f otherSize(ss, sss/2);
 
-    //------------------------------------------------------------------------------------------------------------------------------
-    sf::RectangleShape chatBox(sf::Vector2f(fullscreenMode.width-margin*3-2*ss-8*sss,fullscreenMode.height-margin*3-ss/2-3*sss-ss));
-    chatBox.setFillColor(sf::Color(255, 239, 184));
-    chatBox.setOutlineThickness(5.0f);                         
-    chatBox.setOutlineColor(sf::Color(135, 206, 235)); 
-    chatBox.setPosition(margin*2+2*ss+8*sss, 2*margin+sss+ss); 
-
+    //------------------------------------------------------------------------------------------------------------------------------------
     TextBox info=TextBox(margin*2+2*ss+8*sss, 2*margin+sss+ss,fullscreenMode.width-margin*3-2*ss-8*sss,fullscreenMode.height-margin*3-ss/2-3*sss-ss);
     TextBox textbox=TextBox(margin*2+2*ss+8*sss, 2*margin+sss+ss+fullscreenMode.height-margin*3-ss/2-3*sss-ss,fullscreenMode.width-margin*3-2*ss-8*sss,ss/2+2*sss);
     info.setFont("../fonts/Montserrat-Black.ttf");
-    
-    sf::RectangleShape inputBox(sf::Vector2f(fullscreenMode.width-margin*3-2*ss-8*sss,ss/2+2*sss));
-    inputBox.setFillColor(sf::Color(255, 239, 184));
-    inputBox.setOutlineThickness(5.0f);                         
-    inputBox.setOutlineColor(sf::Color(135, 206, 235)); 
-    inputBox.setPosition(margin*2+2*ss+8*sss, 2*margin+sss+ss+fullscreenMode.height-margin*3-ss/2-3*sss-ss); 
-
     //------------------------------------------------------------------------------------------------------------------------------------
 
     sf::Color colorForAva[4]={
@@ -275,10 +268,6 @@ int main() {
             );
             if (innerBounds.contains(mousePositionF)) {
             square[i].setFillColor(sf::Color(112, 163, 204));  // 鼠标悬浮时变为红色
-            std::stringstream sstream;
-            sstream << "Hovering " << i << " Slots.";
-            info.clear();
-            info.addString((sstream).str());
             }else {
             square[i].setFillColor(sf::Color(143, 188, 143));  // 鼠标离开时恢复为白色
             }
@@ -302,8 +291,18 @@ int main() {
             dplayer[i].setOutlineColor(sf::Color::Black);  // 鼠标离开时恢复为白色
             }
         }
+        if(quit.isHovering((mousePosition.x), (mousePosition.y))) quit.changeColor();
+        else quit.returnColor();
+        if(save.isHovering((mousePosition.x), (mousePosition.y))) save.changeColor();
+        else save.returnColor();
         for(int i=0;i<=40;i++){
-            if(button[i].isHovering((mousePosition.x), (mousePosition.y))) button[i].changeColor();
+            if(button[i].isHovering((mousePosition.x), (mousePosition.y))){
+                button[i].changeColor();
+                std::stringstream sstream;
+                sstream << "Hovering " << linkList[i] << " Slots.";
+                info.clear();
+                info.addString((sstream).str());
+            } 
             else button[i].returnColor();
         }
         textbox.handleEvent(event);
