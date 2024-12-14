@@ -385,6 +385,19 @@ void GamePlay::updatePosition(int curPos[], Game &game) {
     }
 }
 
+bool notProperty(Slot *s) {
+    std::string check[3] = {"PropertySlot", "UtilitySlot", "RailwayStationSlot"};
+    std::string tmp = typeid(*s).name();
+    for(int i = 0; i < (int)(tmp.size()); ++i) {
+        for(int j = 0; j < 3; ++j) {
+            if(i + (int)(check[j].size()) <= (int)(tmp.size())) {
+                if(check[j] == tmp.substr(i, (int)(check[j].size()))) return 0;
+            }
+        }
+    }
+    return 1;
+}
+
 void GamePlay::renderGameScreen(std::string names[4]) {
     int slotNUm = -1;
     int inTurnPlayer = -1;
@@ -730,6 +743,54 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                 sstr << "Rolled " << d1 << " and " << d2;
                 textbox.addString(sstr.str());
                 updatePosition(curPos, game);
+                sstr.str("");
+                Player *currentPlayer = game.getAllPlayers()[game.getCurPlayer()];
+                Slot *currentSlot = slots[currentPlayer -> getPosition()];
+                sstr << currentPlayer->getName() << " rolled the dice and landed on " << currentSlot -> getName();
+                textbox.addString(sstr.str());
+
+                mainWindow -> clear();
+                mainWindow -> draw(backgroundSprite);
+                for(int i=0;i<=44;i++){
+                    mainWindow -> draw(square[i]);
+                }
+                for(int i=0;i<=9;i++){
+                    mainWindow -> draw(uplayer[i]);
+                    mainWindow -> draw(dplayer[i]);
+                    mainWindow -> draw(player[i]);
+                }
+                for(int i = 0; i < 4; ++i) {
+                    namePlates[i].draw(mainWindow);
+                    int money = game.getAllPlayers()[i]->getMoney();
+                    balancePlates[i].setText("$" + std::to_string(game.getAllPlayers()[i]->getMoney()));
+                    if(money < 0) balancePlates[i].setTextColor(sf::Color::Red);
+                    balancePlates[i].draw(mainWindow);
+                }
+                //mainWindow -> draw(chatBox);
+                textbox.drawFromTop(mainWindow);
+                info.drawFromTop(mainWindow);
+                for(int i=0;i<=39;i++) button[i].draw(mainWindow);
+
+                for(int i = 0; i < 4; ++i) {
+                    setTokenPosition(i, tokens[i], button[Listlink[curPos[i]]]);
+                }
+                for(int i = 0; i < 4; ++i) mainWindow -> draw(tokens[i]);
+                save.draw(mainWindow);
+                quit.draw(mainWindow);
+                throwDice.draw(mainWindow);
+                endTurn.draw(mainWindow);
+                mainWindow -> display();
+
+                // Process turn
+                std::cout << typeid(*currentSlot).name() << '\n';
+                std::vector <Player*> tmp = game.getAllPlayers();
+                if(notProperty(currentSlot)) {
+                    currentSlot -> landOn(currentPlayer, tmp);
+                    game.checkBankruptcy();
+                }
+
+                // End turn
+                game.nextPlayer();
             }
         } 
         else throwDice.returnColor();

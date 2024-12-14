@@ -15,6 +15,7 @@
 #include <string>
 #include <sstream>
 #include <unistd.h>
+#include <typeinfo>
 
 class GamePlay {
 private:
