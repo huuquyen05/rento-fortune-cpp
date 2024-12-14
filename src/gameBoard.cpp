@@ -22,7 +22,8 @@ int main() {
     float ss = screenHeight * (3.0f / 20.0f); 
     float sss = screenHeight * (3.0f / 40.0f); 
     float fix = screenHeight * (1.0f / 120.0f); 
-    float margin = squareSide / 18.0f;                        
+    float margin = squareSide / 18.0f;
+    float fontSizeMultiplier = screenHeight / 1440;                   
     std::cout << screenHeight << '\n';
 
     sf::Texture backgroundTexture;
@@ -46,10 +47,10 @@ int main() {
 
     buttonWithText button[40];
     
-    button[0]=buttonWithText(ss,ss,80,"GO",margin, margin+8*sss+ss);
-    button[1]=buttonWithText(ss,ss,40,"GO TO\nJail",margin+8*sss+ss, margin+8*sss+ss);
-    button[2]=buttonWithText(ss,ss,40,"FREE\nPARKING",margin+8*sss+ss, margin);
-    button[3]=buttonWithText(ss,ss,80,"Jail",margin, margin);
+    button[0]=buttonWithText(ss,ss,80 * fontSizeMultiplier,"GO",margin, margin+8*sss+ss);
+    button[1]=buttonWithText(ss,ss,40 * fontSizeMultiplier,"GO TO\nJail",margin+8*sss+ss, margin+8*sss+ss);
+    button[2]=buttonWithText(ss,ss,40 * fontSizeMultiplier,"FREE\nPARKING",margin+8*sss+ss, margin);
+    button[3]=buttonWithText(ss,ss,80 * fontSizeMultiplier,"Jail",margin, margin);
     std::string nameList[40]={
         "","","","",
         "WHITECHAPEL\nROAD","BOW\nSTREET","CHANCE","LEICESTER\nSQUARE",
@@ -80,20 +81,20 @@ int main() {
         sf::Color(255, 165, 0),sf::Color::Black,sf::Color(255, 165, 0),sf::Color(255, 165, 0),
     };
     for(int i=4;i<=12;i++){
-        button[i]=buttonWithText(ss,sss-fix,20,nameList[i],margin,margin+ss+(i-4)*(sss-fix),colorList[i]);
+        button[i]=buttonWithText(ss,sss-fix,20 * fontSizeMultiplier,nameList[i],margin,margin+ss+(i-4)*(sss-fix),colorList[i]);
     }
     for(int i=13;i<=21;i++){
-        button[i]=buttonWithText(sss-fix,ss,15,nameList[i],margin+ss+(i-13)*(sss-fix),margin+ss+9*(sss-fix),colorList[i]);
+        button[i]=buttonWithText(sss-fix,ss,15 * fontSizeMultiplier,nameList[i],margin+ss+(i-13)*(sss-fix),margin+ss+9*(sss-fix),colorList[i]);
     }
     for(int i=22;i<=30;i++){
-        button[i]=buttonWithText(ss,sss-fix,20,nameList[i],margin+ss+9*(sss-fix),margin+ss+(i-22)*(sss-fix),colorList[i]);
+        button[i]=buttonWithText(ss,sss-fix,20 * fontSizeMultiplier,nameList[i],margin+ss+9*(sss-fix),margin+ss+(i-22)*(sss-fix),colorList[i]);
     }
     for(int i=31;i<=39;i++){
-        button[i]=buttonWithText(sss-fix,ss,15,nameList[i],margin+ss+(i-31)*(sss-fix),margin,colorList[i]);
+        button[i]=buttonWithText(sss-fix,ss,15 * fontSizeMultiplier,nameList[i],margin+ss+(i-31)*(sss-fix),margin,colorList[i]);
     }
 
-    buttonWithText quit=buttonWithText(sss,sss,20,"quit",margin/4, margin/12);
-    buttonWithText save=buttonWithText(sss,sss,20,"save",margin/3, margin/8);
+    buttonWithText quit=buttonWithText(sss,sss,20 * fontSizeMultiplier,"quit",margin/4, margin/12);
+    buttonWithText save=buttonWithText(sss,sss,20 * fontSizeMultiplier,"save",margin/3, margin/8);
     //----------------------------------------------------------------------------------above is button
 
     sf::RectangleShape square[45];
