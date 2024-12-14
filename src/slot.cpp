@@ -21,6 +21,14 @@ std::string PropertySlot::getDescription() {
     return name + "\n" + "Price：" + std::to_string(property->getPrice()) + "\n" + "Upgrade Price：" + std::to_string(property->getPrice()/2) + "\n" + std::to_string(property->getLevel()) + "\n" + property->getOwner()->getName() + "\n" + "Property";
 }
 
+std::string PropertySlot::getOwner() {
+    return property->getOwner()->getName();
+}
+
+int PropertySlot::getLevel() {
+    return property->getLevel();
+}
+
 // 停车场格子
 ParkSlot::ParkSlot() {
     name = "Free Parking";
@@ -97,6 +105,14 @@ void RailwayStationSlot::landOn(Player* player, std::vector<Player*>& allPlayers
 
 std::string RailwayStationSlot::getDescription() {
     return name + "\n" + "Price：" + std::to_string(property->getPrice()) + "\n" + property->getOwner()->getName() + "\n" + "Railway Station";
+}
+
+std::string RailwayStationSlot::getOwner() {
+    return property->getOwner()->getName();
+}
+
+int RailwayStationSlot::getLevel() {
+    return property->getLevel();
 }
 
 // 机会卡格子
@@ -221,6 +237,14 @@ void UtilitySlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
 
 std::string UtilitySlot::getDescription() {
     return name + "\n" + "Price：" + std::to_string(property->getPrice()) + "\n" + property->getOwner()->getName() + "\n" + "Utility";
+}
+
+std::string UtilitySlot::getOwner() {
+    return property->getOwner()->getName();
+}
+
+int UtilitySlot::getLevel() {
+    return property->getLevel();
 }
 
 CommunityChestSlot::CommunityChestSlot() {
