@@ -42,6 +42,17 @@ void TextBox::addString(std::string s) {
     enLine = (int)(lines.size());
 }
 
+void TextBox::setFont(std::string path) {
+    if(!font.loadFromFile(path)) {
+        std::cout << "Can't load font for textbox\n";
+    }
+}
+
+void TextBox::clear() {
+    this -> lines.clear();
+    this -> input.clear();
+}
+
 void TextBox::updateLines() {
     lines.clear();
     sf::Text line;

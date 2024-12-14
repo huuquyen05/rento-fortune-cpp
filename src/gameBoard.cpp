@@ -11,6 +11,7 @@ int main() {
 
     sf::VideoMode fullscreenMode = sf::VideoMode::getDesktopMode();
     sf::RenderWindow mainWindow(fullscreenMode, "Main Window", sf::Style::Fullscreen);
+    mainWindow.setFramerateLimit(30);
 
     float screenHeight = fullscreenMode.height;
     float squareSide = screenHeight * (18.0f / 20.0f);  

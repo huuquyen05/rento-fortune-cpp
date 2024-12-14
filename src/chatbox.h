@@ -20,7 +20,9 @@ protected:
 public:
     TextBox();
     TextBox(int x, int y, int width, int height);
+    void setFont(std::string path);
     void addString(std::string text);
+    void clear();
     void updateLines();
     void drawFromTop(sf::RenderWindow* window);
     void drawFromBottom(sf::RenderWindow* window);
