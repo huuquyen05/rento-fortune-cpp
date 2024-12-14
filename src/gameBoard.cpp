@@ -2,16 +2,20 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <iostream>
+#include <vector>
 #include "button.h"
+#include "chatbox.h"
 #include <string>
+#include <sstream>
 
 int main() {
-    
+    int slotNUm = -1;
+    int inTurnPlayer = -1;
+    std::vector<int> playerNumber[4];
     //--------------------------------------------------------------------------------------------
 
     sf::VideoMode fullscreenMode = sf::VideoMode::getDesktopMode();
     sf::RenderWindow mainWindow(fullscreenMode, "Main Window", sf::Style::Fullscreen);
-    mainWindow.setFramerateLimit(30);
 
     float screenHeight = fullscreenMode.height;
     float squareSide = screenHeight * (18.0f / 20.0f);  
@@ -68,7 +72,7 @@ int main() {
         sf::Color::Blue,sf::Color::Black,sf::Color::Blue,
         sf::Color::Black,sf::Color::Black,
         sf::Color::Green,sf::Color::Black,sf::Color::Green,sf::Color::Green,
-        sf::Color::Red,sf::Color::Black,sf::Color::Red,sf::Color::Red,
+        sf::Color(255, 192, 203),sf::Color::Black,sf::Color(255, 192, 203),sf::Color(255, 192, 203),
         sf::Color::Black,
         sf::Color::Yellow,sf::Color::Yellow,sf::Color::Black,sf::Color::Yellow,
         sf::Color(128, 0, 128),sf::Color::Black,sf::Color(128, 0, 128),sf::Color(128, 0, 128),
@@ -87,6 +91,9 @@ int main() {
     for(int i=31;i<=39;i++){
         button[i]=buttonWithText(sss-fix,ss,15,nameList[i],margin+ss+(i-31)*(sss-fix),margin,colorList[i]);
     }
+
+    buttonWithText quit=buttonWithText(sss,sss,20,"quit",margin/4, margin/12);
+    buttonWithText save=buttonWithText(sss,sss,20,"save",margin/3, margin/8);
     //----------------------------------------------------------------------------------above is button
 
     sf::RectangleShape square[45];
@@ -94,41 +101,46 @@ int main() {
     sf::RectangleShape uplayer[10];sf::RectangleShape dplayer[10];
     sf::Vector2f playerSize(ss, ss);sf::Vector2f otherSize(ss, sss/2);
 
-    sf::RectangleShape chatBox(sf::Vector2f(fullscreenMode.width-margin*3-2*ss-8*sss,fullscreenMode.height-margin*3-ss/2-sss-ss));
+    //------------------------------------------------------------------------------------------------------------------------------
+    sf::RectangleShape chatBox(sf::Vector2f(fullscreenMode.width-margin*3-2*ss-8*sss,fullscreenMode.height-margin*3-ss/2-3*sss-ss));
     chatBox.setFillColor(sf::Color(255, 239, 184));
     chatBox.setOutlineThickness(5.0f);                         
     chatBox.setOutlineColor(sf::Color(135, 206, 235)); 
     chatBox.setPosition(margin*2+2*ss+8*sss, 2*margin+sss+ss); 
 
-    sf::RectangleShape inputBox(sf::Vector2f(fullscreenMode.width-margin*3-2*ss-8*sss-ss,ss/2));
+    TextBox info=TextBox(margin*2+2*ss+8*sss, 2*margin+sss+ss,fullscreenMode.width-margin*3-2*ss-8*sss,fullscreenMode.height-margin*3-ss/2-3*sss-ss);
+    TextBox textbox=TextBox(margin*2+2*ss+8*sss, 2*margin+sss+ss+fullscreenMode.height-margin*3-ss/2-3*sss-ss,fullscreenMode.width-margin*3-2*ss-8*sss,ss/2+2*sss);
+    info.setFont("../fonts/Montserrat-Black.ttf");
+    
+    sf::RectangleShape inputBox(sf::Vector2f(fullscreenMode.width-margin*3-2*ss-8*sss,ss/2+2*sss));
     inputBox.setFillColor(sf::Color(255, 239, 184));
     inputBox.setOutlineThickness(5.0f);                         
     inputBox.setOutlineColor(sf::Color(135, 206, 235)); 
-    inputBox.setPosition(margin*2+2*ss+8*sss+ss, 2*margin+sss+ss+fullscreenMode.height-margin*3-ss/2-sss-ss); 
+    inputBox.setPosition(margin*2+2*ss+8*sss, 2*margin+sss+ss+fullscreenMode.height-margin*3-ss/2-3*sss-ss); 
 
-    sf::RectangleShape chooseBox(sf::Vector2f(ss,ss/2));
-    chooseBox.setFillColor(sf::Color(255, 239, 184));
-    chooseBox.setOutlineThickness(5.0f);                         
-    chooseBox.setOutlineColor(sf::Color(135, 206, 235)); 
-    chooseBox.setPosition(margin*2+2*ss+8*sss, 2*margin+sss+ss+fullscreenMode.height-margin*3-ss/2-sss-ss); 
+    //------------------------------------------------------------------------------------------------------------------------------------
+
+    sf::Color colorForAva[4]={
+        sf::Color::Red, sf::Color::Green, sf::Color::Blue, sf::Color(242, 107, 15)
+    };
 
     for(int i=0;i<=3;i++){
         uplayer[i].setSize(otherSize);
         uplayer[i].setFillColor(sf::Color(143, 188, 143));
-        uplayer[i].setOutlineThickness(5.0f);                         
-        uplayer[i].setOutlineColor(sf::Color(135, 206, 235));
+        uplayer[i].setOutlineThickness(5.0f);             
+        uplayer[i].setOutlineColor(sf::Color::Black);
         uplayer[i].setPosition(2*margin+(2+i)*ss+8*sss+i*((fullscreenMode.width-margin*3-6*ss-8*sss)/3), margin); 
 
         player[i].setSize(playerSize);
-        player[i].setFillColor(sf::Color(143, 188, 143));
+        player[i].setFillColor(colorForAva[i]);
         player[i].setOutlineThickness(5.0f);                         
-        player[i].setOutlineColor(sf::Color(135, 206, 235));
+        player[i].setOutlineColor(sf::Color::Black);
         player[i].setPosition(2*margin+(2+i)*ss+8*sss+i*((fullscreenMode.width-margin*3-6*ss-8*sss)/3), margin+sss/2); 
         
         dplayer[i].setSize(otherSize);
         dplayer[i].setFillColor(sf::Color(143, 188, 143));
         dplayer[i].setOutlineThickness(5.0f);                         
-        dplayer[i].setOutlineColor(sf::Color(135, 206, 235));
+        dplayer[i].setOutlineColor(sf::Color::Black);
         dplayer[i].setPosition(2*margin+(2+i)*ss+8*sss+i*((fullscreenMode.width-margin*3-6*ss-8*sss)/3), margin+sss/2+ss); 
     }
     
@@ -262,14 +274,39 @@ int main() {
             );
             if (innerBounds.contains(mousePositionF)) {
             square[i].setFillColor(sf::Color(112, 163, 204));  // 鼠标悬浮时变为红色
+            std::stringstream sstream;
+            sstream << "Hovering " << i << " Slots.";
+            info.clear();
+            info.addString((sstream).str());
             }else {
             square[i].setFillColor(sf::Color(143, 188, 143));  // 鼠标离开时恢复为白色
             }
         }
+        for(int i=0;i<=3;i++){
+            float outlineThickness = player[i].getOutlineThickness();
+            sf::FloatRect globalBounds = player[i].getGlobalBounds();
+            sf::FloatRect innerBounds(
+                globalBounds.left + outlineThickness,                    
+                globalBounds.top + outlineThickness,                     // 内部上边界
+                globalBounds.width - 2 * outlineThickness,               // 内部宽度
+                globalBounds.height - 2 * outlineThickness               // 内部高度
+            );
+            if (innerBounds.contains(mousePositionF)) {
+            player[i].setOutlineColor(sf::Color(135, 206, 235));
+            uplayer[i].setOutlineColor(sf::Color(135, 206, 235));
+            dplayer[i].setOutlineColor(sf::Color(135, 206, 235));  // 鼠标悬浮时变为红色
+            }else {
+            player[i].setOutlineColor(sf::Color::Black);
+            uplayer[i].setOutlineColor(sf::Color::Black);
+            dplayer[i].setOutlineColor(sf::Color::Black);  // 鼠标离开时恢复为白色
+            }
+        }
         for(int i=0;i<=40;i++){
-            if(button[i].isHovering(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y))) button[i].changeColor();
+            if(button[i].isHovering((mousePosition.x), (mousePosition.y))) button[i].changeColor();
             else button[i].returnColor();
         }
+        textbox.handleEvent(event);
+        info.handleEvent(event);
         // 绘制主窗口内容
         mainWindow.clear();
         mainWindow.draw(backgroundSprite);
@@ -278,13 +315,15 @@ int main() {
         }
         for(int i=0;i<=9;i++){
             mainWindow.draw(uplayer[i]);
-            mainWindow.draw(player[i]);
             mainWindow.draw(dplayer[i]);
+            mainWindow.draw(player[i]);
         }
-        mainWindow.draw(chatBox);
-        mainWindow.draw(inputBox);
-        mainWindow.draw(chooseBox);
+        //mainWindow.draw(chatBox);
+        textbox.drawFromTop(&mainWindow);
+        info.drawFromTop(&mainWindow);
         for(int i=0;i<=39;i++) button[i].draw(&mainWindow);
+        save.draw(&mainWindow);
+        quit.draw(&mainWindow);
         mainWindow.display();
     }
 
