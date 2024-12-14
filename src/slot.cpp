@@ -12,6 +12,7 @@ PropertySlot::PropertySlot(Property* p) : property(p) {
     name = property->getName();
 }
 
+
 void PropertySlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
     if (property->getOwner() == nullptr) {
         // to be continue
@@ -44,6 +45,11 @@ ParkSlot::ParkSlot() {
     name = "Free Parking";
 }
 
+std::string ParkSlot::getOwner(){
+    return "Invalid";
+}
+
+
 void ParkSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
     // 公园格子触发的事件，例如获得奖金或其他操作
     std::cout << player->getName() << " landed on Park.\n";
@@ -56,6 +62,12 @@ std::string ParkSlot::getDescription() {
 // 超税格子
 SuperTaxSlot::SuperTaxSlot() {
     name = "Super Tax";
+}
+
+
+
+std::string SuperTaxSlot::getOwner(){
+    return "Invalid";
 }
 
 void SuperTaxSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
@@ -73,6 +85,11 @@ LuxuryTaxSlot::LuxuryTaxSlot() {
     name = "Luxury Tax";
 }
 
+
+std::string LuxuryTaxSlot::getOwner(){
+    return "Invalid";
+}
+
 void LuxuryTaxSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
     // 奢侈税格子触发的事件，例如支付奢侈税
     player->updateMoney(-75);  // 假设奢侈税为75
@@ -86,6 +103,11 @@ std::string LuxuryTaxSlot::getDescription() {
 // 监狱格子
 GoToJailSlot::GoToJailSlot() {
     name = "Go to Jail";
+}
+
+
+std::string GoToJailSlot::getOwner(){
+    return "Invalid";
 }
 
 void GoToJailSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
@@ -113,6 +135,8 @@ void RailwayStationSlot::landOn(Player* player, std::vector<Player*>& allPlayers
     }
 }
 
+
+
 std::string RailwayStationSlot::getDescription() {
     return name + "\n" 
            + "Price: " + std::to_string(property->getPrice()) + "\n" 
@@ -133,6 +157,12 @@ int RailwayStationSlot::getLevel() {
 ChanceSlot::ChanceSlot() {
     name = "Chance";
 }
+
+std::string ChanceSlot::getOwner(){
+    return "Invalid";
+}
+
+
 
 void ChanceSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
     // 机会卡触发的事件，例如玩家抽到机会卡
@@ -249,6 +279,8 @@ void UtilitySlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
     }
 }
 
+
+
 std::string UtilitySlot::getDescription() {
     return name + "\n" 
            + "Price: " + std::to_string(property->getPrice()) + "\n" 
@@ -267,6 +299,11 @@ int UtilitySlot::getLevel() {
 
 CommunityChestSlot::CommunityChestSlot() {
     name = "Community Chest";
+}
+
+
+std::string CommunityChestSlot::getOwner(){
+    return "Invalid";
 }
 
 void CommunityChestSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
