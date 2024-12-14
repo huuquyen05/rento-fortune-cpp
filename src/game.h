@@ -19,7 +19,7 @@ public:
     void initGame();
     int getCurPlayer();
     void startTurn();
-    void rollDice();
+    std::pair<int, int> rollDice();
     void processTurn();
     void checkBankruptcy();
     void nextPlayer();

@@ -377,6 +377,14 @@ void GamePlay::setTokenPosition(int index, sf::CircleShape &c,buttonWithText &cu
     c.setPosition(sf::Vector2f(x, y));
 }
 
+void GamePlay::updatePosition(int curPos[], Game &game) {
+    int index = 0;
+    for(auto player: game.getAllPlayers()) {
+        curPos[index++] = player -> getPosition();
+        if(index == 1) std::cout << player -> getPosition() << '\n';
+    }
+}
+
 void GamePlay::renderGameScreen(std::string names[4]) {
     int slotNUm = -1;
     int inTurnPlayer = -1;
@@ -389,6 +397,13 @@ void GamePlay::renderGameScreen(std::string names[4]) {
         39,38,37,36,35,34,33,32,31,
         21,22,23,24,25,26,27,28,29,
         11,12,13,14,15,16,17,18,19
+    };
+    int Listlink[40]={
+        0,
+        13,12,11,10,9,8,7,6,5,3,
+        31,32,33,34,35,36,37,38,39,2,
+        22,23,24,25,26,27,28,29,30,1,
+        21,20,19,18,17,16,15,14,4
     };
     //--------------------------------------------------------------------------------------------
 
@@ -693,10 +708,22 @@ void GamePlay::renderGameScreen(std::string names[4]) {
         else quit.returnColor();
         if(save.isHovering((mousePosition.x), (mousePosition.y))) save.changeColor();
         else save.returnColor();
+
         if(endTurn.isHovering((mousePosition.x), (mousePosition.y))) endTurn.changeColor();
         else endTurn.returnColor();
-        if(throwDice.isHovering((mousePosition.x), (mousePosition.y))) throwDice.changeColor();
+
+        if(throwDice.isHovering((mousePosition.x), (mousePosition.y))){
+            throwDice.changeColor();
+            if(throwDice.isClicked((mousePosition.x), (mousePosition.y))) {
+                auto [d1, d2] = game.rollDice();
+                std::stringstream sstr;
+                sstr << "Rolled " << d1 << " and " << d2;
+                textbox.addString(sstr.str());
+                updatePosition(curPos, game);
+            }
+        } 
         else throwDice.returnColor();
+
         for(int i=0;i<=40;i++){
             if(button[i].isHovering((mousePosition.x), (mousePosition.y))){
                 button[i].changeColor();
@@ -730,17 +757,9 @@ void GamePlay::renderGameScreen(std::string names[4]) {
         info.drawFromTop(mainWindow);
         for(int i=0;i<=39;i++) button[i].draw(mainWindow);
 
-        // remove this later
         for(int i = 0; i < 4; ++i) {
-            curPos[i] = (curPos[i] + 1) % 40;
-            for(int j = 0; j < 40; ++j) {
-                if(curPos[i] == linkList[j]) {
-                    setTokenPosition(i, tokens[i], button[j]);
-                }
-            }
+            setTokenPosition(i, tokens[i], button[linkList[curPos[i]]]);
         }
-        //
-
         for(int i = 0; i < 4; ++i) mainWindow -> draw(tokens[i]);
         save.draw(mainWindow);
         quit.draw(mainWindow);

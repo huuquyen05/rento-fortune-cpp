@@ -31,6 +31,7 @@ public:
     void renderSettingScreen();
     void renderGameScreen(std::string names[4]);
     void setTokenPosition(int index, sf::CircleShape &c,buttonWithText &curSlot);
+    void updatePosition(int curPos[], Game &game);
 };
 
 #endif

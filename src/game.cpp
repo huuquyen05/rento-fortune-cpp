@@ -204,7 +204,7 @@ void Game::startTurn() {
 }
 
 // Roll two dice and move the player accordingly
-void Game::rollDice() {
+std::pair<int, int> Game::rollDice() {
     int dice1 = rand() % 6 + 1;  // Random roll for the first die
     int dice2 = rand() % 6 + 1;  // Random roll for the second die
     std::cout << "Rolled: " << dice1 << " and " << dice2 << "\n";
@@ -221,6 +221,7 @@ void Game::rollDice() {
         }
     }
     //std::cout<<"enter"<<std::endl;
+    return {dice1, dice2};
 }
 
 // Handle the current player's turn (land on a slot and trigger its event)
