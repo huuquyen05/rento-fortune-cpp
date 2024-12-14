@@ -516,6 +516,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
 
     int curPos[4] = {0}; // temp
     buttonWithText namePlates[4];
+    buttonWithText balancePlates[4];
 
     for(int i=0;i<=3;i++){
         uplayer[i].setSize(otherSize);
@@ -544,6 +545,15 @@ void GamePlay::renderGameScreen(std::string names[4]) {
         dplayer[i].setOutlineThickness(5.0f);                         
         dplayer[i].setOutlineColor(sf::Color::Black);
         dplayer[i].setPosition(2*margin+(2+i)*ss+8*sss+i*((fullscreenMode.width-margin*3-6*ss-8*sss)/3), margin+sss/2+ss); 
+
+        balancePlates[i] = buttonWithText(
+            (int)otherSize.x,
+            (int)otherSize.y,
+            20,
+            "0",
+            2*margin+(2+i)*ss+8*sss+i*((fullscreenMode.width-margin*3-6*ss-8*sss)/3),
+            margin+sss/2+ss
+        );
     }
     
     sf::Vector2f newSize(squareSide, squareSide);
@@ -730,7 +740,6 @@ void GamePlay::renderGameScreen(std::string names[4]) {
             } 
             else button[i].returnColor();
             if(button[i].isClicked((mousePosition.x), (mousePosition.y))){
-                std::string shit = slots[linkList[i]] -> getDescription();s
                 info.clear();
                 info.addString(slots[linkList[i]] -> getDescription());
             }
@@ -750,6 +759,10 @@ void GamePlay::renderGameScreen(std::string names[4]) {
         }
         for(int i = 0; i < 4; ++i) {
             namePlates[i].draw(mainWindow);
+            int money = game.getAllPlayers()[i]->getMoney();
+            balancePlates[i].setText("$" + std::to_string(game.getAllPlayers()[i]->getMoney()));
+            if(money < 0) balancePlates[i].setTextColor(sf::Color::Red);
+            balancePlates[i].draw(mainWindow);
         }
         //mainWindow -> draw(chatBox);
         textbox.drawFromTop(mainWindow);
