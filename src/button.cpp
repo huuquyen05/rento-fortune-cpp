@@ -15,6 +15,10 @@ buttonGeneral::buttonGeneral(int width, int height, int x, int y, sf::Color c) {
     button.setPosition(x, y);
 }
 
+std::tuple <int, int, int, int> buttonGeneral::getPos() {
+    return {coorX, coorX + buttonWidth, coorY, coorY + buttonHeight};
+}
+
 bool buttonGeneral::isHovering(int x, int y) {
     return coorX <= x && x <= coorX + buttonWidth && coorY <= y && y <= coorY + buttonHeight; 
 }

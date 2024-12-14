@@ -7,6 +7,25 @@
 #include "chatbox.h"
 #include <string>
 #include <sstream>
+#include <unistd.h>
+
+void setTokenPosition(int index, sf::CircleShape &c,buttonWithText &curSlot) {
+    auto [x1, x2, y1, y2] = curSlot.getPos();
+    float radius = c.getRadius();
+
+    int x, y;
+    float dist = radius * 2 + 5;
+
+    float dx = (x2 - x1 - dist) / 2;
+    if(index < 2) x = x1 + dx;
+    else x = x2 - dx;
+
+    float dy = (y2 - y1 - dist) / 2;
+    if(index % 2 == 0) y = y1 + dy;
+    else y = y2 - dy;
+
+    c.setPosition(sf::Vector2f(x, y));
+}
 
 int main() {
     int slotNUm = -1;
@@ -61,7 +80,7 @@ int main() {
         "","","","",
         "WHITECHAPEL\nROAD","BOW\nSTREET","CHANCE","LEICESTER\nSQUARE",
         "MARYLEBONE\nSTATION",
-        "INCOME\nTEX","CONVENTRY\nSTREET","COMMUNITY\nCHEST","VINE\nSTREET",
+        "INCOME\nTAX","CONVENTRY\nSTREET","COMMUNITY\nCHEST","VINE\nSTREET",
         "MAY-\nFAIR","SUPER\nTAX","PARK\nLANE","CHANCE",
         "LIVER-\nPOOL\nST.\nSTA-\nTION",
         "OXFORD\nSTREET","COM-\nMUNITY\nCHEST","PICCA-\nDILLY","EUSTON\nROAD",
@@ -117,6 +136,18 @@ int main() {
     sf::Color colorForAva[4]={
         sf::Color::Red, sf::Color::Green, sf::Color::Blue, sf::Color(242, 107, 15)
     };
+
+    sf::CircleShape tokens[4];
+    for(int i = 0; i < 4; ++i) {
+        tokens[i].setRadius(margin / 6);
+        tokens[i].setFillColor(colorForAva[i]);
+        tokens[i].setOutlineColor(sf::Color::Black);
+        tokens[i].setOutlineThickness(1);
+        tokens[i].setOrigin(tokens[i].getRadius(), tokens[i].getRadius());
+        setTokenPosition(i, tokens[i], button[10]);
+    }
+
+    int curPos[4] = {0}; // temp
 
     for(int i=0;i<=3;i++){
         uplayer[i].setSize(otherSize);
@@ -322,9 +353,23 @@ int main() {
         textbox.drawFromTop(&mainWindow);
         info.drawFromTop(&mainWindow);
         for(int i=0;i<=39;i++) button[i].draw(&mainWindow);
+
+        // remove this later
+        for(int i = 0; i < 4; ++i) {
+            curPos[i] = (curPos[i] + 1) % 40;
+            for(int j = 0; j < 40; ++j) {
+                if(curPos[i] == linkList[j]) {
+                    setTokenPosition(i, tokens[i], button[j]);
+                }
+            }
+        }
+        //
+
+        for(int i = 0; i < 4; ++i) mainWindow.draw(tokens[i]);
         save.draw(&mainWindow);
         quit.draw(&mainWindow);
         mainWindow.display();
+        usleep(100000);
     }
 
     return 0;

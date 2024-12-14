@@ -16,6 +16,7 @@ public:
     buttonGeneral(int width, int height, int x, int y, sf::Color c);
     bool isHovering(int x, int y);
     bool isClicked(int x, int y);
+    std::tuple <int, int, int, int> getPos();
     virtual void changeColor(sf::Color cNew);
     virtual void draw(sf::RenderWindow* mainWindow);
 };
