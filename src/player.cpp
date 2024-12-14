@@ -30,6 +30,10 @@ int Player::getPlayerIndex() const {
     return playerIndex;
 }
 
+int Player::getOutJailCard() const {
+    return outJailcard;
+}
+
 int Player::getNumberOfPlayers() const {
     return NumberOfPlayers;
 }
@@ -140,6 +144,10 @@ void Player::haveoutJailcard() {
 
 void Player::useoutJailcard() {
     --outJailcard;
+}
+
+void Player::setoutJailCard(int n) {
+    outJailcard=n;
 }
 
 bool Player::isBankrupt() const {
