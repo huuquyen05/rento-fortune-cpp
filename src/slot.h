@@ -2,6 +2,7 @@
 #define SLOT_H
 
 #include <string>
+#include <sstream>
 #include "player.h"
 #include "property.h"
 
@@ -11,7 +12,7 @@ protected:
     std::string name;  // 格子的名称
 
 public:
-    virtual void landOn(Player* player, std::vector<Player*>& allPlayers) = 0;  // 玩家落到该格子时触发的操作
+    virtual std::string landOn(Player* player, std::vector<Player*>& allPlayers) = 0;  // 玩家落到该格子时触发的操作
     std::string getName(); // 获取格子的名称
     virtual std::string getOwner()=0;
     virtual std::string getDescription() = 0; // 获取格子的所有信息
@@ -24,7 +25,7 @@ private:
 
 public:
     PropertySlot(Property* p);
-    void landOn(Player* player, std::vector<Player*>& allPlayers) override;
+    std::string landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
     std::string getOwner() override;
     int getLevel();
@@ -37,7 +38,7 @@ public:
 class ParkSlot : public Slot {
 public:
     ParkSlot();
-    void landOn(Player* player, std::vector<Player*>& allPlayers) override;
+    std::string landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
     std::string getOwner() override;
 };
@@ -46,7 +47,7 @@ public:
 class SuperTaxSlot : public Slot {
 public:
     SuperTaxSlot();
-    void landOn(Player* player, std::vector<Player*>& allPlayers) override;
+    std::string landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
     std::string getOwner() override;
 };
@@ -55,7 +56,7 @@ public:
 class LuxuryTaxSlot : public Slot {
 public:
     LuxuryTaxSlot();
-    void landOn(Player* player, std::vector<Player*>& allPlayers) override;
+    std::string landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
     std::string getOwner() override;
 };
@@ -64,7 +65,7 @@ public:
 class ChanceSlot : public Slot {
 public:
     ChanceSlot();
-    void landOn(Player* player, std::vector<Player*>& allPlayers) override;
+    std::string landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
     std::string getOwner() override;
 };
@@ -73,7 +74,7 @@ public:
 class GoToJailSlot : public Slot {
 public:
     GoToJailSlot();
-    void landOn(Player* player, std::vector<Player*>& allPlayers) override;
+    std::string landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
     std::string getOwner() override;
 };
@@ -85,7 +86,7 @@ private:
 
 public:
     RailwayStationSlot(Property* p);
-    void landOn(Player* player, std::vector<Player*>& allPlayers) override;
+    std::string landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
     std::string getOwner() override;
     int getLevel();
@@ -98,7 +99,7 @@ public:
 class CommunityChestSlot : public Slot {
 public:
     CommunityChestSlot();
-    void landOn(Player* player, std::vector<Player*>& allPlayers) override;
+    std::string landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
     std::string getOwner() override;
 };
@@ -113,7 +114,7 @@ private:
 
 public:
     UtilitySlot(Property* p);
-    void landOn(Player* player, std::vector<Player*>& allPlayers) override;
+    std::string landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
     std::string getOwner() override;
     int getLevel();

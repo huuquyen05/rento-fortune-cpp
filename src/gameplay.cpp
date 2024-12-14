@@ -785,7 +785,8 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                 std::cout << typeid(*currentSlot).name() << '\n';
                 std::vector <Player*> tmp = game.getAllPlayers();
                 if(notProperty(currentSlot)) {
-                    currentSlot -> landOn(currentPlayer, tmp);
+                    std::string INFO = currentSlot -> landOn(currentPlayer, tmp);
+                    textbox.addString(INFO);
                     game.checkBankruptcy();
                 }
 
