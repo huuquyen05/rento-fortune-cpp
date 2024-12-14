@@ -94,88 +94,6 @@ Game::Game(int numPlayers) : currentPlayerIndex(0) {
     // 可以继续添加更多格子...
 }
 
-Game::Game(std::string names[4]) : currentPlayerIndex(0) {
-    int numPlayers = 4;
-    // Loop to create players with user-defined names
-    for (int i = 0; i < numPlayers; ++i) {
-        std::string playerName = names[i];
-        players.push_back(new Player(playerName, 1500, 1));
-        playerNameToIndex[playerName] = i;  // Map player name to index
-    }
-
-    // 初始化棋盘
-    slots.resize(40);
-    slots[0] = new ParkSlot();
-    Property* vineStreetProperty = new Property("Vine Street", 60, 1);
-    slots[1] = new PropertySlot(vineStreetProperty);
-    slots[2] = new CommunityChestSlot();
-    Property* coventryStreetProperty = new Property("Coventry Street", 60, 1);
-    slots[3] = new PropertySlot(coventryStreetProperty);
-    slots[4] = new LuxuryTaxSlot();
-    Property* maryleboneStationProperty = new Property("Marylebone Station", 200, 9);
-    slots[5] = new RailwayStationSlot(maryleboneStationProperty);
-    Property* leicesterSquareProperty = new Property("Leicester Square", 100, 2);
-    slots[6] = new PropertySlot(leicesterSquareProperty);
-    slots[7] = new ChanceSlot();
-    Property* bowStreetProperty = new Property("Bow Street", 100, 2);
-    slots[8] = new PropertySlot(bowStreetProperty);
-    Property* whitechapelRoadProperty = new Property("Whitechapel Road", 120, 2);
-    slots[9] = new PropertySlot(whitechapelRoadProperty);
-    slots[10] = new ParkSlot();
-    Property* angelIslingtonProperty = new Property("The Angel, Islington", 140, 3);
-    slots[11] = new PropertySlot(angelIslingtonProperty);
-    Property* electricCompanyProperty = new Property("Electric Company", 150, 10);
-    slots[12] = new UtilitySlot(electricCompanyProperty);
-    Property* trafalgarSquareProperty = new Property("Trafalgar Square", 140, 3);
-    slots[13] = new PropertySlot(trafalgarSquareProperty);
-    Property* northumrlAvenueProperty = new Property("Northumrl'd Avenue", 160, 3);
-    slots[14] = new PropertySlot(northumrlAvenueProperty);
-    Property* fenchurchStationProperty = new Property("Fenchurch st.Station", 200, 9);
-    slots[15] = new RailwayStationSlot(fenchurchStationProperty);
-    Property* mBoroughStreetProperty = new Property("M'Borough Street", 180, 4);
-    slots[16] = new PropertySlot(mBoroughStreetProperty);
-    slots[17] = new CommunityChestSlot();
-    Property* fleetStreetProperty = new Property("Fleet Street", 180, 4);
-    slots[18] = new PropertySlot(fleetStreetProperty);
-    Property* oldKentRoadProperty = new Property("Old Kent Road", 200, 4);
-    slots[19] = new PropertySlot(oldKentRoadProperty);
-    slots[20] = new ParkSlot();
-    Property* whiteHallProperty = new Property("White Hall", 220, 5);
-    slots[21] = new PropertySlot(whiteHallProperty);
-    slots[22] = new ChanceSlot();
-    Property* pentonvilleRoadProperty = new Property("Pentonville Road", 220, 5);
-    slots[23] = new PropertySlot(pentonvilleRoadProperty);
-    Property* pallMallProperty = new Property("Pall Mall", 240, 5);
-    slots[24] = new PropertySlot(pallMallProperty);
-    Property* kingsCrossStationProperty = new Property("Kings Cross Station", 200, 9);
-    slots[25] = new RailwayStationSlot(kingsCrossStationProperty);
-    Property* bondStreetProperty = new Property("Bond Street", 260, 6);
-    slots[26] = new PropertySlot(bondStreetProperty);
-    Property* strandProperty = new Property("Strand", 260, 6);
-    slots[27] = new PropertySlot(strandProperty);
-    Property* waterWorksProperty = new Property("Water Works", 150, 10);
-    slots[28] = new UtilitySlot(waterWorksProperty);
-    Property* regentStreetProperty = new Property("Regent Street", 280, 6);
-    slots[29] = new PropertySlot(regentStreetProperty);
-    slots[30] = new GoToJailSlot();
-    Property* eustonRoadProperty = new Property("Euston Road", 300, 7);
-    slots[31] = new PropertySlot(eustonRoadProperty);
-    Property* piccadillyProperty = new Property("Piccadilly", 300, 7);
-    slots[32] = new PropertySlot(piccadillyProperty);
-    slots[33] = new CommunityChestSlot();
-    Property* oxfordStreetProperty = new Property("Oxford Street", 320, 7);
-    slots[34] = new PropertySlot(oxfordStreetProperty);
-    Property* liverpoolStationProperty = new Property("Liverpool st.Station", 200, 9);
-    slots[35] = new RailwayStationSlot(liverpoolStationProperty);
-    slots[36] = new ChanceSlot();
-    Property* parkLaneProperty = new Property("Park Lane", 350, 8);
-    slots[37] = new PropertySlot(parkLaneProperty);
-    slots[38] = new SuperTaxSlot();
-    Property* mayfairProperty = new Property("Mayfair", 400, 8);
-    slots[39] = new PropertySlot(mayfairProperty);
-    // 可以继续添加更多格子...
-}
-
 // Method to get all players for other purposes (e.g., Chance cards)
 std::vector<Player*> Game::getAllPlayers() {
     return players;
@@ -184,6 +102,10 @@ std::vector<Player*> Game::getAllPlayers() {
 // Method to get the number of players in the game
 int Game::getNumOfPlayers() {
     return players.size();
+}
+
+int Game::getCurPlayer(){
+    return currentPlayerIndex;
 }
 
 // Initialize game settings, like shuffling cards or other initializations
