@@ -28,6 +28,7 @@ public:
     // 获取玩家信息
     std::string getName() const;
     int getMoney() const;
+    int getOutJailCard() const;
     int getPosition() const;
     int getColourOfToken() const;
     int getPlayerIndex() const;
@@ -46,6 +47,7 @@ public:
     bool checkoutJailcard() const; // 检查是否有出狱卡
     void haveoutJailcard(); // 使玩家拥有出狱卡
     void useoutJailcard(); // 玩家使用出狱卡
+    void setoutJailCard(int n);
     bool isBankrupt() const;  // 检查玩家是否破产
     void goBankrupt();  // 玩家破产，退出游戏
     void addProperty(Property* property);  // 增加一个物业
