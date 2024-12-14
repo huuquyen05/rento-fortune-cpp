@@ -5,12 +5,64 @@
 #include <vector>
 #include "button.h"
 #include "chatbox.h"
+#include <unordered_map>
 #include "game.h"
 #include "property.h"
 #include "slot.h"
 #include <string>
 #include <sstream>
 #include <unistd.h>
+#include <filesystem>
+#include <fstream>
+
+std::string folderPath = "../GameRec";
+
+struct playerRecord {
+    std::string player;
+    int position;
+    bool inJail;
+    int outOFJailCard;
+    int money;
+    bool bankruptcy;
+    std::string inTurn;
+};
+void createPlayer(const std::string& filepath,const std::vector<playerRecord>& records) {
+    std::ofstream file(filepath);
+    file << "player,position,inJail,outOfJailCard,money,bankruptcy,inTurn\n";
+
+    for (const auto& record : records) {
+        file << record.player << ","
+             << record.position << ","
+             << record.inJail << ","
+             << record.outOFJailCard << ","
+             << record.money << ","
+             << record.bankruptcy << ","
+             << record.inTurn << "\n";
+
+        std::cout<<record.player<<"\n";
+    }
+    file.close();
+}
+
+struct propertyRecord{
+    int num;
+    int level;
+    int owner;
+};
+void createProperty(const std::string& filepath,const std::vector<propertyRecord>& records) {
+    std::ofstream file(filepath);
+    file << "num,level,owner\n";
+    file.close();
+}
+
+struct otherRecord{
+    int owner;
+};
+void createOther(const std::string& filepath,const std::vector<otherRecord>& records) {
+    std::ofstream file(filepath);
+    file << "owner\n";
+    file.close();
+}
 
 void setTokenPosition(int index, sf::CircleShape &c,buttonWithText &curSlot) {
     auto [x1, x2, y1, y2] = curSlot.getPos();
@@ -35,7 +87,6 @@ int main() {
     int inTurnPlayer = -1;
     bool diceThrown=0;
     std::vector<int> playerNumber(4);
-    Game game(4);
     int linkList[40]={
         0,30,20,10,
         9,8,7,6,5,4,3,2,1,
@@ -43,6 +94,7 @@ int main() {
         21,22,23,24,25,26,27,28,29,
         11,12,13,14,15,16,17,18,19
     };
+    Game game(4);
     //--------------------------------------------------------------------------------------------
 
     sf::VideoMode fullscreenMode = sf::VideoMode::getDesktopMode();
@@ -331,8 +383,21 @@ int main() {
         }
         if(quit.isHovering((mousePosition.x), (mousePosition.y))) quit.changeColor();
         else quit.returnColor();
-        if(save.isHovering((mousePosition.x), (mousePosition.y))) save.changeColor();
+        if(save.isHovering((mousePosition.x), (mousePosition.y))&&inTurnPlayer==-1) save.changeColor();
         else save.returnColor();
+        if(save.isClicked((mousePosition.x), (mousePosition.y))){
+            if (!std::filesystem::exists(folderPath)) std::filesystem::create_directories(folderPath);
+            std::string filename = "playerRec.csv";
+            std::string filepath = folderPath + "\\" + filename;
+            std::vector<playerRecord> records;
+            std::cout<<players.size()<<std::endl;
+            for(auto i:players){
+                playerRecord p ={i->getName(),i->getPosition(),i->isInJail(),i->getOutJailCard(),i->getMoney(),i->isBankrupt(),players[game.getCurPlayer()]->getName()};
+                records.push_back(p);
+            } 
+           if(inTurnPlayer==-1) createPlayer(filepath,records);
+            
+        }
         if(endTurn.isHovering((mousePosition.x), (mousePosition.y))) endTurn.changeColor();
         else endTurn.returnColor();
         if(throwDice.isHovering((mousePosition.x), (mousePosition.y))) throwDice.changeColor();
@@ -344,7 +409,7 @@ int main() {
             else button[i].returnColor();
             if(button[i].isClicked((mousePosition.x), (mousePosition.y))){
                 std::stringstream sstream;
-                sstream << slots[linkList[i]]->getName();
+                sstream << slots[linkList[i]]->getName()<<"\n";
                 info.clear();
                 info.addString((sstream).str());
             }
