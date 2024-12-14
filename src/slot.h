@@ -25,6 +25,8 @@ public:
     PropertySlot(Property* p);
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
+    std::string getOwner();
+    int getLevel();
     Property* getProperty(){
         return property;
     }
@@ -79,6 +81,8 @@ public:
     RailwayStationSlot(Property* p);
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
+    std::string getOwner();
+    int getLevel();
     Property* getProperty(){
         return property;
     }
@@ -104,6 +108,8 @@ public:
     UtilitySlot(Property* p);
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
+    std::string getOwner();
+    int getLevel();
 };
 extern std::vector<Slot*> slots;
 
