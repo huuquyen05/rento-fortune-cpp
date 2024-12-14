@@ -12,8 +12,8 @@ protected:
 
 public:
     virtual void landOn(Player* player, std::vector<Player*>& allPlayers) = 0;  // 玩家落到该格子时触发的操作
-    virtual std::string getName() const { return name; }  // 获取格子的名称
-    virtual std::string getDescription(); // 获取格子的所有信息
+    std::string getName(); // 获取格子的名称
+    virtual std::string getDescription() = 0; // 获取格子的所有信息
 };
 
 // 房产格子类

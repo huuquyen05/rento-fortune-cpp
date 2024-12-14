@@ -3,6 +3,10 @@
 #include <iostream>
 std::vector<Slot*> slots;
 
+std::string Slot::getName() {
+    return this -> name;
+}
+
 // 物业格子
 PropertySlot::PropertySlot(Property* p) : property(p) {
     name = property->getName();
