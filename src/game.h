@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <vector>
+#include <string>
 class Player;
 class Slot;
 
@@ -14,6 +15,7 @@ private:
 
 public:
     Game(int numPlayers);
+    Game(std::string names[4]);
     void initGame();
     int getCurPlayer();
     void startTurn();
