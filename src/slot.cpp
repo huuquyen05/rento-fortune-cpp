@@ -17,6 +17,10 @@ void PropertySlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
     }
 }
 
+std::string PropertySlot::getDescription() {
+    return name + "\n" + "购买价格：" + std::to_string(property->getPrice()) + "\n" + "升级价格：" + std::to_string(property->getPrice()/2) + "\n" + std::to_string(property->getLevel()) + "\n" + property->getOwner()->getName() + "\n" + "Property";
+}
+
 // 停车场格子
 ParkSlot::ParkSlot() {
     name = "Free Parking";
@@ -25,6 +29,10 @@ ParkSlot::ParkSlot() {
 void ParkSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
     // 公园格子触发的事件，例如获得奖金或其他操作
     std::cout << player->getName() << " landed on Park.\n";
+}
+
+std::string ParkSlot::getDescription() {
+    return name;
 }
 
 // 超税格子
@@ -38,6 +46,10 @@ void SuperTaxSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
     std::cout << player->getName() << " paid $100 in Super Tax.\n";
 }
 
+std::string SuperTaxSlot::getDescription() {
+    return name + "\n" + "支付金额：100";
+}
+
 // 奢侈税格子
 LuxuryTaxSlot::LuxuryTaxSlot() {
     name = "Luxury Tax";
@@ -49,6 +61,10 @@ void LuxuryTaxSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
     std::cout << player->getName() << " paid $75 in Luxury Tax.\n";
 }
 
+std::string LuxuryTaxSlot::getDescription() {
+    return name + "\n" + "支付金额：75";
+}
+
 // 监狱格子
 GoToJailSlot::GoToJailSlot() {
     name = "Go to Jail";
@@ -58,6 +74,10 @@ void GoToJailSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
     // 进入监狱
     player->goToJail();
     std::cout << player->getName() << " has been sent to Jail.\n";
+}
+
+std::string GoToJailSlot::getDescription() {
+    return name;
 }
 
 // 铁路站格子
@@ -73,6 +93,10 @@ void RailwayStationSlot::landOn(Player* player, std::vector<Player*>& allPlayers
         // 已有玩家拥有铁路站，支付租金
         property->stationpayRent(player);
     }
+}
+
+std::string RailwayStationSlot::getDescription() {
+    return name + "\n" + "购买价格：" + std::to_string(property->getPrice()) + "\n" + property->getOwner()->getName() + "\n" + "Railway Station";
 }
 
 // 机会卡格子
@@ -176,6 +200,10 @@ void ChanceSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
     }
 }
 
+std::string ChanceSlot::getDescription() {
+    return name;
+}
+
 // 水电公司格子
 UtilitySlot::UtilitySlot(Property* p) : property(p) {
     name = property->getName();
@@ -189,6 +217,10 @@ void UtilitySlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
         // 已有玩家拥有水电公司，支付租金
         property->utilitypayRent(player);
     }
+}
+
+std::string UtilitySlot::getDescription() {
+    return name + "\n" + "购买价格：" + std::to_string(property->getPrice()) + "\n" + property->getOwner()->getName() + "\n" + "Utility";
 }
 
 CommunityChestSlot::CommunityChestSlot() {
@@ -287,4 +319,8 @@ void CommunityChestSlot::landOn(Player* player, std::vector<Player*>& allPlayers
             break;
     }
 
+}
+
+std::string CommunityChestSlot::getDescription() {
+    return name;
 }
