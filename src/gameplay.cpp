@@ -730,6 +730,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
             } 
             else button[i].returnColor();
             if(button[i].isClicked((mousePosition.x), (mousePosition.y))){
+                std::string shit = slots[linkList[i]] -> getDescription();s
                 info.clear();
                 info.addString(slots[linkList[i]] -> getDescription());
             }

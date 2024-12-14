@@ -22,10 +22,16 @@ void PropertySlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
 }
 
 std::string PropertySlot::getDescription() {
-    return name + "\n" + "Price：" + std::to_string(property->getPrice()) + "\n" + "Upgrade Price：" + std::to_string(property->getPrice()/2) + "\n" + std::to_string(property->getLevel()) + "\n" + property->getOwner()->getName() + "\n" + "Property";
+    return name + "\n" 
+           + "Price: " + std::to_string(property->getPrice()) + "\n" 
+           + "Upgrade Price: " + std::to_string(property->getPrice()/2) + "\n" 
+           + "Level: " + std::to_string(property->getLevel()) + "\n" 
+           + "Owner: " + getOwner() + "\n" 
+           + "Property";
 }
 
 std::string PropertySlot::getOwner() {
+    if(property -> getOwner() == nullptr) return "No one";
     return property->getOwner()->getName();
 }
 
@@ -59,7 +65,7 @@ void SuperTaxSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
 }
 
 std::string SuperTaxSlot::getDescription() {
-    return name + "\n" + "Super Tax：100";
+    return name + "\n" + "Super Tax: 100";
 }
 
 // 奢侈税格子
@@ -74,7 +80,7 @@ void LuxuryTaxSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
 }
 
 std::string LuxuryTaxSlot::getDescription() {
-    return name + "\n" + "Luxury Tax：75";
+    return name + "\n" + "Luxury Tax: 75";
 }
 
 // 监狱格子
@@ -108,10 +114,14 @@ void RailwayStationSlot::landOn(Player* player, std::vector<Player*>& allPlayers
 }
 
 std::string RailwayStationSlot::getDescription() {
-    return name + "\n" + "Price：" + std::to_string(property->getPrice()) + "\n" + property->getOwner()->getName() + "\n" + "Railway Station";
+    return name + "\n" 
+           + "Price: " + std::to_string(property->getPrice()) + "\n" 
+           + "Owner: " + getOwner() + "\n" 
+           + "Railway Station";
 }
 
 std::string RailwayStationSlot::getOwner() {
+    if(property -> getOwner() == nullptr) return "No one";
     return property->getOwner()->getName();
 }
 
@@ -240,10 +250,14 @@ void UtilitySlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
 }
 
 std::string UtilitySlot::getDescription() {
-    return name + "\n" + "Price：" + std::to_string(property->getPrice()) + "\n" + property->getOwner()->getName() + "\n" + "Utility";
+    return name + "\n" 
+           + "Price: " + std::to_string(property->getPrice()) + "\n" 
+           + "Owner: " + getOwner() + "\n" 
+           + "Utility";
 }
 
 std::string UtilitySlot::getOwner() {
+    if(property -> getOwner() == nullptr) return "No one";
     return property->getOwner()->getName();
 }
 
