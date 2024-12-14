@@ -5,6 +5,9 @@
 #include <vector>
 #include "button.h"
 #include "chatbox.h"
+#include "game.h"
+#include "property.h"
+#include "slot.h"
 #include <string>
 #include <sstream>
 #include <unistd.h>
@@ -30,7 +33,9 @@ void setTokenPosition(int index, sf::CircleShape &c,buttonWithText &curSlot) {
 int main() {
     int slotNUm = -1;
     int inTurnPlayer = -1;
-    std::vector<int> playerNumber[4];
+    bool diceThrown=0;
+    std::vector<int> playerNumber(4);
+    Game game(4);
     int linkList[40]={
         0,30,20,10,
         9,8,7,6,5,4,3,2,1,
@@ -120,6 +125,8 @@ int main() {
 
     buttonWithText quit=buttonWithText(sss,sss,30 * fontSizeMultiplier,"quit",1.7*margin, -1*margin/4);
     buttonWithText save=buttonWithText(sss,sss,30 * fontSizeMultiplier,"save",0.2*margin, -1*margin/4);
+    buttonWithText throwDice=buttonWithText(ss,sss,30 * fontSizeMultiplier,"Throw the Dices",margin+ss+(3.4)*(sss-fix),margin+ss+5*(sss-fix));
+    buttonWithText endTurn=buttonWithText(ss,sss,30 * fontSizeMultiplier,"End Your Turn",margin+ss+(3.4)*(sss-fix),margin+ss+6.5*(sss-fix));
     //----------------------------------------------------------------------------------above is button
 
     sf::RectangleShape square[45];
@@ -326,15 +333,21 @@ int main() {
         else quit.returnColor();
         if(save.isHovering((mousePosition.x), (mousePosition.y))) save.changeColor();
         else save.returnColor();
+        if(endTurn.isHovering((mousePosition.x), (mousePosition.y))) endTurn.changeColor();
+        else endTurn.returnColor();
+        if(throwDice.isHovering((mousePosition.x), (mousePosition.y))) throwDice.changeColor();
+        else throwDice.returnColor();
         for(int i=0;i<=40;i++){
             if(button[i].isHovering((mousePosition.x), (mousePosition.y))){
                 button[i].changeColor();
-                std::stringstream sstream;
-                sstream << "Hovering " << linkList[i] << " Slots.";
-                info.clear();
-                info.addString((sstream).str());
             } 
             else button[i].returnColor();
+            if(button[i].isClicked((mousePosition.x), (mousePosition.y))){
+                std::stringstream sstream;
+                sstream << slots[linkList[i]]->getName();
+                info.clear();
+                info.addString((sstream).str());
+            }
         }
         textbox.handleEvent(event);
         info.handleEvent(event);
@@ -368,6 +381,8 @@ int main() {
         for(int i = 0; i < 4; ++i) mainWindow.draw(tokens[i]);
         save.draw(&mainWindow);
         quit.draw(&mainWindow);
+        throwDice.draw(&mainWindow);
+        endTurn.draw(&mainWindow);
         mainWindow.display();
         usleep(100000);
     }
