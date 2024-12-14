@@ -16,6 +16,7 @@ public:
     std::string getName(); // 获取格子的名称
     virtual std::string getOwner()=0;
     virtual std::string getDescription() = 0; // 获取格子的所有信息
+    virtual Property* getProperty() {return nullptr;};
 };
 
 // 房产格子类
@@ -29,7 +30,7 @@ public:
     std::string getDescription() override;
     std::string getOwner() override;
     int getLevel();
-    Property* getProperty(){
+    Property* getProperty() override{
         return property;
     }
 };
@@ -90,7 +91,7 @@ public:
     std::string getDescription() override;
     std::string getOwner() override;
     int getLevel();
-    Property* getProperty(){
+    Property* getProperty() override{
         return property;
     }
 };
@@ -108,7 +109,7 @@ public:
 class UtilitySlot : public Slot {
 private:
     Property* property;
-    Property* getProperty(){
+    Property* getProperty() override{
         return property;
     }
 

@@ -94,6 +94,13 @@ void Player::buyProperty(Property* property) {
     }
 }
 
+std::string Player::buyProp(Property* property) {
+    money -= property->getPrice();  // Deduct the price
+    addProperty(property);           // Add the property to player's list
+    property->setOwner(this);
+    return name + " bought " + property -> getName();
+} 
+
 int Player::getlaststep(){
     return laststep;
 }
@@ -106,7 +113,7 @@ void Player::upgradeProperty(Property* property) {
             std::cin >> choice;
 
             if (choice == "yes") {
-                money -= property->getPrice();
+                money -= property->getPrice() * 0.5;
                 property->upgrade();
                 if (property->getLevel() == 5) {
                     ++NumberOfHotels;
@@ -122,6 +129,12 @@ void Player::upgradeProperty(Property* property) {
     }else {
         std::cout << property->getName() << "has been full level!" << "\n";
     }
+}
+
+std::string Player::updProp(Property* property) {
+    money -= property->getPrice() * 0.5;
+    property->upgrade();
+    return name + " upgraded " + property -> getName();
 }
 
 bool Player::isInJail() const {

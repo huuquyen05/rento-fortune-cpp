@@ -54,7 +54,6 @@ std::string ParkSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
     // 公园格子触发的事件，例如获得奖金或其他操作
     std::stringstream sstr;
     std::cout << player->getName() << " landed on Park.\n";
-    sstr << player->getName() << " landed on Park.";
     return sstr.str();
 }
 
@@ -146,8 +145,6 @@ std::string RailwayStationSlot::landOn(Player* player, std::vector<Player*>& all
         property->stationpayRent(player);
     }
 }
-
-
 
 std::string RailwayStationSlot::getDescription() {
     return name + "\n" 
@@ -269,7 +266,7 @@ std::string ChanceSlot::landOn(Player* player, std::vector<Player*>& allPlayers)
             player->moveto(39);
             break;
         case 12:
-            player->updateMoney(-50 * (player->getNumberOfPlayers() - 1));
+            player->updateMoney(-150);
             //需要给别的玩家付钱
             std::cout << player->getName() << " has been elected Chairman of the Board. Pay each player $50.\n";
             sstr << player->getName() << " has been elected Chairman of the Board. Pay each player $50.\n"; 

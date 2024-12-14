@@ -55,6 +55,10 @@ public:
     void mortgage();
     void setlaststep(int t);
     int getlaststep();
+
+    //asdafafwafds
+    std::string buyProp(Property* property);
+    std::string updProp(Property* property);
 };
 
 extern std::vector<Player*> players;

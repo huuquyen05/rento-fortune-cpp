@@ -37,12 +37,12 @@ void Property::upgrade() {
     ++level;
 }
 
-void Property::payRent(Player* p) {
+std::string Property::payRent(Player* p) {
     // 获取地产的所有者
     Player* owner = getOwner();
     if (owner == nullptr || owner == p) {
         // 如果没有所有者或者玩家自己拥有该地产，则不收费
-        return;
+        return "";
     }
 
     int numOfSameType = 0;
@@ -67,15 +67,19 @@ void Property::payRent(Player* p) {
     // 向所有者支付租金
     owner->updateMoney(rent);
     p->updateMoney(-rent);
+
+    std::stringstream sstr;
+    sstr << p -> getName() << " paid " << owner -> getName() << " " << rent << " " << "for rent.";
+    return sstr.str();
 }
 
 
-void Property::utilitypayRent(Player* p) {
+std::string Property::utilitypayRent(Player* p) {
     // 获取地产的所有者
     Player* owner = getOwner();
     if (owner == nullptr || owner == p) {
         // 如果没有所有者或者玩家自己拥有该地产，则不收费
-        return;
+        return "";
     }
 
     int numOfSameType = 0;
@@ -105,13 +109,17 @@ void Property::utilitypayRent(Player* p) {
     // 向所有者支付租金
     p->updateMoney(-rent);
     owner->updateMoney(rent);
+
+    std::stringstream sstr;
+    sstr << p -> getName() << " paid " << owner -> getName() << " " << rent << " " << "for ultility.";
+    return sstr.str();
 }
 
 
-void Property::stationpayRent(Player* p) {
+std::string Property::stationpayRent(Player* p) {
     if (owner == nullptr || owner == p) {
         // 如果没有所有者或者玩家自己拥有该车站，则不收费
-        return;
+        return "";
     }
 
     int ownerStationCount = 0;
@@ -132,4 +140,7 @@ void Property::stationpayRent(Player* p) {
 
     // 输出支付信息
     std::cout << p->getName() << " paid " << rent << " rent to " << owner->getName() << " for station.\n";
+    std::stringstream sstr;
+    sstr << p->getName() << " paid " << rent << " rent to " << owner->getName() << " for station.";
+    return sstr.str();
 }

@@ -2,6 +2,7 @@
 #define PROPERTY_H
 
 #include <string>
+#include <sstream>
 class Player;
 
 class Property {
@@ -21,9 +22,9 @@ public:
     Player* getOwner() const;
     void setOwner(Player* player);
     void upgrade();
-    void payRent(Player* p);
-    void utilitypayRent(Player* p);
-    void stationpayRent(Player* p);
+    std::string payRent(Player* p);
+    std::string utilitypayRent(Player* p);
+    std::string stationpayRent(Player* p);
 };
 
 #endif

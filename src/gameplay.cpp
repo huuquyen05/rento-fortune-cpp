@@ -385,17 +385,17 @@ void GamePlay::updatePosition(int curPos[], Game &game) {
     }
 }
 
-bool notProperty(Slot *s) {
+int propertyType(Slot *s) {
     std::string check[3] = {"PropertySlot", "UtilitySlot", "RailwayStationSlot"};
     std::string tmp = typeid(*s).name();
     for(int i = 0; i < (int)(tmp.size()); ++i) {
         for(int j = 0; j < 3; ++j) {
             if(i + (int)(check[j].size()) <= (int)(tmp.size())) {
-                if(check[j] == tmp.substr(i, (int)(check[j].size()))) return 0;
+                if(check[j] == tmp.substr(i, (int)(check[j].size()))) return i;
             }
         }
     }
-    return 1;
+    return -1;
 }
 
 void GamePlay::renderGameScreen(std::string names[4]) {
@@ -796,10 +796,86 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                 // Process turn
                 std::cout << typeid(*currentSlot).name() << '\n';
                 std::vector <Player*> tmp = game.getAllPlayers();
-                if(notProperty(currentSlot)) {
+                int type = propertyType(currentSlot);
+                if(type == -1) {
                     std::string INFO = currentSlot -> landOn(currentPlayer, tmp);
                     textbox.addString(INFO);
                     game.checkBankruptcy();
+                }
+                else {
+                    info.clear();
+                    info.addString(currentSlot -> getDescription());
+                    while(1) {
+                        sf::Vector2i pos = sf::Mouse::getPosition();
+                        int x = pos.x, y = pos.y;
+                        if(endTurn.isHovering(x, y)) {
+                            endTurn.changeColor();
+                            if(endTurn.isClicked(x, y)) {
+                                break;
+                            }
+                        }
+                        std::cout << "haha\n";
+                        if(currentSlot -> getOwner() != currentPlayer -> getName() && currentSlot -> getOwner() != "No one" && currentSlot -> getOwner() != "Invalid") {
+                            std::string msg;
+                            if(type == 0) msg = currentSlot -> getProperty() -> payRent(currentPlayer);
+                            if(type == 1) msg = currentSlot -> getProperty() -> utilitypayRent(currentPlayer);
+                            if(type == 2) msg = currentSlot -> getProperty() -> stationpayRent(currentPlayer);
+                            textbox.addString(msg);
+                        }
+                        else {
+                            bool owned = (currentSlot -> getOwner() != "No one") && (currentSlot -> getOwner() != "Invalid");
+                            int price = owned? (currentSlot -> getProperty()) -> getPrice() / 2 : (currentSlot -> getProperty()) -> getPrice(); 
+                            std::cout << "fuck\n";
+                            if(currentPlayer -> getMoney() < price || currentSlot -> getProperty() -> getLevel() == 5) {
+                                BuyOrUpgarde.setTextColor(sf::Color(230, 230, 230, 255));
+                            }
+                            else {
+                                if(BuyOrUpgarde.isHovering(x, y)) {
+                                    BuyOrUpgarde.changeColor();
+                                    if(BuyOrUpgarde.isClicked(x, y)) {
+                                        if(owned == 0) currentPlayer->buyProp(currentSlot -> getProperty());
+                                        else currentPlayer->updProp(currentSlot -> getProperty());
+                                        break;
+                                    }
+                                }
+                                else BuyOrUpgarde.returnColor();
+                            }
+                        }
+
+                        mainWindow -> clear();
+                        mainWindow -> draw(backgroundSprite);
+                        for(int i=0;i<=44;i++){
+                            mainWindow -> draw(square[i]);
+                        }
+                        for(int i=0;i<=9;i++){
+                            mainWindow -> draw(uplayer[i]);
+                            mainWindow -> draw(dplayer[i]);
+                            mainWindow -> draw(player[i]);
+                        }
+                        for(int i = 0; i < 4; ++i) {
+                            namePlates[i].draw(mainWindow);
+                            int money = game.getAllPlayers()[i]->getMoney();
+                            balancePlates[i].setText("$" + std::to_string(game.getAllPlayers()[i]->getMoney()));
+                            if(money < 0) balancePlates[i].setTextColor(sf::Color::Red);
+                            balancePlates[i].draw(mainWindow);
+                        }
+                        //mainWindow -> draw(chatBox);
+                        textbox.drawFromTop(mainWindow);
+                        info.drawFromTop(mainWindow);
+                        for(int i=0;i<=39;i++) button[i].draw(mainWindow);
+
+                        for(int i = 0; i < 4; ++i) {
+                            setTokenPosition(i, tokens[i], button[Listlink[curPos[i]]]);
+                        }
+                        for(int i = 0; i < 4; ++i) mainWindow -> draw(tokens[i]);
+                        save.draw(mainWindow);
+                        quit.draw(mainWindow);
+                        throwDice.draw(mainWindow);
+                        endTurn.draw(mainWindow);
+                        Mortgage.draw(mainWindow);
+                        BuyOrUpgarde.draw(mainWindow);
+                        mainWindow -> display();
+                    }
                 }
 
                 // End turn
