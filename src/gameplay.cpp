@@ -391,14 +391,14 @@ void GamePlay::renderGameScreen(std::string names[4]) {
     bool diceThrown=0;
     std::vector<int> playerNumber(4);
     Game game(names);
-    int linkList[40]={
+    short linkList[40]={
         0,30,20,10,
         9,8,7,6,5,4,3,2,1,
         39,38,37,36,35,34,33,32,31,
         21,22,23,24,25,26,27,28,29,
         11,12,13,14,15,16,17,18,19
     };
-    int Listlink[40]={
+    short Listlink[40]={
         0,
         12,11,10,9,8,7,6,5,4,3,
         31,32,33,34,35,36,37,38,39,2,
@@ -724,16 +724,14 @@ void GamePlay::renderGameScreen(std::string names[4]) {
         } 
         else throwDice.returnColor();
 
-        for(int i=0;i<=40;i++){
+        for(int i=0;i<40;i++){
             if(button[i].isHovering((mousePosition.x), (mousePosition.y))){
                 button[i].changeColor();
             } 
             else button[i].returnColor();
             if(button[i].isClicked((mousePosition.x), (mousePosition.y))){
-                std::stringstream sstream;
-                sstream << slots[linkList[i]]->getName();
                 info.clear();
-                info.addString((sstream).str());
+                info.addString(slots[linkList[i]] -> getDescription());
             }
         }
         textbox.handleEvent(event);
