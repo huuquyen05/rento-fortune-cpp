@@ -18,7 +18,7 @@ void PropertySlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
 }
 
 std::string PropertySlot::getDescription() {
-    return name + "\n" + "购买价格：" + std::to_string(property->getPrice()) + "\n" + "升级价格：" + std::to_string(property->getPrice()/2) + "\n" + std::to_string(property->getLevel()) + "\n" + property->getOwner()->getName() + "\n" + "Property";
+    return name + "\n" + "Price：" + std::to_string(property->getPrice()) + "\n" + "Upgrade Price：" + std::to_string(property->getPrice()/2) + "\n" + std::to_string(property->getLevel()) + "\n" + property->getOwner()->getName() + "\n" + "Property";
 }
 
 // 停车场格子
@@ -47,7 +47,7 @@ void SuperTaxSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
 }
 
 std::string SuperTaxSlot::getDescription() {
-    return name + "\n" + "支付金额：100";
+    return name + "\n" + "Super Tax：100";
 }
 
 // 奢侈税格子
@@ -62,7 +62,7 @@ void LuxuryTaxSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
 }
 
 std::string LuxuryTaxSlot::getDescription() {
-    return name + "\n" + "支付金额：75";
+    return name + "\n" + "Luxury Tax：75";
 }
 
 // 监狱格子
@@ -96,7 +96,7 @@ void RailwayStationSlot::landOn(Player* player, std::vector<Player*>& allPlayers
 }
 
 std::string RailwayStationSlot::getDescription() {
-    return name + "\n" + "购买价格：" + std::to_string(property->getPrice()) + "\n" + property->getOwner()->getName() + "\n" + "Railway Station";
+    return name + "\n" + "Price：" + std::to_string(property->getPrice()) + "\n" + property->getOwner()->getName() + "\n" + "Railway Station";
 }
 
 // 机会卡格子
@@ -220,7 +220,7 @@ void UtilitySlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
 }
 
 std::string UtilitySlot::getDescription() {
-    return name + "\n" + "购买价格：" + std::to_string(property->getPrice()) + "\n" + property->getOwner()->getName() + "\n" + "Utility";
+    return name + "\n" + "Price：" + std::to_string(property->getPrice()) + "\n" + property->getOwner()->getName() + "\n" + "Utility";
 }
 
 CommunityChestSlot::CommunityChestSlot() {
