@@ -500,6 +500,9 @@ void GamePlay::renderGameScreen(std::string names[4]) {
     buttonWithText save=buttonWithText(sss,sss,30 * fontSizeMultiplier,"save",0.2*margin, -1*margin/4);
     buttonWithText throwDice=buttonWithText(ss,sss,30 * fontSizeMultiplier,"Throw the Dices",margin+ss+(3.4)*(sss-fix),margin+ss+5*(sss-fix));
     buttonWithText endTurn=buttonWithText(ss,sss,30 * fontSizeMultiplier,"End Your Turn",margin+ss+(3.4)*(sss-fix),margin+ss+6.5*(sss-fix));
+
+ buttonWithText Mortgage=buttonWithText(ss,sss-fix,30 * fontSizeMultiplier,"mortgage",2*margin+(2+3)*ss+7.5*sss+3*((fullscreenMode.width-margin*3-6*ss-8*sss)/3),margin+ss+(3)*(sss-fix));
+    buttonWithText BuyOrUpgarde=buttonWithText(ss,sss-fix,30 * fontSizeMultiplier,"buy/upgrade",2*margin+(2+3)*ss+7.7*sss+3*((fullscreenMode.width-margin*3-6*ss-8*sss)/3),margin+ss+(5)*(sss-fix));
     //----------------------------------------------------------------------------------above is button
 
     sf::RectangleShape square[45];
@@ -673,6 +676,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
     square[37].setPosition(margin+(8)*(sss-fix)+ss, margin+ss+9*(sss-fix));
 
     while (mainWindow -> isOpen()) {
+        bool tmp=1;
         sf::Event event;
         while (mainWindow -> pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
@@ -703,6 +707,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
             square[i].setFillColor(sf::Color(143, 188, 143));  // 鼠标离开时恢复为白色
             }
         }
+        bool checker[4]={0,0,0,0};
         for(int i=0;i<=3;i++){
             float outlineThickness = player[i].getOutlineThickness();
             sf::FloatRect globalBounds = player[i].getGlobalBounds();
@@ -716,7 +721,14 @@ void GamePlay::renderGameScreen(std::string names[4]) {
             player[i].setOutlineColor(sf::Color(135, 206, 235));
             uplayer[i].setOutlineColor(sf::Color(135, 206, 235));
             dplayer[i].setOutlineColor(sf::Color(135, 206, 235));  // 鼠标悬浮时变为红色
+            for(int j=0;j<=39;j++){
+                if(slots[j]->getOwner()!="Invalid") 
+                    if(slots[j]->getOwner()==game.getAllPlayers()[i]->getName())
+                        button[Listlink[j]].changeColor(),tmp=1;
+            }
+            checker[i]=1;
             }else {
+            if(checker[0]+checker[1]+checker[2]+checker[3]==0) tmp=0;
             player[i].setOutlineColor(sf::Color::Black);
             uplayer[i].setOutlineColor(sf::Color::Black);
             dplayer[i].setOutlineColor(sf::Color::Black);  // 鼠标离开时恢复为白色
@@ -800,7 +812,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
             if(button[i].isHovering((mousePosition.x), (mousePosition.y))){
                 button[i].changeColor();
             } 
-            else button[i].returnColor();
+            else if(!tmp) button[i].returnColor();
             if(button[i].isClicked((mousePosition.x), (mousePosition.y))){
                 info.clear();
                 info.addString(slots[linkList[i]] -> getDescription());
@@ -839,6 +851,8 @@ void GamePlay::renderGameScreen(std::string names[4]) {
         quit.draw(mainWindow);
         throwDice.draw(mainWindow);
         endTurn.draw(mainWindow);
+        Mortgage.draw(mainWindow);
+        BuyOrUpgarde.draw(mainWindow);
         mainWindow -> display();
         usleep(100000);
     }
