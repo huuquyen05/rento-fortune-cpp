@@ -13,6 +13,7 @@ protected:
 public:
     virtual void landOn(Player* player, std::vector<Player*>& allPlayers) = 0;  // 玩家落到该格子时触发的操作
     std::string getName(); // 获取格子的名称
+    virtual std::string getOwner()=0;
     virtual std::string getDescription() = 0; // 获取格子的所有信息
 };
 
@@ -25,7 +26,7 @@ public:
     PropertySlot(Property* p);
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
-    std::string getOwner();
+    std::string getOwner() override;
     int getLevel();
     Property* getProperty(){
         return property;
@@ -38,6 +39,7 @@ public:
     ParkSlot();
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
+    std::string getOwner() override;
 };
 
 // 超税格子
@@ -46,6 +48,7 @@ public:
     SuperTaxSlot();
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
+    std::string getOwner() override;
 };
 
 // 奢侈税格子
@@ -54,6 +57,7 @@ public:
     LuxuryTaxSlot();
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
+    std::string getOwner() override;
 };
 
 // 机会卡格子
@@ -62,6 +66,7 @@ public:
     ChanceSlot();
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
+    std::string getOwner() override;
 };
 
 // 监狱格子
@@ -70,6 +75,7 @@ public:
     GoToJailSlot();
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
+    std::string getOwner() override;
 };
 
 // 铁路站格子
@@ -81,7 +87,7 @@ public:
     RailwayStationSlot(Property* p);
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
-    std::string getOwner();
+    std::string getOwner() override;
     int getLevel();
     Property* getProperty(){
         return property;
@@ -94,6 +100,7 @@ public:
     CommunityChestSlot();
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
+    std::string getOwner() override;
 };
 
 // 水电公司格子
@@ -108,7 +115,7 @@ public:
     UtilitySlot(Property* p);
     void landOn(Player* player, std::vector<Player*>& allPlayers) override;
     std::string getDescription() override;
-    std::string getOwner();
+    std::string getOwner() override;
     int getLevel();
 };
 extern std::vector<Slot*> slots;
