@@ -96,7 +96,8 @@ void Player::buyProperty(Property* property) {
 
 std::string Player::buyProp(Property* property) {
     money -= property->getPrice();  // Deduct the price
-    addProperty(property);           // Add the property to player's list
+    addProperty(property);
+    property->upgrade();           // Add the property to player's list
     property->setOwner(this);
     return name + " bought " + property -> getName();
 } 
@@ -134,6 +135,11 @@ void Player::upgradeProperty(Property* property) {
 std::string Player::updProp(Property* property) {
     money -= property->getPrice() * 0.5;
     property->upgrade();
+    ++NumberOfHouses;
+    if (property->getLevel() == 5) {
+        ++NumberOfHotels;
+        --NumberOfHouses;
+    }
     return name + " upgraded " + property -> getName();
 }
 

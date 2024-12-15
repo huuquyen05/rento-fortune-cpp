@@ -40,6 +40,39 @@ int PropertySlot::getLevel() {
     return property->getLevel();
 }
 
+
+GoSlot::GoSlot() {
+    name = "Go";
+}
+std::string GoSlot::getOwner(){
+    return "Invalid";
+}
+std::string GoSlot::getDescription() {
+    return name;
+}
+std::string GoSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
+    // 公园格子触发的事件，例如获得奖金或其他操作
+    std::stringstream sstr;
+    std::cout << player->getName() << " landed on Go.\n";
+    return sstr.str();
+}
+
+JailSlot::JailSlot() {
+    name = "Jail";
+}
+std::string JailSlot::getOwner(){
+    return "Invalid";
+}
+std::string JailSlot::getDescription() {
+    return name;
+}
+std::string JailSlot::landOn(Player* player, std::vector<Player*>& allPlayers) {
+    // 公园格子触发的事件，例如获得奖金或其他操作
+    std::stringstream sstr;
+    std::cout << player->getName() << " landed on Jail.\n";
+    return sstr.str();
+}
+
 // 停车场格子
 ParkSlot::ParkSlot() {
     name = "Free Parking";
@@ -202,10 +235,8 @@ std::string ChanceSlot::landOn(Player* player, std::vector<Player*>& allPlayers)
             sstr << player->getName() << " advanced to the nearest Utility.\n";
             if (player->getPosition() < 12 || player->getPosition() > 28) {
                 player->moveto(12);
-                slots[12]->landOn(player, players);
             } else {
                 player->moveto(28);
-                slots[28]->landOn(player, players);
             }
             // 这里我们假设玩家会选择购买或者支付租金，具体逻辑依赖于游戏规则
             
@@ -216,16 +247,14 @@ std::string ChanceSlot::landOn(Player* player, std::vector<Player*>& allPlayers)
             sstr << player->getName() << " advanced to the nearest Railroad.\n";
             if (player->getPosition() < 5 || player->getPosition() > 35) {
                 player->moveto(5);
-                slots[5]->landOn(player, players);
+               
             } else if (player->getPosition() > 5 && player->getPosition() < 15) {
                 player->moveto(15);
-                slots[15]->landOn(player, players);
+        
             } else if (player->getPosition() > 15 && player->getPosition() < 25) {
                 player->moveto(25);
-                slots[25]->landOn(player, players);
             } else {
                 player->moveto(35);
-                slots[35]->landOn(player, players);
             }
             // 购买或支付租金的逻辑
             break;
@@ -268,8 +297,8 @@ std::string ChanceSlot::landOn(Player* player, std::vector<Player*>& allPlayers)
         case 12:
             player->updateMoney(-150);
             //需要给别的玩家付钱
-            std::cout << player->getName() << " has been elected Chairman of the Board. Pay each player $50.\n";
-            sstr << player->getName() << " has been elected Chairman of the Board. Pay each player $50.\n"; 
+            std::cout << player->getName() << " has been elected Chairman of the Board. Lose $150.\n";
+            sstr << player->getName() << " has been elected Chairman of the Board. Lose $150.\n"; 
             break;
         case 13:
             player->updateMoney(150);  

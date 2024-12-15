@@ -125,14 +125,10 @@ std::string Property::stationpayRent(Player* p) {
     int ownerStationCount = 0;
     std::vector<int> stationIndices = {5, 15, 25, 35};
 
-    for (int index : stationIndices) {
-        if (index >= 0 && index < slots.size()) {
-            RailwayStationSlot* railwaySlot = dynamic_cast<RailwayStationSlot*>(slots[index]);
-            if (railwaySlot && railwaySlot->getProperty()->getOwner() == owner) {
-                ownerStationCount++;
-            }
-        }
-    }
+    if(owner->getName()==slots[5]->getOwner()) ownerStationCount++;
+    if(owner->getName()==slots[15]->getOwner()) ownerStationCount++;
+    if(owner->getName()==slots[25]->getOwner()) ownerStationCount++;
+    if(owner->getName()==slots[35]->getOwner()) ownerStationCount++;
 
     int rent = 150 * ownerStationCount;
     p->updateMoney(-rent); // 玩家支付租金

@@ -35,6 +35,22 @@ public:
     }
 };
 
+class GoSlot : public Slot {
+public:
+    GoSlot();
+    std::string landOn(Player* player, std::vector<Player*>& allPlayers) override;
+    std::string getDescription() override;
+    std::string getOwner() override;
+};
+
+class JailSlot : public Slot {
+public:
+    JailSlot();
+    std::string landOn(Player* player, std::vector<Player*>& allPlayers) override;
+    std::string getDescription() override;
+    std::string getOwner() override;
+};
+
 // 公园格子
 class ParkSlot : public Slot {
 public:

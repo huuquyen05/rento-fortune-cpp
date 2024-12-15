@@ -3,7 +3,7 @@
 TextBox::TextBox() {}
 
 TextBox::TextBox(int x, int y, int width, int height)
-        : textSize(15), input(""), padding(3.f), maxWidth(width - 2 * padding), stLine(0), enLine(0) {
+        : textSize(25), input(""), padding(3.f), maxWidth(width - 2 * padding), stLine(0), enLine(0) {
     // Load font
     std::string fontPath = "../fonts/Montserrat-Medium.ttf";
     if (!font.loadFromFile(fontPath)) {

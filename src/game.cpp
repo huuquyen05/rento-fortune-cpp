@@ -23,7 +23,7 @@ Game::Game(int numPlayers) : currentPlayerIndex(0) {
 
     // 初始化棋盘
     slots.resize(40);
-    slots[0] = new ParkSlot();
+    slots[0] = new GoSlot();
     Property* vineStreetProperty = new Property("Vine Street", 60, 1);
     slots[1] = new PropertySlot(vineStreetProperty);
     slots[2] = new CommunityChestSlot();
@@ -39,7 +39,7 @@ Game::Game(int numPlayers) : currentPlayerIndex(0) {
     slots[8] = new PropertySlot(bowStreetProperty);
     Property* whitechapelRoadProperty = new Property("Whitechapel Road", 120, 2);
     slots[9] = new PropertySlot(whitechapelRoadProperty);
-    slots[10] = new ParkSlot();
+    slots[10] = new JailSlot();
     Property* angelIslingtonProperty = new Property("The Angel, Islington", 140, 3);
     slots[11] = new PropertySlot(angelIslingtonProperty);
     Property* electricCompanyProperty = new Property("Electric Company", 150, 10);
@@ -104,7 +104,7 @@ Game::Game(std::string names[4]) : currentPlayerIndex(0) {
     }
     // 初始化棋盘
     slots.resize(40);
-    slots[0] = new ParkSlot();
+    slots[0] = new GoSlot();
     Property* vineStreetProperty = new Property("Vine Street", 60, 1);
     slots[1] = new PropertySlot(vineStreetProperty);
     slots[2] = new CommunityChestSlot();
@@ -120,7 +120,7 @@ Game::Game(std::string names[4]) : currentPlayerIndex(0) {
     slots[8] = new PropertySlot(bowStreetProperty);
     Property* whitechapelRoadProperty = new Property("Whitechapel Road", 120, 2);
     slots[9] = new PropertySlot(whitechapelRoadProperty);
-    slots[10] = new ParkSlot();
+    slots[10] = new JailSlot();
     Property* angelIslingtonProperty = new Property("The Angel, Islington", 140, 3);
     slots[11] = new PropertySlot(angelIslingtonProperty);
     Property* electricCompanyProperty = new Property("Electric Company", 150, 10);

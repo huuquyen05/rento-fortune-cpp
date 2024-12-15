@@ -2,7 +2,9 @@
 #include "chatbox.h"
 #include "button.h"
 #include <unistd.h>
- 
+
+bool availableTurn=1;
+
 GamePlay::GamePlay() {
     if(!(this -> font).loadFromFile("../fonts/Montserrat-Black.ttf")) {
         std::cerr << "Error loading font!" << std::endl;
@@ -11,7 +13,7 @@ GamePlay::GamePlay() {
         std::cerr << "Error loading bgm!" << std::endl;
     }
     this -> mainWindow = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Main Window", sf::Style::Fullscreen );
-    this -> mainWindow->setFramerateLimit(30);
+    this -> mainWindow->setFramerateLimit(10);
     this -> music.play();
     this -> music.setLoop(true);
     std::cout << "OK init\n";
@@ -104,7 +106,7 @@ void GamePlay::renderTitleScreen() {
         this -> mainWindow -> draw(titleScreen);
 
         // Draw the buttons and their texts
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 1; i < 4; ++i) {
             button[i].draw(this -> mainWindow);  // Draw the button
         }
 
@@ -391,7 +393,7 @@ int propertyType(Slot *s) {
     for(int i = 0; i < (int)(tmp.size()); ++i) {
         for(int j = 0; j < 3; ++j) {
             if(i + (int)(check[j].size()) <= (int)(tmp.size())) {
-                if(check[j] == tmp.substr(i, (int)(check[j].size()))) return i;
+                if(check[j] == tmp.substr(i, (int)(check[j].size()))) return j;
             }
         }
     }
@@ -458,7 +460,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
         "","","","",
         "WHITECHAPEL\nROAD","BOW\nSTREET","CHANCE","LEICESTER\nSQUARE",
         "MARYLEBONE\nSTATION",
-        "INCOME\nTAX","CONVENTRY\nSTREET","COMMUNITY\nCHEST","VINE\nSTREET",
+        "LUXURY\nTAX","CONVENTRY\nSTREET","COMMUNITY\nCHEST","VINE\nSTREET",
         "MAY-\nFAIR","SUPER\nTAX","PARK\nLANE","CHANCE",
         "LIVER-\nPOOL\nST.\nSTA-\nTION",
         "OXFORD\nSTREET","COM-\nMUNITY\nCHEST","PICCA-\nDILLY","EUSTON\nROAD",
@@ -496,12 +498,11 @@ void GamePlay::renderGameScreen(std::string names[4]) {
         button[i]=buttonWithText(sss-fix,ss,15 * fontSizeMultiplier,nameList[i],margin+ss+(i-31)*(sss-fix),margin,colorList[i]);
     }
 
-    buttonWithText quit=buttonWithText(sss,sss,30 * fontSizeMultiplier,"quit",1.7*margin, -1*margin/4);
-    buttonWithText save=buttonWithText(sss,sss,30 * fontSizeMultiplier,"save",0.2*margin, -1*margin/4);
+    buttonWithText quit=buttonWithText(sss,sss,30 * fontSizeMultiplier,"quit",0.2*margin, -1*margin/4);
     buttonWithText throwDice=buttonWithText(ss,sss,30 * fontSizeMultiplier,"Throw the Dices",margin+ss+(3.4)*(sss-fix),margin+ss+5*(sss-fix));
     buttonWithText endTurn=buttonWithText(ss,sss,30 * fontSizeMultiplier,"End Your Turn",margin+ss+(3.4)*(sss-fix),margin+ss+6.5*(sss-fix));
 
- buttonWithText Mortgage=buttonWithText(ss,sss-fix,30 * fontSizeMultiplier,"mortgage",2*margin+(2+3)*ss+7.5*sss+3*((fullscreenMode.width-margin*3-6*ss-8*sss)/3),margin+ss+(3)*(sss-fix));
+    buttonWithText Mortgage=buttonWithText(ss,sss-fix,30 * fontSizeMultiplier,"mortgage",2*margin+(2+3)*ss+7.5*sss+3*((fullscreenMode.width-margin*3-6*ss-8*sss)/3),margin+ss+(3)*(sss-fix));
     buttonWithText BuyOrUpgarde=buttonWithText(ss,sss-fix,30 * fontSizeMultiplier,"buy/upgrade",2*margin+(2+3)*ss+7.7*sss+3*((fullscreenMode.width-margin*3-6*ss-8*sss)/3),margin+ss+(5)*(sss-fix));
     //----------------------------------------------------------------------------------above is button
 
@@ -741,15 +742,13 @@ void GamePlay::renderGameScreen(std::string names[4]) {
             }
         }
         else quit.returnColor();
-        if(save.isHovering((mousePosition.x), (mousePosition.y))) save.changeColor();
-        else save.returnColor();
-
         if(endTurn.isHovering((mousePosition.x), (mousePosition.y))) endTurn.changeColor();
         else endTurn.returnColor();
 
         if(throwDice.isHovering((mousePosition.x), (mousePosition.y))){
             throwDice.changeColor();
-            if(throwDice.isClicked((mousePosition.x), (mousePosition.y))) {
+            if(throwDice.isClicked((mousePosition.x), (mousePosition.y))&&availableTurn) {
+                availableTurn=0;
                 auto [d1, d2] = game.rollDice();
                 std::stringstream sstr;
                 sstr << "Rolled " << d1 << " and " << d2;
@@ -787,7 +786,6 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                     setTokenPosition(i, tokens[i], button[Listlink[curPos[i]]]);
                 }
                 for(int i = 0; i < 4; ++i) mainWindow -> draw(tokens[i]);
-                save.draw(mainWindow);
                 quit.draw(mainWindow);
                 throwDice.draw(mainWindow);
                 endTurn.draw(mainWindow);
@@ -801,26 +799,34 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                     std::string INFO = currentSlot -> landOn(currentPlayer, tmp);
                     textbox.addString(INFO);
                     game.checkBankruptcy();
+                    availableTurn=1;
                 }
                 else {
                     info.clear();
                     info.addString(currentSlot -> getDescription());
-                    while(1) {
+                    int cnt=0;
+                    while(cnt<=100) {
                         sf::Vector2i pos = sf::Mouse::getPosition();
                         int x = pos.x, y = pos.y;
                         if(endTurn.isHovering(x, y)) {
                             endTurn.changeColor();
                             if(endTurn.isClicked(x, y)) {
+                                availableTurn=1;
                                 break;
                             }
                         }
-                        std::cout << "haha\n";
+                        else{
+                            endTurn.returnColor();
+                        }
+                        std::cout << cnt<<"\n";cnt++;
                         if(currentSlot -> getOwner() != currentPlayer -> getName() && currentSlot -> getOwner() != "No one" && currentSlot -> getOwner() != "Invalid") {
                             std::string msg;
                             if(type == 0) msg = currentSlot -> getProperty() -> payRent(currentPlayer);
                             if(type == 1) msg = currentSlot -> getProperty() -> utilitypayRent(currentPlayer);
                             if(type == 2) msg = currentSlot -> getProperty() -> stationpayRent(currentPlayer);
                             textbox.addString(msg);
+                            availableTurn=1;
+                            break;
                         }
                         else {
                             bool owned = (currentSlot -> getOwner() != "No one") && (currentSlot -> getOwner() != "Invalid");
@@ -828,6 +834,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                             std::cout << "fuck\n";
                             if(currentPlayer -> getMoney() < price || currentSlot -> getProperty() -> getLevel() == 5) {
                                 BuyOrUpgarde.setTextColor(sf::Color(230, 230, 230, 255));
+                                break;
                             }
                             else {
                                 if(BuyOrUpgarde.isHovering(x, y)) {
@@ -835,6 +842,8 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                                     if(BuyOrUpgarde.isClicked(x, y)) {
                                         if(owned == 0) currentPlayer->buyProp(currentSlot -> getProperty());
                                         else currentPlayer->updProp(currentSlot -> getProperty());
+                                        BuyOrUpgarde.returnColor();
+                                        availableTurn=1;
                                         break;
                                     }
                                 }
@@ -868,7 +877,6 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                             setTokenPosition(i, tokens[i], button[Listlink[curPos[i]]]);
                         }
                         for(int i = 0; i < 4; ++i) mainWindow -> draw(tokens[i]);
-                        save.draw(mainWindow);
                         quit.draw(mainWindow);
                         throwDice.draw(mainWindow);
                         endTurn.draw(mainWindow);
@@ -877,7 +885,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                         mainWindow -> display();
                     }
                 }
-
+                availableTurn=1;
                 // End turn
                 game.nextPlayer();
             }
@@ -923,7 +931,6 @@ void GamePlay::renderGameScreen(std::string names[4]) {
             setTokenPosition(i, tokens[i], button[Listlink[curPos[i]]]);
         }
         for(int i = 0; i < 4; ++i) mainWindow -> draw(tokens[i]);
-        save.draw(mainWindow);
         quit.draw(mainWindow);
         throwDice.draw(mainWindow);
         endTurn.draw(mainWindow);
