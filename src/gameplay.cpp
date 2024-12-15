@@ -832,6 +832,8 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                     std::string INFO = currentSlot -> landOn(currentPlayer, tmpPlayer);
                     textbox.addString(INFO);
                     game.checkBankruptcy();
+                    Mortgage.setTextColor(sf::Color(230, 230, 230, 255));
+                    BuyOrUpgarde.setTextColor(sf::Color(230, 230, 230, 255));
                     availableTurn=1;
                 }
                 else {
@@ -893,6 +895,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                                     if(BuyOrUpgarde.isClicked(x, y)) {
                                         if(owned == 0) currentPlayer->buyProp(currentSlot -> getProperty());
                                         else currentPlayer->updProp(currentSlot -> getProperty());
+                                        textbox.addString(currentPlayer -> getName() + " bought / upgraded " + currentSlot -> getName());
                                         BuyOrUpgarde.returnColor();
                                         availableTurn=1;
                                         break;
@@ -1000,7 +1003,15 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                 }
                 availableTurn=1;
                 // End turn
-                game.nextPlayer();
+                for(auto player: game.getAllPlayers()) {
+                    if(player -> getMoney() < 0) player -> goBankrupt();
+                }
+                if(game.getNumOfPlayers() == 1) {
+                    textbox.addString("Game Over!");
+                    usleep(1000000);
+                    renderTitleScreen();
+                }
+                else game.nextPlayer();
             }
         } 
         else throwDice.returnColor();
