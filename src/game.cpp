@@ -99,7 +99,7 @@ Game::Game(std::string names[4]) : currentPlayerIndex(0) {
     // Loop to create players with user-defined names
     for (int i = 0; i < numPlayers; ++i) {
         std::string playerName = names[i];
-        players.push_back(new Player(playerName, 1500, 1));
+        players.push_back(new Player(playerName, 500, 1));
         playerNameToIndex[playerName] = i;  // Map player name to index
     }
     // 初始化棋盘
