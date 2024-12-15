@@ -304,8 +304,8 @@ void GamePlay::renderSettingScreen() {
     buttonWithText backButton = buttonWithText(300, 80, 50, "Go back", (fullscreenMode.width - 300) / 2, fullscreenMode.height - 150);
 
     std::string state[2] = {"Off", "On"};
-    buttonWithText onOff = buttonWithText(300, 80, 40, state[0], (fullscreenMode.width - 300) - 300, 200);
-    int curState = 1; // initially On
+    int curState = this -> music.getStatus() == sf::Music::Status::Playing;
+    buttonWithText onOff = buttonWithText(300, 80, 40, state[curState], (fullscreenMode.width - 300) - 300, 200);
 
     buttonWithText soundText = buttonWithText(300, 80, 40, "Sound", 300, 200);
     
@@ -792,7 +792,6 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                 mainWindow -> display();
 
                 // Process turn
-                std::cout << typeid(*currentSlot).name() << '\n';
                 std::vector <Player*> tmp = game.getAllPlayers();
                 int type = propertyType(currentSlot);
                 if(type == -1) {
@@ -831,7 +830,6 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                         else {
                             bool owned = (currentSlot -> getOwner() != "No one") && (currentSlot -> getOwner() != "Invalid");
                             int price = owned? (currentSlot -> getProperty()) -> getPrice() / 2 : (currentSlot -> getProperty()) -> getPrice(); 
-                            std::cout << "fuck\n";
                             if(currentPlayer -> getMoney() < price || currentSlot -> getProperty() -> getLevel() == 5) {
                                 BuyOrUpgarde.setTextColor(sf::Color(230, 230, 230, 255));
                                 break;
