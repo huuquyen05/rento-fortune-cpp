@@ -100,7 +100,7 @@ std::string Player::buyProp(Property* property) {
     property->upgrade();           // Add the property to player's list
     property->setOwner(this);
     return name + " bought " + property -> getName();
-} 
+}
 
 int Player::getlaststep(){
     return laststep;
