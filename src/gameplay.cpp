@@ -676,6 +676,34 @@ void GamePlay::renderGameScreen(std::string names[4]) {
     square[37].setOutlineColor(sf::Color::Black);
     square[37].setPosition(margin+(8)*(sss-fix)+ss, margin+ss+9*(sss-fix));
 
+    sf::Text dice1;
+    dice1.setFont(font);
+    dice1.setString("6"); // 初始文字内容
+    dice1.setCharacterSize(55*fontSizeMultiplier); // 字体大小
+    dice1.setFillColor(sf::Color::Black);
+    dice1.setPosition(margin+ss+2.3*(sss-fix),margin+(2)*(sss-fix)+ss); // 设置文字位置
+
+    sf::RectangleShape db1;
+    db1.setSize(sf::Vector2f(sss,sss)); // 设置方形大小 (宽度和高度都为 100)
+    db1.setFillColor(sf::Color(143, 188, 143));         // 设置填充颜色
+    db1.setPosition(margin+ss+1.95*(sss-fix),margin+(1.8)*(sss-fix)+ss);
+    db1.setOutlineColor(sf::Color::Black); 
+    db1.setOutlineThickness(5.0f);
+
+    sf::Text dice2;
+    dice2.setFont(font);
+    dice2.setString("6"); // 初始文字内容
+    dice2.setCharacterSize(55*fontSizeMultiplier); // 字体大小
+    dice2.setFillColor(sf::Color::Black);
+    dice2.setPosition(margin+ss+6.3*(sss-fix),margin+(2)*(sss-fix)+ss); // 设置文字位置
+
+    sf::RectangleShape db2;
+    db2.setSize(sf::Vector2f(sss,sss)); // 设置方形大小 (宽度和高度都为 100)
+    db2.setFillColor(sf::Color(143, 188, 143));         // 设置填充颜色
+    db2.setPosition(margin+ss+5.95*(sss-fix),margin+(1.8)*(sss-fix)+ss);
+    db2.setOutlineColor(sf::Color::Black); 
+    db2.setOutlineThickness(5.0f);
+
     while (mainWindow -> isOpen()) {
         bool tmp=1;
         sf::Event event;
@@ -751,6 +779,8 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                 availableTurn=0;
                 auto [d1, d2] = game.rollDice();
                 std::stringstream sstr;
+                dice1.setString(std::to_string(d1));
+                dice2.setString(std::to_string(d2));
                 sstr << "Rolled " << d1 << " and " << d2;
                 textbox.addString(sstr.str());
                 updatePosition(curPos, game);
@@ -788,6 +818,10 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                 for(int i = 0; i < 4; ++i) mainWindow -> draw(tokens[i]);
                 quit.draw(mainWindow);
                 throwDice.draw(mainWindow);
+                mainWindow->draw(db1);
+                mainWindow->draw(db2);
+                mainWindow->draw(dice1);
+                mainWindow->draw(dice2);
                 endTurn.draw(mainWindow);
                 mainWindow -> display();
 
@@ -953,6 +987,10 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                         for(int i = 0; i < 4; ++i) mainWindow -> draw(tokens[i]);
                         quit.draw(mainWindow);
                         throwDice.draw(mainWindow);
+                        mainWindow->draw(db1);
+                        mainWindow->draw(db2);
+                        mainWindow->draw(dice1);
+                        mainWindow->draw(dice2);
                         endTurn.draw(mainWindow);
                         Mortgage.draw(mainWindow);
                         BuyOrUpgarde.draw(mainWindow);
@@ -1010,6 +1048,10 @@ void GamePlay::renderGameScreen(std::string names[4]) {
         endTurn.draw(mainWindow);
         Mortgage.draw(mainWindow);
         BuyOrUpgarde.draw(mainWindow);
+        mainWindow->draw(db1);
+        mainWindow->draw(db2);
+        mainWindow->draw(dice1);
+        mainWindow->draw(dice2);
         mainWindow -> display();
         usleep(100000);
     }
