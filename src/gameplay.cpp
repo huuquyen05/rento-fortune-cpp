@@ -995,6 +995,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                         Mortgage.draw(mainWindow);
                         BuyOrUpgarde.draw(mainWindow);
                         mainWindow -> display();
+                        usleep(100000);
                     }
                 }
                 availableTurn=1;
