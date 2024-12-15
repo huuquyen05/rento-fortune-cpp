@@ -831,9 +831,27 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                         else {
                             bool owned = (currentSlot -> getOwner() != "No one") && (currentSlot -> getOwner() != "Invalid");
                             int price = owned? (currentSlot -> getProperty()) -> getPrice() / 2 : (currentSlot -> getProperty()) -> getPrice(); 
+                            if(owned) {
+                                int value = (currentSlot -> getProperty() -> getPrice()) * (currentSlot -> getProperty() -> getLevel()) / 3;
+                                Mortgage.setTextColor(sf::Color::Black);
+                                if(Mortgage.isHovering(x, y)) {
+                                    Mortgage.changeColor();
+                                    if(Mortgage.isClicked(x, y)) {
+                                        currentPlayer -> updateMoney(value);
+                                        currentSlot -> getProperty() -> setOwner(nullptr);
+                                        currentSlot -> getProperty() -> defaultLevel();
+                                        Mortgage.returnColor();
+                                        textbox.addString(currentPlayer -> getName() + " mortgaged for " + std::to_string(value)); 
+                                        availableTurn=1;
+                                        break;
+                                    }
+                                }
+                                else Mortgage.returnColor();
+                            }
+                            else Mortgage.setTextColor(sf::Color(230, 230, 230, 255));
                             if(currentPlayer -> getMoney() < price || currentSlot -> getProperty() -> getLevel() == 5) {
                                 BuyOrUpgarde.setTextColor(sf::Color(230, 230, 230, 255));
-                                break;
+                                //break;
                             }
                             else {
                                 if(BuyOrUpgarde.isHovering(x, y)) {
@@ -850,6 +868,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                             }
                         }
 
+                        /**
                         for(int i = 0; i < 40; ++i) {
                             if(propertyType(slots[linkList[i]]) > -1 && slots[linkList[i]] -> getOwner() == currentPlayer -> getName()) {
                                 if(button[i].isClicked(x, y)) {
@@ -904,6 +923,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                             dplayer[i].setOutlineColor(sf::Color::Black);  // 鼠标离开时恢复为白色
                             }
                         }
+                        */
 
                         mainWindow -> clear();
                         mainWindow -> draw(backgroundSprite);
