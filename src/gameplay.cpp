@@ -815,7 +815,10 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                 for(int i = 0; i < 4; ++i) {
                     setTokenPosition(i, tokens[i], button[Listlink[curPos[i]]]);
                 }
-                for(int i = 0; i < 4; ++i) mainWindow -> draw(tokens[i]);
+                for(int i = 0; i < 4; ++i) {
+                    if(game.getAllPlayers()[i] -> isBankrupt()) continue;
+                    mainWindow -> draw(tokens[i]);
+                }
                 quit.draw(mainWindow);
                 throwDice.draw(mainWindow);
                 mainWindow->draw(db1);
@@ -839,9 +842,11 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                 else {
                     info.clear();
                     info.addString(currentSlot -> getDescription());
+                    int value = (currentSlot -> getProperty() -> getPrice()) * (currentSlot -> getProperty() -> getLevel()) / 3;
+                    if(currentSlot -> getOwner() == currentPlayer -> getName()) info.addString("Mortgage for: " + std::to_string(value));
                     int cnt=0;
                     int indexClicked = -1;
-                    while(cnt<=100) {
+                    while(cnt<=50) {
                         sf::Vector2i pos = sf::Mouse::getPosition();
                         int x = pos.x, y = pos.y;
                         if(endTurn.isHovering(x, y)) {
@@ -987,7 +992,10 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                         for(int i = 0; i < 4; ++i) {
                             setTokenPosition(i, tokens[i], button[Listlink[curPos[i]]]);
                         }
-                        for(int i = 0; i < 4; ++i) mainWindow -> draw(tokens[i]);
+                        for(int i = 0; i < 4; ++i) {
+                            if(game.getAllPlayers()[i] -> isBankrupt()) continue;
+                            mainWindow -> draw(tokens[i]);
+                        }
                         quit.draw(mainWindow);
                         throwDice.draw(mainWindow);
                         mainWindow->draw(db1);
@@ -1054,7 +1062,10 @@ void GamePlay::renderGameScreen(std::string names[4]) {
         for(int i = 0; i < 4; ++i) {
             setTokenPosition(i, tokens[i], button[Listlink[curPos[i]]]);
         }
-        for(int i = 0; i < 4; ++i) mainWindow -> draw(tokens[i]);
+        for(int i = 0; i < 4; ++i) {
+            if(game.getAllPlayers()[i] -> isBankrupt()) continue;
+            mainWindow -> draw(tokens[i]);
+        }
         quit.draw(mainWindow);
         throwDice.draw(mainWindow);
         endTurn.draw(mainWindow);
