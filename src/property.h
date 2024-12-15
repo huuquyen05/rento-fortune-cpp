@@ -28,6 +28,7 @@ public:
     int getRent();
     int getUtilityRent();
     int getRailwayRent();
+    void defaultLevel();
 };
 
 #endif

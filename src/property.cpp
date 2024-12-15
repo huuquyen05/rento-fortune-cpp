@@ -203,3 +203,7 @@ int Property::getRailwayRent() {
     int rent = 150 * ownerStationCount;
     return rent;
 }
+
+void Property::defaultLevel() {
+    level = 0;
+}

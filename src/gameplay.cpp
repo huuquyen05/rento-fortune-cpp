@@ -792,10 +792,10 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                 mainWindow -> display();
 
                 // Process turn
-                std::vector <Player*> tmp = game.getAllPlayers();
+                std::vector <Player*> tmpPlayer = game.getAllPlayers();
                 int type = propertyType(currentSlot);
                 if(type == -1) {
-                    std::string INFO = currentSlot -> landOn(currentPlayer, tmp);
+                    std::string INFO = currentSlot -> landOn(currentPlayer, tmpPlayer);
                     textbox.addString(INFO);
                     game.checkBankruptcy();
                     availableTurn=1;
@@ -804,6 +804,7 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                     info.clear();
                     info.addString(currentSlot -> getDescription());
                     int cnt=0;
+                    int indexClicked = -1;
                     while(cnt<=100) {
                         sf::Vector2i pos = sf::Mouse::getPosition();
                         int x = pos.x, y = pos.y;
@@ -846,6 +847,61 @@ void GamePlay::renderGameScreen(std::string names[4]) {
                                     }
                                 }
                                 else BuyOrUpgarde.returnColor();
+                            }
+                        }
+
+                        for(int i = 0; i < 40; ++i) {
+                            if(propertyType(slots[linkList[i]]) > -1 && slots[linkList[i]] -> getOwner() == currentPlayer -> getName()) {
+                                if(button[i].isClicked(x, y)) {
+                                    indexClicked = linkList[i];
+                                }
+                            }
+                            else {
+                                indexClicked = -1;
+                            }
+                        }
+
+                        if(indexClicked == -1) Mortgage.setTextColor(sf::Color(230, 230, 230, 255));
+                        else Mortgage.setTextColor(sf::Color::Black);
+
+                        if(indexClicked != -1) {
+                            info.clear();
+                            info.addString(slots[indexClicked] -> getDescription());
+                            Property* tmpProp = slots[indexClicked] -> getProperty();
+                            int value = (tmpProp -> getPrice()) * (tmpProp -> getLevel()) / 3;
+                            info.addString("Mortgage for: " + std::to_string(value));
+                            if(Mortgage.isClicked(x, y)) {
+                                currentPlayer -> updateMoney(value);
+                                tmpProp -> setOwner(nullptr);
+                                tmpProp -> defaultLevel();
+                            }
+                        }
+
+                        bool checker[4]={0,0,0,0};
+                        for(int i=0;i<=3;i++){
+                            float outlineThickness = player[i].getOutlineThickness();
+                            sf::FloatRect globalBounds = player[i].getGlobalBounds();
+                            sf::FloatRect innerBounds(
+                                globalBounds.left + outlineThickness,                    
+                                globalBounds.top + outlineThickness,                     // 内部上边界
+                                globalBounds.width - 2 * outlineThickness,               // 内部宽度
+                                globalBounds.height - 2 * outlineThickness               // 内部高度
+                            );
+                            if (innerBounds.contains(mousePositionF)) {
+                            player[i].setOutlineColor(sf::Color(135, 206, 235));
+                            uplayer[i].setOutlineColor(sf::Color(135, 206, 235));
+                            dplayer[i].setOutlineColor(sf::Color(135, 206, 235));  // 鼠标悬浮时变为红色
+                            for(int j=0;j<=39;j++){
+                                if(slots[j]->getOwner()!="Invalid") 
+                                    if(slots[j]->getOwner()==game.getAllPlayers()[i]->getName())
+                                        button[Listlink[j]].changeColor(),tmp=1;
+                            }
+                            checker[i]=1;
+                            }else {
+                            if(checker[0]+checker[1]+checker[2]+checker[3]==0) tmp=0;
+                            player[i].setOutlineColor(sf::Color::Black);
+                            uplayer[i].setOutlineColor(sf::Color::Black);
+                            dplayer[i].setOutlineColor(sf::Color::Black);  // 鼠标离开时恢复为白色
                             }
                         }
 
