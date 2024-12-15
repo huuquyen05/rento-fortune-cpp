@@ -73,6 +73,27 @@ std::string Property::payRent(Player* p) {
     return sstr.str();
 }
 
+int Property::getRent() {
+    Player* owner = getOwner();
+    if (owner == nullptr) {
+        return 0;
+    }
+    int numOfSameType = 0;
+    for (Slot* slot : slots) {
+        // 检查当前 slot 是否是 PropertySlot 类型
+        PropertySlot* propertySlot = dynamic_cast<PropertySlot*>(slot);
+        if (propertySlot) {
+            // 获取 Property 对象
+            Property* property = propertySlot->getProperty();
+            // 如果这个 Property 的类型和当前 Property 的类型相同且拥有者是当前地产的所有者
+            if (property->getType() == Type && property->getOwner() == owner) {
+                ++numOfSameType;  // 统计所有者拥有的同类型地产数量
+            }
+        }
+    }
+    return static_cast<int>(0.1 * price * (1 + level) * (0.5 + numOfSameType * 0.5));
+}
+
 
 std::string Property::utilitypayRent(Player* p) {
     // 获取地产的所有者
@@ -115,6 +136,31 @@ std::string Property::utilitypayRent(Player* p) {
     return sstr.str();
 }
 
+int Property::getUtilityRent() {
+    Player* owner = getOwner();
+    if (owner == nullptr) {
+        return 0;
+    }
+
+    int numOfSameType = 0;
+    
+    // 遍历所有的 slots
+    for (Slot* slot : slots) {
+        // 检查当前 slot 是否是 PropertySlot 类型
+        PropertySlot* propertySlot = dynamic_cast<PropertySlot*>(slot);
+        if (propertySlot) {
+            // 获取 Property 对象
+            Property* property = propertySlot->getProperty();
+            // 如果这个 Property 是水电公司并且属于当前所有者
+            if (property->getType() == 10 && property->getOwner() == owner) {
+                ++numOfSameType;  // 统计所有者拥有的水电公司数量
+            }
+        }
+    }
+    if(numOfSameType == 1) return 4;
+    return 10;
+}
+
 
 std::string Property::stationpayRent(Player* p) {
     if (owner == nullptr || owner == p) {
@@ -139,4 +185,21 @@ std::string Property::stationpayRent(Player* p) {
     std::stringstream sstr;
     sstr << p->getName() << " paid " << rent << " rent to " << owner->getName() << " for station.";
     return sstr.str();
+}
+
+int Property::getRailwayRent() {
+    if (owner == nullptr) {
+        return 0;
+    }
+
+    int ownerStationCount = 0;
+    std::vector<int> stationIndices = {5, 15, 25, 35};
+
+    if(owner->getName()==slots[5]->getOwner()) ownerStationCount++;
+    if(owner->getName()==slots[15]->getOwner()) ownerStationCount++;
+    if(owner->getName()==slots[25]->getOwner()) ownerStationCount++;
+    if(owner->getName()==slots[35]->getOwner()) ownerStationCount++;
+
+    int rent = 150 * ownerStationCount;
+    return rent;
 }

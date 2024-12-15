@@ -28,6 +28,7 @@ std::string PropertySlot::getDescription() {
            + "Upgrade Price: " + std::to_string(property->getPrice()/2) + "\n" 
            + "Level: " + std::to_string(property->getLevel()) + "\n" 
            + "Owner: " + getOwner() + "\n" 
+           + "Rent fee: " + std::to_string(property -> getRent()) + "\n" + 
            + "Property";
 }
 
@@ -183,6 +184,7 @@ std::string RailwayStationSlot::getDescription() {
     return name + "\n" 
            + "Price: " + std::to_string(property->getPrice()) + "\n" 
            + "Owner: " + getOwner() + "\n" 
+           + "Rent: " + std::to_string(property -> getRailwayRent()) + "\n" + 
            + "Railway Station";
 }
 
@@ -337,6 +339,7 @@ std::string UtilitySlot::getDescription() {
     return name + "\n" 
            + "Price: " + std::to_string(property->getPrice()) + "\n" 
            + "Owner: " + getOwner() + "\n" 
+           + "Rent: Last number of steps * " + std::to_string(property -> getUtilityRent()) + "\n";
            + "Utility";
 }
 

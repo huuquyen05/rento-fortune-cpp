@@ -25,6 +25,9 @@ public:
     std::string payRent(Player* p);
     std::string utilitypayRent(Player* p);
     std::string stationpayRent(Player* p);
+    int getRent();
+    int getUtilityRent();
+    int getRailwayRent();
 };
 
 #endif
