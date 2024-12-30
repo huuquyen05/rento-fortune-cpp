@@ -8,7 +8,7 @@
     - Method
         - void rollValue()
         - bool isDouble()
-        - int getD1()
+        - int getD1() 
         - int getD2()
 2. Player
     - Field
